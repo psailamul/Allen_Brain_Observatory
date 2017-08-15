@@ -6,15 +6,15 @@ import time
 import pprint
 import pandas as pd
 import numpy as np
-        
+    
         
 #def main():
 df = pd.read_csv('all_exps.csv')
 exp_con_ids = np.asarray(df['experiment_container_id'])
 exps=boc.get_ophys_experiments(experiment_container_ids=exp_con_ids)
-#start = 38; end =199 #g13
-start = 243; end = 398 #x7
-#start = 445; end =len(exps) #3
+#start = 1; end =199 #g13
+#start = 199; end = 398 #x7
+start = 398; end =len(exps) #3
 
 for idx in np.arange(start,end):
     print('====================================================================')
