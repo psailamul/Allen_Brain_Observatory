@@ -1,7 +1,4 @@
 # Download Data from Allen Institute's brain_observatory and change to numpy type
-# Input: 
-#
-# Output:
 # #############################################################################################
 
 
@@ -18,6 +15,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 import scipy.misc as spm
+import os
+import datetime
 
 def plot_stimulus_table(stim_table, title):
     fstart = stim_table.start.min()
@@ -52,9 +51,14 @@ def load_object(filename):
 # Setting
 #config.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
 CODE = config.data_set_code
-SAVED_PICKLE = False
+SAVED_PICKLE = True
 metadata ={}
 metadata['code']=CODE
+today_dir=datetime.datetime.now().strftime ("%Y_%m_%d")+'/'
+directory = config.data_loc+config.save_folder+today_dir
+if not os.path.exists(directory):
+    os.makedirs(directory) # Have to run this script as root
+config.save_folder = config.save_folder + today_dir
 # ==================================================================================================
 # Download cells ID list and their corresponding experiment container
 # ==================================================================================================
@@ -148,7 +152,9 @@ for exp in exps:
     ns = NaturalScenes(data_set) #  In addition to computing the sweep_response and mean_sweep_response arrays, NaturalScenes reports the cell's preferred scene, running modulation, time to peak response, and other metrics
     print("done analyzing natural scenes Total time : %s"%(time.time() - download_time)) # Take about 5 min  for the first time
     
+    download_time = time.time()
     ns_response = ns.get_response()  # Take about 7mins for the 1st run 
+    print("done analyzing natural scenes Total time : %s"%(time.time() - download_time)) # Take about 5 min  for the first time
     #Return is a (# scenes +1, # cells+1, 3) np.ndarray
     #The final dimension contains the mean response to the condition (index 0), 
     #standard error of the mean of the response to the condition (index 1), 
@@ -182,18 +188,19 @@ for exp in exps:
     n_trial = stim_table.shape[0]
 inputscenes_big = np.zeros([n_trial,s_img_size*s_img_size])
 for fr,i in zip(stim_table.frame, np.arange(n_trial)):
-	inputscenes_big[i,:] = inputscenes[fr,:].copy()
-    
+    inputscenes_big[i,:] = inputscenes[fr,:].copy()
     print("Experiment Container ID %d Done\n Time = %s"%(exp['experiment_container_id'], time.time()-start_time))
     #all_output_response[:,coi_pnter:coi_pnter+num_coi,:] = coi_response
     #coi_pnter=coi_pnter+num_coi
 print("Finish the extraction from all experiment container Time = %s"%(extraction_start -time.time()))
 save_start = time.time()
 all_output_response = np.concatenate(all_output_response,axis=1)
-#save_object(all_output_response,config.data_loc+config.save_folder+"ns_unique_scene_response_"+CODE+".pkl")
+
 output_response = all_output_response[:,:,0]
 output_response.shape
-#save_object(output_response,config.data_loc+config.save_folder+"ns_output_response_"+CODE+".pkl")
+if(SAVED_PICKLE):
+    save_object(all_output_response,config.data_loc+config.save_folder+"ns_unique_scene_response_"+CODE+".pkl")
+    save_object(output_response,config.data_loc+config.save_folder+"ns_output_response_"+CODE+".pkl")
 
 print("SAVED : Time = %s"%(save_start -time.time()))
 
