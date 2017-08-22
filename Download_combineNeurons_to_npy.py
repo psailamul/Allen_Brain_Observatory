@@ -16,21 +16,6 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 import scipy.misc as spm
-
-def plot_stimulus_table(stim_table, title):
-    fstart = stim_table.start.min()
-    fend = stim_table.end.max()
-    
-    fig = plt.figure(figsize=(15,1))
-    ax = fig.gca()
-    for i, trial in stim_table.iterrows():    
-        x1 = float(trial.start - fstart) / (fend - fstart)
-        x2 = float(trial.end - fstart) / (fend - fstart)            
-        ax.add_patch(patches.Rectangle((x1, 0.0), x2 - x1, 1.0, color='r'))
-    ax.set_xticks((0,1))
-    ax.set_xticklabels((fstart, fend))
-    ax.set_yticks(())
-    ax.set_title(title)
     ax.set_xlabel("frames")
     
 def save_object(obj, filename):

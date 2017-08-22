@@ -39,7 +39,26 @@ class Allen_Brain_Observatory_Config():
         self.reshape_img_size_h = 31
         self.reshape_img_size_w = 31
         self.save_folder ='DataForTrain/'
+        
+        self.stim={
+        'DG':'drifting_gratings',
+        'LSN':'locally_sparse_noise',
+        'LSN4':'locally_sparse_noise_4deg',
+        'LSN8':'locally_sparse_noise_8deg',
+        'NM1':'natural_movie_one',
+        'NM3':'natural_movie_three',
+        'NM2':'natural_movie_two',
+        'NS':'natural_scenes',
+        'Spon':'spontaneous',
+        'SG':'static_gratings'}
+        self.session={
+        'A':u'three_session_A',
+        'B':u'three_session_B',
+        'C':u'three_session_C',
+        'C2':u'three_session_C2'
+        }
 
+        
         # Find all precomputed cell metrics  here http://alleninstitute.github.io/AllenSDK/brain_observatory.html#precomputed-cell-metrics
         # Natural Scenes response p value	p_ns
         # natural movie 1	    response reliability (session A)	reliability_nm1_a
