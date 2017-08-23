@@ -21,20 +21,17 @@ def get_host_path(HOST=False,PATH=True):
         
 class Allen_Brain_Observatory_Config():
     def __init__(self, **kwargs):
-	self._id=''
-        
+        self._id=''       
         # Allen Data location
         #self.data_loc = '/media/data/pachaya/AllenData/'
         self.data_loc = '/media/data_cifs/pachaya/AllenData/'
         self.repo_PATH = get_host_path()
         self.host = get_host_path(HOST=True, PATH=False)
-        
         self.FILTERS = True
         self.filters_file =  get_host_path()+'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl'  # None if no filters
         self.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
         # Order for Name Code 
         # Area / depth / Stimuli - SG, DG, NS, NM, LSN / aShow only data with results from all stimuli allStim = True
-
         self.RESHAPE_IMG_NS = True
         self.reshape_img_size_h = 31
         self.reshape_img_size_w = 31

@@ -16,17 +16,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 import scipy.misc as spm
-    ax.set_xlabel("frames")
-    
-def save_object(obj, filename):
-    with open(filename, 'wb') as output:
-        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
-        # if possible, save metadata too ex stim table : metadata = data_set.get_metada()
+from helper_funcs import *
 
-def load_object(filename):
-    with open(filename, 'rb') as inputfile: 
-        return pickle.load( inputfile );
-        
 # #############################################################################################
 # PROOBLEM with download NWB file -->  https://github.com/AllenInstitute/AllenSDK/issues/22 
 # http://api.brain-map.org/api/v2/data/OphysExperiment/501498760.xml?include=well_known_files
@@ -35,10 +26,10 @@ def load_object(filename):
 # Setting
 #config.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
 CODE = config.data_set_code
-SAVED_PICKLE = False
+SAVED_PICKLE = True
 metadata ={}
 metadata['code']=CODE
-config.save_folder=config.save_folder+CODE+'/'
+config.save_folder=config.save_folder+CODE+'/'+'2017_08_22/'
 # ==================================================================================================
 # Download cells ID list and their corresponding experiment container
 # ==================================================================================================
@@ -82,8 +73,10 @@ num_image, img_h, img_w = ns_template.shape #118, 918, 1174
 #if(config.RESHAPE_IMG_NS):
 #    img_h = config.reshape_img_size_h
 #    img_w= config.reshape_img_size_w
-scale_h = config.reshape_img_size_h
-scale_w= config.reshape_img_size_w
+#scale_h = config.reshape_img_size_h
+#scale_w= config.reshape_img_size_w
+scale_h = img_h/2
+scale_w= img_w/2
 
 inputscenes_fullsize = np.zeros([num_image, img_h*img_w])
 inputscenes_scaled = np.zeros([num_image,  scale_h*scale_w]) 
@@ -100,15 +93,23 @@ inputscenes_fs_big = np.repeat(inputscenes_fullsize,50,axis=0) # sort from scene
 inputscenes_sc_big = np.repeat(inputscenes_scaled,50,axis=0) # sort from scene 1 - 118 
 
 if(SAVED_PICKLE):
+    save_object(inputscenes_scaled,config.data_loc+config.save_folder+"ns_input_half_scaled.pkl")
+    #save_object(inputscenes_sc_big,config.data_loc+config.save_folder+"ns_input_alltrials_half_scaled.pkl")
+    save_object(inputscenes_scaled,"ns_input_half_scaled.pkl")
+    #save_object(inputscenes_sc_big,"ns_input_alltrials_half_scaled.pkl")
+if(False):
     save_object(inputscenes_fullsize,config.data_loc+config.save_folder+"ns_input_fullsize.pkl")
-    save_object(inputscenes_scaled,config.data_loc+config.save_folder+"ns_input_scaled.pkl")
-    save_object(inputscenes_fs_big,config.data_loc+config.save_folder+"ns_input_alltrials_fullsize.pkl")
-    save_object(inputscenes_sc_big,config.data_loc+config.save_folder+"ns_input_alltrials_scaled.pkl")
-
+    #save_object(inputscenes_scaled,config.data_loc+config.save_folder+"ns_input_scaled.pkl")
+    save_object(inputscenes_scaled,config.data_loc+config.save_folder+"ns_input_half_scaled.pkl")
+    #save_object(inputscenes_fs_big,config.data_loc+config.save_folder+"ns_input_alltrials_fullsize.pkl")
+    #save_object(inputscenes_sc_big,config.data_loc+config.save_folder+"ns_input_alltrials_scaled.pkl")
+    save_object(inputscenes_sc_big,config.data_loc+config.save_folder+"ns_input_alltrials_half_scaled.pkl")
     save_object(inputscenes_fullsize,"ns_input_fullsize.pkl")
-    save_object(inputscenes_scaled,"ns_input_scaled.pkl")
-    save_object(inputscenes_fs_big,"ns_input_alltrials_fullsize.pkl")
-    save_object(inputscenes_sc_big,"ns_input_alltrials_scaled.pkl")
+    #save_object(inputscenes_scaled,"ns_input_scaled.pkl")
+    save_object(inputscenes_scaled,"ns_input_half_scaled.pkl")
+    #save_object(inputscenes_fs_big,"ns_input_alltrials_fullsize.pkl")
+    #save_object(inputscenes_sc_big,"ns_input_alltrials_scaled.pkl")
+    save_object(inputscenes_sc_big,"ns_input_alltrials_half_scaled.pkl")
 
     
 #import ipdb; ipdb.set_trace()
@@ -190,7 +191,8 @@ output_response.shape
 if(SAVED_PICKLE):
     save_start = time.time()
     save_object(all_output_response,config.data_loc+config.save_folder+"ns_unique_scene_response.pkl")
-    save_object(output_response,config.data_loc+config.save_folder+"ns_output_response.pkl")
+    save_object(output_response,config.data_loc+config.save_folder+"ns_unique_scene_response_all.pkl")
+    save_object(big_coi_msr,config.data_loc+config.save_folder+"ns_output_response.pkl")
     print("SAVED : Time = %s"%(save_start -time.time()))
 
 
