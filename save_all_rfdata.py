@@ -214,6 +214,7 @@ for idx in tqdm(
             alpha=config.alpha,
             number_of_shuffles=config.rf_shuffles)
         all_cells_RF_info.append(cells_RF_info)
-    print("Run time for experiment container ID #%s is %s "%(exps,time.time()-runtime)
+    print("Run time for experiment container ID #%s is %s "%(exps,time.time()-runtime))
+
 if GET_RF_INFO:
     save_object(all_cells_RF_info, "all_cells_RF_info_%s.pkl"%(DATE_STAMP))
