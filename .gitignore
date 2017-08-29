@@ -3,6 +3,7 @@
 *.pyc
 *.py~
 *.txt
+*.txt~
 # TF savers #
 ###############
 save_trained_HSM
