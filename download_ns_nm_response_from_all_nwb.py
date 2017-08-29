@@ -36,6 +36,7 @@ from helper_funcs import *
 df = pd.read_csv('all_exps.csv')
 exp_con_ids = np.asarray(df['experiment_container_id'])
 SAVE_LOC='/media/data_cifs/pachaya/AllenData/DataForTrain/all_nwbs/'
+
 # ####################################################################################################################
 # Save stimuli template s
 # ####################################################################################################################
@@ -155,7 +156,7 @@ if(LOAD_NS):
 # Natural Movies
 # ####################################################################################################################
 from allensdk.brain_observatory.natural_movie import NaturalMovie
-NM_CODEs =['NM3'];
+NM_CODEs =['NM1'];
 #NM_CODEs=['NM1','NM2','NM3']
 
 # data_set=boc.get_ophys_experiment_data(exp['id']) #exp['id'] = 527550473
@@ -168,13 +169,24 @@ NM_CODEs =['NM3'];
 # tmp_rep1[0] == first repeat, cell 0
 # tmp_rep1[0].shape == 903  === raw response(df/f trace) of cell 0 to frame i of repeat#1
 
+ssh pachaya@x7.clps.brown.edu
+source activate tensorflow 
+cd Allen_Brain_Observatory/
 
 for CODE in NM_CODEs:
     exps = boc.get_ophys_experiments(stimuli=[config.stim[CODE]])
     start = 0; end =50
     #start = 50; end =100
     #start = 100; end =150
-    #start = 150; end =len(exps)
+    #start = 150; end =200
+    #start = 200; end =250
+    #start = 250; end =300
+    #start = 300; end =350
+    #start = 350; end =400
+    #start = 400; end =450
+    #start = 450; end =500
+    #start = 500; end =550
+    #start = 550; end =len(exps)
     for run_num in np.arange(start,end) :
         exp = exps[run_num]
         start_analyse = time.time()
@@ -217,7 +229,47 @@ for CODE in NM_CODEs:
 # Receptive Field (from locally sparse noise stimulus )
 # ####################################################################################################################
 
+from allensdk.core.brain_observatory_cache import BrainObservatoryCache
+import allensdk.brain_observatory.receptive_field_analysis.visualization as rfvis
+import allensdk.brain_observatory.receptive_field_analysis.receptive_field as rf
+import matplotlib.pyplot as plt
+from config import Allen_Brain_Observatory_Config
+config=Allen_Brain_Observatory_Config()
 
 
+cell_specimen_id = 587377366
 
+boc = BrainObservatoryCache(manifest_file=config.data_loc+'boc/manifest.json')
 
+exps = boc.get_ophys_experiments(cell_specimen_ids=[cell_specimen_id],
+                                 stimuli=['locally_sparse_noise'])
+
+data_set = boc.get_ophys_experiment_data(exps[0]['id'])
+
+cell_index = data_set.get_cell_specimen_indices([cell_specimen_id])[0]
+
+print("cell %d has index %d" % (cell_specimen_id, cell_index))
+
+rf_data = rf.compute_receptive_field_with_postprocessing(data_set, 
+                                                         cell_index, 
+                                                         'locally_sparse_noise', 
+                                                         alpha=0.5, 
+                                                         number_of_shuffles=10000)
+
+rfvis.plot_chi_square_summary(rf_data)
+plt.show()
+
+fig, (ax1, ax2) = plt.subplots(1,2)
+rfvis.plot_rts_summary(rf_data, ax1, ax2)
+
+fig, (ax1, ax2) = plt.subplots(1,2)
+rfvis.plot_rts_blur_summary(rf_data, ax1, ax2)
+
+fig, (ax1, ax2) = plt.subplots(1,2)
+rfvis.plot_p_values(rf_data, ax1, ax2)
+
+fig, (ax1, ax2) = plt.subplots(1,2)
+rfvis.plot_mask(rf_data, ax1, ax2)
+
+fig, (ax1, ax2) = plt.subplots(1,2)
+rfvis.plot_gaussian_fit(rf_data, ax1, ax2)

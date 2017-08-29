@@ -1,5 +1,5 @@
 # Download nwb files 
-DATA_LOC = '/media/data/pachaya/AllenData/'   
+DATA_LOC = '/media/data_cifs/AllenData/'
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 boc = BrainObservatoryCache(manifest_file=DATA_LOC+'boc/manifest.json')
 import pprint

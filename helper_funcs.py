@@ -10,7 +10,14 @@ def load_object(filename):
         return pickle.load( inputfile );
         
         
-        
+def get_sess_key(sesstxt):
+    from config import Allen_Brain_Observatory_Config
+    config=Allen_Brain_Observatory_Config()
+    for code,txt in config.session.iteritems():
+        if sesstxt == txt :
+            return code
+
+
 #Function to download cell response by experiment session ID (nwb file)
 
 #Then read stim_table and reconstruct input matrix in full trials (ex. 5950 in NS)
