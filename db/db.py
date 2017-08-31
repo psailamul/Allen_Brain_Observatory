@@ -95,9 +95,9 @@ class db(object):
         self.cur.executemany(
             """
             INSERT INTO cells
-            (cell_id, cell_npy, session, drifting_gratings, locally_sparse_noise, locally_sparse_noise_four_deg, locally_sparse_noise_eight_deg, natural_scenes, natural_movie_one, natural_movie_two, natural_movie_three, spontaneous, static_gratings)
+            (cell_specimen_id, session , drifting_gratings , locally_sparse_noise , locally_sparse_noise_four_deg , locally_sparse_noise_eight_deg , natural_movie_one , natural_movie_two , natural_movie_three , natural_scenes , spontaneous , static_gratings , cell_output_npy)
             VALUES
-            (%(cell_id)s, %(cell_npy)s, %(session)s, %(drifting_gratings)s, %(locally_sparse_noise)s, %(locally_sparse_noise_four_deg)s, %(locally_sparse_noise_eight_deg)s, %(natural_scenes)s, %(natural_movie_one)s, %(natural_movie_two)s, %(natural_movie_three)s, %(spontaneous)s, %(static_gratings)s)
+            (%(cell_specimen_id)s, %(session)s, %(drifting_gratings)s, %(locally_sparse_noise)s, %(locally_sparse_noise_four_deg)s, %(locally_sparse_noise_eight_deg)s, %(natural_movie_one)s, %(natural_movie_two)s, %(natural_movie_three)s, %(natural_scenes)s, %(spontaneous)s, %(static_gratings)s, %(cell_output_npy)s)
             """,
             namedict)
         if self.status_message:
@@ -113,9 +113,9 @@ class db(object):
         self.cur.executemany(
             """
             INSERT INTO cells
-            (cell_id , lsn_name , alpha , number_of_shuffles, on_height , on_center_x , on_center_y , on_width_x , on_width_y , on_rotation , off_height , off_center_x , off_center_y , off_width_x , off_width_y , off_rotation , overlap_area , area )
+            (cell_specimen_id , lsn_name , experiment_container_id , found_on , found_off , alpha , number_of_shuffles , on_distance , on_area , on_overlap , on_height , on_center_x , on_center_y , on_width_x , on_width_y , on_rotation , off_distance , off_area , off_overlap, off_height , off_center_x , off_center_y , off_width_x , off_width_y , off_rotation )
             VALUES
-            (%(cell_id)s, %(lsn_name)s, %(alpha)s, %(number_of_shuffles)s, %(on_height)s, %(on_center_x)s, %(on_center_y)s, %(on_width_x)s, %(on_width_y)s, %(on_rotation)s, %(off_height)s, %(off_center_x)s, %(off_center_y)s, %(off_width_x)s, %(off_width_y)s, %(off_rotation)s, %(overlap_area)s, %(area)s)
+            (%(cell_specimen_id)s, %(lsn_name)s, %(experiment_container_id)s, %(found_on)s, %(found_off)s, %(alpha)s, %(number_of_shuffles)s, %(on_distance)s, %(on_area)s, %(on_overlap)s, %(on_height)s, %(on_center_x)s, %(on_center_y)s, %(on_width_x)s, %(on_width_y)s, %(on_rotation)s, %(off_distance)s, %(off_area)s, %(off_overlap)s, %(off_height)s, %(off_center_x)s, %(off_center_y)s, %(off_width_x)s, %(off_width_y)s, %(off_rotation)s)
             """,
             namedict)
         if self.status_message:

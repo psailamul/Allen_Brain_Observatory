@@ -30,8 +30,17 @@ class Allen_Brain_Observatory_Config():
         self.manifest_file=self.data_loc+'boc/manifest.json'
         self.DB_loc = 'DataForTrain/'
         self.stimulus_template_loc = self.data_loc+self.DB_loc+'all_stimulus_template/'
+        
         self.RF_info_loc = self.data_loc+self.DB_loc+'all_RFs_info/'
+        
         self.imaging_response_loc= self.data_loc+self.DB_loc+'all_imaging_responses/'
+        self.fluorescence_traces_loc= self.imaging_response_loc +'fluorescence_traces/'
+        self.ROIs_mask_loc= self.imaging_response_loc +'ROIs_mask/'
+        self.stim_table_loc= self.imaging_response_loc +'stim_tables/'
+        self.specimen_recording_loc= self.imaging_response_loc +'specimen_recording/'
+        
+        self.output_pointer_loc = self.data_loc+self.DB_loc+'output_pointers/'
+        
         self.Allen_analysed_stimulus_loc=self.data_loc+self.DB_loc+'Allen_stimulus_analysis/By_cell_ID/'
         self.precal_matrix_loc=self.data_loc+self.DB_loc+'Allen_stimulus_analysis/By_container_ID/'
         

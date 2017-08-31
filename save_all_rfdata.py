@@ -58,14 +58,17 @@ def filter_cells_for_rf(
                     total=len(flist)):
                 if session_filter:
                     cell_index = data_set.get_cell_specimen_indices([cell_specimen_id])[0]
-                    print("cell %s has index %d" % (cell_specimen_id, cell_index))
+                    print("cell %s has index %d\n" % (cell_specimen_id, cell_index))
                     rf_list =[]
                     for lsn_deg in sparse_noise_type:
-                        DATA_EXIST = find_rf_data_files(exp_session=exp_session, save_loc = config.Allen_analysed_stimulus_loc)
+                        if (FORCE_DATA_EXIST):
+                            DATA_EXIST = True
+                        else:
+                            DATA_EXIST = find_rf_data_files(exp_session=exp_session, save_loc = config.Allen_analysed_stimulus_loc)
                         if DATA_EXIST:
                             fname="%s%s_%s.pkl"%(save_loc,cell_specimen_id,lsn_deg)
                             rf_data = load_object(fname)
-                        else:                        
+                        else: 
                             rf_data = rf.compute_receptive_field_with_postprocessing(
                                 data_set, 
                                 cell_index, 
@@ -168,11 +171,12 @@ def find_rf_data_files(exp_session, save_loc):
 df = pd.read_csv('all_exps.csv')
 exp_con_ids = np.asarray(df['experiment_container_id'])
 all_cells_RF_info =[]
-SAVE_RF_DATA = True
-GET_RF_INFO = False
+SAVE_RF_DATA = False
+GET_RF_INFO = True
 DATE_STAMP = time.strftime('%D').replace('/','_')
-start = 100
-end =190
+FORCE_DATA_EXIST = True
+start = 0
+end = len(exp_con_ids)
 if len(sys.argv) >1:
     start=int(sys.argv[1])
     end=int(sys.argv[2])
@@ -182,6 +186,7 @@ for idx in tqdm(
             desc='RF data',
             total=len(idx_range)):
     exps=exp_con_ids[idx]
+    print "Start running experiment container ID #%s  index = %g of [%g,%g)"%(exps,idx,start,end)
     runtime=time.time()
     exp_session = boc.get_ophys_experiments(experiment_container_ids=[exps])
     cells_ID_list={}
@@ -190,11 +195,12 @@ for idx in tqdm(
         tmp=boc.get_ophys_experiment_data(sess['id'])
         cells_ID_list[sess['session_type']]=tmp.get_cell_specimen_ids()
     common_cells = session_filters(config,cells_ID_list) 
-    print("Get cell RF info")
+    #print("Get cell RF info")
 
     if SAVE_RF_DATA:
         DATA_EXIST = find_rf_data_files(exp_session=exp_session, save_loc = config.Allen_analysed_stimulus_loc)
         if DATA_EXIST:
+            print "Found files for container ID%s  #%g of [%g,%g)"%(exps,idx,start,end)
             pass 
         else:
             save_all_rf_data(
