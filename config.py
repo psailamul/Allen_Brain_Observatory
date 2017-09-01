@@ -62,11 +62,24 @@ class Allen_Brain_Observatory_Config():
         'C':u'three_session_C',
         'C2':u'three_session_C2'
         }
+        self.sess_with_number={
+            'locally_sparse_noise_4deg':'locally_sparse_noise_four_deg',
+            'locally_sparse_noise_8deg':'locally_sparse_noise_eight_deg'}
         self.session_RF_stim ={
         'C': ['locally_sparse_noise'],
         'C2': ['locally_sparse_noise_4deg','locally_sparse_noise_8deg'],
         }
+        self.session_name_for_RF =['locally_sparse_noise','locally_sparse_noise_4deg','locally_sparse_noise_8deg']
         self.RF_sign = ['on', 'off']
+        self.pick_main_RF = ['locally_sparse_noise', 'locally_sparse_noise_8deg']
+        self.available_stims = ['locally_sparse_noise',
+            'locally_sparse_noise_4deg',
+            'locally_sparse_noise_8deg',
+            'natural_movie_one',
+            'natural_movie_three',
+            'natural_movie_two',
+            'natural_scenes']
+
         """Parameters"""
         self.rf_shuffles = 5000
         self.alpha = 0.5

@@ -6,10 +6,9 @@ import psycopg2
 import psycopg2.extras
 import psycopg2.extensions
 import credentials
-import config
+from config import Allen_Brain_Observatory_Config
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
-main_config = config.Allen_Brain_Observatory_Config()
-
+main_config = Allen_Brain_Observatory_Config()
 
 class db(object):
     def __init__(self, config):
@@ -121,8 +120,6 @@ class db(object):
         if self.status_message:
             self.return_status('INSERT')
 
-
-
 def initialize_database():
     config = credentials.postgresql_connection()
     with db(config) as db_conn:
@@ -174,7 +171,6 @@ def get_performance(experiment_name):
     with db(config) as db_conn:
         perf = db_conn.get_performance(experiment_name=experiment_name)
     return perf
-
 
 def main(
         initialize_db,

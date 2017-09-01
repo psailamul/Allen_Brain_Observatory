@@ -25,7 +25,7 @@ boc = BrainObservatoryCache(manifest_file=config.manifest_file)
  'spontaneous',
  'static_gratings']"""
 
-available_stims = [ 'locally_sparse_noise',
+config.available_stims = [ 'locally_sparse_noise',
     'locally_sparse_noise_4deg',
     'locally_sparse_noise_8deg',
     'natural_movie_one',

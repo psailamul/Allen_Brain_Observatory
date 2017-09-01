@@ -2,8 +2,7 @@
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 import allensdk.brain_observatory.receptive_field_analysis.visualization as rfvis
 import allensdk.brain_observatory.receptive_field_analysis.receptive_field as rf
-from allensdk.brain_observatory.natural_scenes import NaturalScenes
-from allensdk.brain_observatory.natural_movie import NaturalMovie
+
 import matplotlib.pyplot as plt
 from config import Allen_Brain_Observatory_Config
 from tqdm import tqdm
@@ -116,10 +115,7 @@ def save_corrected_fluorescence_traces(data_set, common_cell_id, sess,
     except:
         print " Error in AllenSDK, No epoch information"
         epoch_table = None
-     
-     
-     
-     
+
     tstamp, corrected_traces = data_set.get_corrected_fluorescence_traces(cell_specimen_ids=sort_id_by_indices) 
     #cell_specimen_id need to be sorted in increasing order by their indices
     traces_loc_pointer = {}
@@ -176,9 +172,6 @@ def save_ROI_masks(data_set, common_cell_id, sess,  max_projection_fname,
         ROImask_loc_pointer[key] = fname
     return ROImask_loc_pointer
 
-def create_sess_pointer_to_cell(pointer, sees_type, common_cell_id):
-    return {str(cid)+sess_type:pointer for cid in common_cell_id}
-
 
 #python save_all_traces.py 150 199  2>&1 | tee -a trace_log_150_199.txt
 #python save_all_traces.py 56 58  2>&1 | tee -a trace_log_56_58.txt
@@ -209,9 +202,9 @@ for idx in tqdm(
     exps=exp_con_ids[idx]
     print "Start running experiment container ID #%s  index = %g of [%g,%g)"%(exps,idx,start,end)
     runtime=time.time()
-    if exps ==560820973:
-        print "There is bug when getting epoch information : SKIP"
-        continue 
+    #if exps ==560820973:
+      #  print "There is bug when getting epoch information : SKIP"
+       # continue 
     exp_session = boc.get_ophys_experiments(experiment_container_ids=[exps])
     cells_ID_list={}
 

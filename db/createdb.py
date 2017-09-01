@@ -16,69 +16,84 @@ from config import Allen_Brain_Observatory_Config
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
-from db import db
+from db import db, add_cell_data, initialize_database, get_performance
 from helper_funcs import *
 import time 
+import os 
 import sys
 sys.stdout.flush()
 from tqdm import tqdm
-config=Allen_Brain_Observatory_Config()
-boc = BrainObservatoryCache(manifest_file=config.manifest_file)
+main_config=Allen_Brain_Observatory_Config()
 
-output_data_folder = config.output_pointer_loc
+boc = BrainObservatoryCache(manifest_file=main_config.manifest_file)
+
+output_data_folder = main_config.output_pointer_loc
 
 df = pd.read_csv('all_exps.csv')
 exp_con_ids = np.asarray(df['experiment_container_id'])
 all_cells_RF_info =[]
 DATE_STAMP = time.strftime('%D').replace('/','_')
 
-Recorded_specimen_recording_fname={}
-Recorded_traces_loc_pointer ={}
-Recorded_ROImask_loc_pointer={}
-Recorded_stim_table_loc_pointer={}
-time_everything=time.time()
-
-
-
-# Create DB dict and save output_pointers  at config.output_pointer_loc
-
-
-
-for cell in tqdm(cells, desc='Adding cells to DB', total=len(cells)):
-    cell_id  # set cell id number here
-    cell_rf_dict = {
-        cell_id:cell_id,
-        rf_stuff:rf_stuff
-    }  # specify RF dict here
-    list_of_cell_stim_dicts = []
-    for sess in sessions:
-        for stim in stimuli:
-
-            output_pointer = os.path.join(output_data_folder, '%s_%s_%s' % (cell_id, session, stimulus)) 
-            np.savez(
-                output_pointer,
-                neural_trace, # Neural traces were recorded session-wise --- all stim in this sess point to the same files
-                stimuli:numpy_pointer_to_movie_or_images,  # Insert the directory pointer from above (1)
-                stim_table:either store the raw stim table or point to it... doesnt matter,
-                other_data:such as pupil responses and running) # also
-                
-                
-            it_stim_dict = {
-                cell_id:cell_id,
-                cell_npy:output_pointer,
-                boolean_for_the_stimulus)
-            list_of_cell_stim_dicts += [it_stim_dict]
-    db.add_cell_data(
-        cell_rf_dict,
-        list_of_cell_stim_dicts)
-
-
-list_of_cell_stim_dicts = [{}]
-db.add_cell_data()
-
-
+#psql allenedatabase -h 127.0.0.1 -d allendatabase
+# Create DB dict and save output_pointers  at main_config.output_pointer_loc
 
 ############################# My take
+def session_filters(main_config,cells_ID_list):
+    """Find cells that present in all sessions"""
+    masterkey = {k:v for k, v in main_config.session.iteritems() if v in cells_ID_list.keys()}
+    reference_session = masterkey[masterkey.keys()[0]]
+    reference_cells = cells_ID_list[reference_session]
+    flist = {} #List of cells that found in all three sessions
+    for cell in reference_cells:
+        checks = []
+        for k in masterkey.keys()[1:]:
+            v = cells_ID_list[masterkey[k]]
+            checks += [cell in v]
+        flist[cell] = all(checks)
+    return flist
+    
+def add_None_to_rfdict(Ref_dict, FLAG_ON=False,FLAG_OFF=False):
+  list_keys_on =['on_distance' , 'on_area' , 'on_overlap' , 'on_height' ,'on_center_x' , 'on_center_y' , 'on_width_x' , 'on_width_y' ,'on_rotation']
+  list_keys_off =['off_distance' , 'off_area' , 'off_overlap' , 'off_height' ,'off_center_x' , 'off_center_y' , 'off_width_x' , 'off_width_y' ,'off_rotation']
+  if not FLAG_ON:
+    for key in list_keys_on:
+      Ref_dict[key]=None
+
+  if not FLAG_OFF:
+    for key in list_keys_off:
+      Ref_dict[key]=None
+  return Ref_dict
+
+def get_all_pointers(main_config, cid,sess,stim):
+  sess_type = sess['session_type']
+  if stim in main_config.available_stims:
+    stim_template="%s%s_template.pkl"%(main_config.stimulus_template_loc,stim)
+  else:
+    stim_template=None
+  pointer_list ={
+    'fluorescence_trace':"%s%s_%s_traces.npz"%(main_config.fluorescence_traces_loc,cid,sess_type),
+    'stim_table':"%s%s_%s_%s_table.npz"%(main_config.stim_table_loc,sess['id'],sess_type,stim),
+    'other_recording':"%s%s_related_traces.npz"%(main_config.specimen_recording_loc,sess['id']),
+    'ROImask':"%s%s_%s_ROImask.npz"%(main_config.ROIs_mask_loc,cid,sess_type),
+    'stim_template':stim_template,
+  }
+  return pointer_list
+
+def get_sess_key(main_config, sesstxt):
+#    from config import Allen_Brain_Observatory_Config
+#    main_config=Allen_Brain_Observatory_Config()
+    for code,txt in main_config.session.iteritems():
+        if sesstxt == txt :
+            return code
+            
+def get_stim_list_boolean(boc, main_config, this_stim, output_dict):
+
+  for stim in boc.get_all_stimuli():
+    if stim in main_config.sess_with_number.keys():
+      stim=main_config.sess_with_number[stim]
+    output_dict[stim]=False
+  output_dict[this_stim]=True
+  return output_dict
 
 
 df = pd.read_csv('all_exps.csv')
@@ -93,11 +108,12 @@ idx_range =np.arange(start,end)
 
 Recorded_all_cells={}
 time_everything=time.time()
-RFs_info = load_object("/home/pachaya/Allen_Brain_Observatory/all_cells_RF_info_08_30_17.pkl") # ---> list of exp / then dict of cell name
+RFs_info = load_object(main_config.RF_info_loc+"all_cells_RF_info_08_30_17.pkl") # ---> list of exp / then dict of cell name
 
 Recorded_cells_list={}
-
-def add_None_to_rfdict(FLAG_ON=False,FLAG_OFF=False)
+cells_ID_list={}
+output_data_folder = main_config.output_pointer_loc
+OUTPUT_POINTER_SAVED = True
 
 for idx in tqdm(
             idx_range,
@@ -109,87 +125,70 @@ for idx in tqdm(
 
     exp_session = boc.get_ophys_experiments(experiment_container_ids=[exps]) 
     RFinfo_this_exp =RFs_info[idx]
-    
+
     # Get common cells
     for sess in exp_session:
-        sess_code = get_sess_key(config,sess['session_type'])
+        sess_code = get_sess_key(main_config,sess['session_type'])
         tmp=boc.get_ophys_experiment_data(sess['id'])
         cells_ID_list[sess['session_type']]=tmp.get_cell_specimen_ids()
-    common_cells = session_filters(config,cells_ID_list) 
+    common_cells = session_filters(main_config,cells_ID_list) 
     common_cell_id=[]
     for cell_specimen_id, session_filter in common_cells.iteritems():
         if session_filter:
             common_cell_id.append(cell_specimen_id)
-    print("Start saving neural traces for cells that presented in all sessions")
-
+    ###############################################
+    # get RF and cell DB for each cell
     for cell_id in common_cell_id:
       this_cell_rf =RFinfo_this_exp[cell_id]
       for rf in this_cell_rf:
-        cell_rf_dict={
-          cell_specimen_id: , 
-          lsn_name , 
-          experiment_container_id , 
-          found_on , 
-          found_off , 
-          alpha , 
-          number_of_shuffles , 
-          on_distance , 
-          on_area , 
-          on_overlap , 
-          on_height , 
-          on_center_x , 
-          on_center_y , 
-          on_width_x , 
-          on_width_y , 
-          on_rotation , 
-          off_distance , 
-          off_area , 
-          off_overlap, 
-          off_height , 
-          off_center_x , 
-          off_center_y , 
-          off_width_x , 
-          off_width_y , 
-          off_rotation 
-          }
-
-
-
-      }
-
-
-
-
-
-
-
-         cell_id  # set cell id number here
-    cell_rf_dict = {
-        cell_id:cell_id,
-        rf_stuff:rf_stuff
-    }  # specify RF dict here
-    list_of_cell_stim_dicts = []
-    for sess in sessions:
-        for stim in stimuli:
-
-            output_pointer = os.path.join(output_data_folder, '%s_%s_%s' % (cell_id, session, stimulus)) 
-            np.savez(
-                output_pointer,
-                neural_trace, # Neural traces were recorded session-wise --- all stim in this sess point to the same files
-                stimuli:numpy_pointer_to_movie_or_images,  # Insert the directory pointer from above (1)
-                stim_table:either store the raw stim table or point to it... doesnt matter,
-                other_data:such as pupil responses and running) # also
-                
-                
+        if rf['lsn_name'] in main_config.pick_main_RF:
+          represent_RF =  rf
+      cell_rf_dict = represent_RF.copy()
+      cell_rf_dict = add_None_to_rfdict(cell_rf_dict, FLAG_ON=cell_rf_dict['found_on'], FLAG_OFF=cell_rf_dict['found_off'])
+      list_of_cell_stim_dicts = []
+      for session in exp_session:
+        data_set= boc.get_ophys_experiment_data(session['id'])
+        for stimulus in data_set.list_stimuli():
+            output_pointer = os.path.join(output_data_folder, '%s_%s_%s.npy' % (cell_id, session['session_type'], stimulus)) 
+            if(OUTPUT_POINTER_SAVED):
+              all_pointers=get_all_pointers(main_config=main_config, cid=cell_id,sess=session, stim=stimulus)
+              if stimulus in main_config.session_name_for_RF:
+                for rf in this_cell_rf:
+                  if rf['lsn_name'] == stimulus:
+                      rf_from_this_stim = rf.copy()
+                np.savez(
+                    output_pointer,
+                    neural_trace=all_pointers['fluorescence_trace'],
+                    stim_template=all_pointers['stim_template'],
+                    stim_table=all_pointers['stim_table'],
+                    ROImask=all_pointers['ROImask'],
+                    other_recording=all_pointers['other_recording'],
+                    RF_info=rf_from_this_stim)
+              else:
+                np.savez(
+                    output_pointer,
+                    neural_trace=all_pointers['fluorescence_trace'],
+                    stim_template=all_pointers['stim_template'],
+                    stim_table=all_pointers['stim_table'],
+                    ROImask=all_pointers['ROImask'],
+                    other_recording=all_pointers['other_recording'])
             it_stim_dict = {
-                cell_id:cell_id,
-                cell_npy:output_pointer,
-                boolean_for_the_stimulus)
+                  'cell_specimen_id':cell_id,
+                  'session':session['session_type'],
+                  'cell_output_npy':output_pointer}
+            it_stim_dict=get_stim_list_boolean(
+                                  boc=boc, 
+                                  main_config=main_config, 
+                                  this_stim=stimulus, 
+                                  output_dict=it_stim_dict) 
             list_of_cell_stim_dicts += [it_stim_dict]
-    db.add_cell_data(
-        cell_rf_dict,
-        list_of_cell_stim_dicts)
-
-
-list_of_cell_stim_dicts = [{}]
-db.add_cell_data()
+      #import ipdb; ipdb.set_trace()
+      Recorded_cells_list[cell_id]={'cell_rf_dict':cell_rf_dict, 
+                                    'list_of_cell_stim_dicts':list_of_cell_stim_dicts}
+      add_cell_data(
+                cell_rf_dict,
+                list_of_cell_stim_dicts)
+tmptime=time.strftime('%D_%H_%M_%S')
+tmptime=tmptime.replace('/','_')
+fname="Recorded_cells_list_for_db_%s.pkl"%tmptime
+save_object(Recorded_cells_list,fname)
