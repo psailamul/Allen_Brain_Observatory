@@ -22,3 +22,7 @@ for ec in tqdm(
             print "Session %s : Error occur in motion_correction"%sess['id']
             sess_with_mc_errors.append(sess['id'])
             mc=None
+
+report =''
+for se in sess_with_mc_errors:            
+    report+= str(se)+',  '

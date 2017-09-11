@@ -4,6 +4,12 @@
 *.py~
 *.txt
 *.txt~
+
+# Data #
+###############
+*.pkl
+*.json
+
 # TF savers #
 ###############
 save_trained_HSM
@@ -12,6 +18,7 @@ save_trained_HSM.meta
 # folders #
 #################
 Allen_data_170513/
+boc/
 # Compiled source #
 ###################
 *.com

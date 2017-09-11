@@ -70,6 +70,10 @@ class Allen_Brain_Observatory_Config():
         'C2': ['locally_sparse_noise_4deg','locally_sparse_noise_8deg'],
         }
         self.session_name_for_RF =['locally_sparse_noise','locally_sparse_noise_4deg','locally_sparse_noise_8deg']
+        self.LSN_size_in_deg={
+        'height':74.4,
+        'width':130.2
+        }
         self.RF_sign = ['on', 'off']
         self.pick_main_RF = ['locally_sparse_noise', 'locally_sparse_noise_8deg']
         self.available_stims = ['locally_sparse_noise',

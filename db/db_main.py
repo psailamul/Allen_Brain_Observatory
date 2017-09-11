@@ -120,24 +120,17 @@ class db(object):
         if self.status_message:
             self.return_status('INSERT')
 
-    def select_cells_by_rf_coor(self, x_min, x_max, y_min, y_max):
+    def select_cells_by_rf_coor(self, namedict):
         """
         Select cells by rf coordinates.
         """
-        namedict = [{
-            'xmin': xmin,
-            'xmax': xmax,
-            'ymin': ymin,
-            'ymax': ymax
-        }]
-        self.cur.executemany(
+        self.cur.execute(
             """
             SELECT * FROM rf
-            WHERE on_center_x >= x_min and on_center_x < x_max and on_center_y >= y_min and on_center_y < y_max;
-            VALUES
-            (%(x_min)s, %(x_max)s, %(y_min)s, %(y_max)s)
-            """,
-            namedict)
+            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s
+            """
+            %
+            (namedict['x_min'], namedict['x_max'], namedict['y_min'], namedict['y_max']))
         if self.status_message:
             self.return_status('INSERT')
         return self.cur.fetchall()
@@ -153,10 +146,10 @@ def initialize_database():
 def get_cells_by_rf(list_of_dicts):
     """Query cells by their RF centers."""
     config = credentials.postgresql_connection()
-    queries = []
+    queries =[]
     with db(config) as db_conn:
         for d in list_of_dicts:
-            queries += [db.select_cells_by_rf_coor(db_conn,x_min=d['x_min'], x_max=d['x_max'], y_min=d['y_min'], y_max=d['y_max'])]
+            queries += [db_conn.select_cells_by_rf_coor(d)]
     return queries
 
 
@@ -224,3 +217,24 @@ if __name__ == '__main__':
         help='Recreate your database.')
     args = parser.parse_args()
     main(**vars(args))
+
+
+
+"""
+
+cur.execute(
+    'INSERT INTO mytable (ip_id, item) VALUES (%s, %s)',
+    (1, 'someentry')
+)
+data = [
+  ('Jane', date(2005, 2, 12)),
+  ('Joe', date(2006, 5, 23)),
+  ('John', date(2010, 10, 3)),
+]
+stmt = "INSERT INTO employees (first_name, hire_date) VALUES (%s, %s)"
+
+cursor.executemany(stmt, data)
+
+INSERT INTO employees (first_name, hire_date)
+VALUES ('Jane', '2005-02-12'), ('Joe', '2006-05-23'), ('John', '2010-10-03')
+"""
