@@ -205,6 +205,11 @@ def populate_db(config, boc):
     helper_funcs.save_object(Recorded_cells_list, fname)
 
 
+def main(initialize):
+    if initialize:
+        db.initialize_database()
+        print '*'
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(

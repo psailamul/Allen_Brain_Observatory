@@ -49,6 +49,7 @@ dist/
 *.log
 *.sql
 *.sqlite
+db/credentials.py
 
 # OS generated files #
 ######################
