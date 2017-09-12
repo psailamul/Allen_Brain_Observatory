@@ -192,7 +192,7 @@ def add_cell_data(
     """
     config = credentials.postgresql_connection()
     with db(config) as db_conn:
-        db_conn.populate_db_with_rf(cell_rf_dict)
+        db_conn.populate_db_with_rf([cell_rf_dict])
         db_conn.populate_db_with_cell_stim(list_of_cell_stim_dicts)
 
 

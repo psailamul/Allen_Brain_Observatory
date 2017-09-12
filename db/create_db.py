@@ -94,6 +94,19 @@ def get_stim_list_boolean(boc, config, this_stim, output_dict):
     return output_dict
 
 
+def filter_dict(cell_rf_dict):
+    for k, v in cell_rf_dict.iteritems():
+        if isinstance(v, np.ndarray):
+            if v.size == 0:
+                v = None
+            elif v.size == 1:
+                v = float(v)
+            else:
+                v = float(v.ravel()[0])
+            cell_rf_dict[k] = v
+    return cell_rf_dict
+
+
 def process_cell(
         boc,
         config,
@@ -122,6 +135,7 @@ def process_cell(
             cell_rf_dict,
             FLAG_ON=cell_rf_dict['found_on'],
             FLAG_OFF=cell_rf_dict['found_off'])
+        cell_rf_dict = filter_dict(cell_rf_dict)
         list_of_cell_stim_dicts = []
         for session in exp_session:
             data_set = boc.get_ophys_experiment_data(session['id'])
@@ -190,9 +204,11 @@ def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
 
     # ---> list of exp / then dict of cell name
     RFs_info = helper_funcs.load_object(
-        config.RF_info_loc + "all_cells_RF_info_08_30_17.pkl")
+        os.path.join(
+            config.RF_info_loc,
+            "all_cells_RF_info_08_30_17.pkl"))
     recorded_cells_list = {}
-    log.info('Processing experiment containers.')
+    log.info('Updating DB with experiment containers.')
     for idx in tqdm(
             idx_range,
             desc="Data from the experiment",
