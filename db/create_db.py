@@ -1,18 +1,17 @@
 """
 Populate the db and optionally initialize it.
 """
-
-from allensdk.core.brain_observatory_cache import BrainObservatoryCache
-from config import Allen_Brain_Observatory_Config
+import db
+import argparse
+import os
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
-import db
-import argparse
-import helper_funcs
-import time
-import os
-import sys
+from ops import helper_funcs
+from allensdk.core.brain_observatory_cache import BrainObservatoryCache
+from config import Allen_Brain_Observatory_Config as Config
+from utils import logger
+from utils import py_utils
 
 
 def session_filters(config, cells_ID_list):
@@ -95,125 +94,152 @@ def get_stim_list_boolean(boc, config, this_stim, output_dict):
     return output_dict
 
 
-def populate_db(config, boc):
+def process_cell(
+        boc,
+        config,
+        exp_session,
+        RFinfo_this_exp,
+        recorded_cells_list):
+    # Get common cells
+    cells_ID_list = {}
+    for sess in exp_session:
+        tmp = boc.get_ophys_experiment_data(sess['id'])
+        cells_ID_list[sess['session_type']] = tmp.get_cell_specimen_ids()
+    common_cells = session_filters(config, cells_ID_list)
+    common_cell_id = []
+    for cell_specimen_id, session_filter in common_cells.iteritems():
+        if session_filter:
+            common_cell_id += [cell_specimen_id]
+    ###############################################
+    # get RF and cell DB for each cell
+    for cell_id in common_cell_id:
+        this_cell_rf = RFinfo_this_exp[cell_id]
+        for rf in this_cell_rf:
+            if rf['lsn_name'] in config.pick_main_RF:
+                represent_RF = rf
+        cell_rf_dict = represent_RF.copy()
+        cell_rf_dict = add_None_to_rfdict(
+            cell_rf_dict,
+            FLAG_ON=cell_rf_dict['found_on'],
+            FLAG_OFF=cell_rf_dict['found_off'])
+        list_of_cell_stim_dicts = []
+        for session in exp_session:
+            data_set = boc.get_ophys_experiment_data(session['id'])
+            for stimulus in data_set.list_stimuli():
+                output_pointer = os.path.join(
+                    config.output_pointer_loc,
+                    '%s_%s_%s.npy' % (
+                        cell_id,
+                        session['session_type'],
+                        stimulus)
+                    )
+                all_pointers = get_all_pointers(
+                    config=config,
+                    cid=cell_id,
+                    sess=session,
+                    stim=stimulus)
+                if stimulus in config.session_name_for_RF:
+                    for rf in this_cell_rf:
+                        if rf['lsn_name'] == stimulus:
+                            rf_from_this_stim = rf.copy()
+                    np.savez(
+                        output_pointer,
+                        neural_trace=all_pointers['fluorescence_trace'],
+                        stim_template=all_pointers['stim_template'],
+                        stim_table=all_pointers['stim_table'],
+                        ROImask=all_pointers['ROImask'],
+                        other_recording=all_pointers['other_recording'],
+                        RF_info=rf_from_this_stim)
+                else:
+                    np.savez(
+                        output_pointer,
+                        neural_trace=all_pointers['fluorescence_trace'],
+                        stim_template=all_pointers['stim_template'],
+                        stim_table=all_pointers['stim_table'],
+                        ROImask=all_pointers['ROImask'],
+                        other_recording=all_pointers['other_recording'])
+                it_stim_dict = {
+                    'cell_specimen_id': cell_id,
+                    'session': session['session_type'],
+                    'cell_output_npy': output_pointer}
+                it_stim_dict = get_stim_list_boolean(
+                    boc=boc,
+                    config=config,
+                    this_stim=stimulus,
+                    output_dict=it_stim_dict)
+                list_of_cell_stim_dicts += [it_stim_dict]
+        recorded_cells_list[cell_id] = {
+          'cell_rf_dict': cell_rf_dict,
+          'list_of_cell_stim_dicts': list_of_cell_stim_dicts
+        }
+        db.add_cell_data(
+                cell_rf_dict,
+                list_of_cell_stim_dicts)
+    return recorded_cells_list
+
+
+def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
     """Populate DB with cell information."""
-    df = pd.read_csv('all_exps.csv')
+    df = pd.read_csv(config.all_exps_csv)
     exp_con_ids = np.asarray(df['experiment_container_id'])
-    start = 0
-    end = len(exp_con_ids)
-    if len(sys.argv) > 1:
-        start = int(sys.argv[1])
-        end = int(sys.argv[2])
-    idx_range = np.arange(start, end)
+    if start_exp is None:
+        start_exp = 0
+    if end_exp is None:
+        end_exp = len(exp_con_ids)
+    idx_range = np.arange(start_exp, end_exp)
 
     # ---> list of exp / then dict of cell name
     RFs_info = helper_funcs.load_object(
         config.RF_info_loc + "all_cells_RF_info_08_30_17.pkl")
-
-    Recorded_cells_list = {}
-    cells_ID_list = {}
-
+    recorded_cells_list = {}
+    log.info('Processing experiment containers.')
     for idx in tqdm(
             idx_range,
             desc="Data from the experiment",
             total=len(idx_range)):
         exps = exp_con_ids[idx]
-        print "Running experiment container ID #%s  index = %g of [%g,%g)" % (
-            exps, idx, start, end)
-
         exp_session = boc.get_ophys_experiments(
             experiment_container_ids=[exps])
-        RFinfo_this_exp = RFs_info[idx]
-
-        # Get common cells
-        for sess in exp_session:
-            tmp = boc.get_ophys_experiment_data(sess['id'])
-            cells_ID_list[sess['session_type']] = tmp.get_cell_specimen_ids()
-        common_cells = session_filters(config, cells_ID_list)
-        common_cell_id = []
-        for cell_specimen_id, session_filter in common_cells.iteritems():
-            if session_filter:
-                common_cell_id.append(cell_specimen_id)
-        ###############################################
-        # get RF and cell DB for each cell
-        for cell_id in common_cell_id:
-            this_cell_rf = RFinfo_this_exp[cell_id]
-            for rf in this_cell_rf:
-                if rf['lsn_name'] in config.pick_main_RF:
-                    represent_RF = rf
-            cell_rf_dict = represent_RF.copy()
-            cell_rf_dict = add_None_to_rfdict(
-                cell_rf_dict,
-                FLAG_ON=cell_rf_dict['found_on'],
-                FLAG_OFF=cell_rf_dict['found_off'])
-            list_of_cell_stim_dicts = []
-            for session in exp_session:
-                data_set = boc.get_ophys_experiment_data(session['id'])
-                for stimulus in data_set.list_stimuli():
-                    output_pointer = os.path.join(
-                        config.output_pointer_loc,
-                        '%s_%s_%s.npy' % (
-                            cell_id,
-                            session['session_type'],
-                            stimulus)
-                        )
-                    all_pointers = get_all_pointers(
-                        config=config,
-                        cid=cell_id,
-                        sess=session,
-                        stim=stimulus)
-                    if stimulus in config.session_name_for_RF:
-                        for rf in this_cell_rf:
-                            if rf['lsn_name'] == stimulus:
-                                rf_from_this_stim = rf.copy()
-                        np.savez(
-                            output_pointer,
-                            neural_trace=all_pointers['fluorescence_trace'],
-                            stim_template=all_pointers['stim_template'],
-                            stim_table=all_pointers['stim_table'],
-                            ROImask=all_pointers['ROImask'],
-                            other_recording=all_pointers['other_recording'],
-                            RF_info=rf_from_this_stim)
-                    else:
-                        np.savez(
-                            output_pointer,
-                            neural_trace=all_pointers['fluorescence_trace'],
-                            stim_template=all_pointers['stim_template'],
-                            stim_table=all_pointers['stim_table'],
-                            ROImask=all_pointers['ROImask'],
-                            other_recording=all_pointers['other_recording'])
-                    it_stim_dict = {
-                        'cell_specimen_id': cell_id,
-                        'session': session['session_type'],
-                        'cell_output_npy': output_pointer}
-                    it_stim_dict = get_stim_list_boolean(
-                        boc=boc,
-                        config=config,
-                        this_stim=stimulus,
-                        output_dict=it_stim_dict)
-                    list_of_cell_stim_dicts += [it_stim_dict]
-            Recorded_cells_list[cell_id] = {
-                'cell_rf_dict': cell_rf_dict,
-                'list_of_cell_stim_dicts': list_of_cell_stim_dicts
-            }
-            db.add_cell_data(
-                cell_rf_dict,
-                list_of_cell_stim_dicts)
-    tmptime = time.strftime('%D_%H_%M_%S')
-    tmptime = tmptime.replace('/', '_')
-    fname = "Recorded_cells_list_for_db_%s.pkl" % tmptime
-    helper_funcs.save_object(Recorded_cells_list, fname)
+        recorded_cells_list = process_cell(
+            boc,
+            config,
+            exp_session,
+            RFs_info[idx],
+            recorded_cells_list)
+    fname = "Recorded_cells_list_for_db_%s.pkl" % timestamp
+    helper_funcs.save_object(recorded_cells_list, fname)
+    log.info('Saved data to: %s.' % fname)
 
 
-def main(initialize):
-    if initialize:
+def main(initialize_database, start_exp=None, end_exp=None):
+    config = Config()
+    boc = BrainObservatoryCache(manifest_file=config.manifest_file)
+    timestamp = py_utils.timestamp()
+    log_file = os.path.join(config.log_dir, timestamp)
+    log = logger.get(log_file)
+    if initialize_database:
         db.initialize_database()
-        print '*'
+        log.info('Initialized DB.')
+    populate_db(config, boc, log, timestamp, start_exp, end_exp)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--extract",
-        dest="extract_features",
+        "--initialize",
+        dest="initialize_database",
         action='store_true',
-        help='Extract features -> tfrecords or reuse existing.')
+        help='Initialize database.')
+    parser.add_argument(
+        "--start",
+        dest="start_exp",
+        type=int,
+        default=None,
+        help='Start with this experiment.')
+    parser.add_argument(
+        "--end",
+        dest="end_exp",
+        type=int,
+        default=None,
+        help='End with this experiment.')
+    main(**vars(parser.parse_args()))
