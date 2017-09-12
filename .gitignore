@@ -19,6 +19,7 @@ save_trained_HSM.meta
 #################
 Allen_data_170513/
 boc/
+
 # Compiled source #
 ###################
 *.com
@@ -28,6 +29,7 @@ boc/
 *.o
 *.so
 *.egg-info
+dist/
 
 # Packages #
 ############
