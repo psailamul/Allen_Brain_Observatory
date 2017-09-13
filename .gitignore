@@ -2,8 +2,6 @@
 ################
 *.pyc
 *.py~
-*.txt
-*.txt~
 
 # Data #
 ###############
@@ -28,6 +26,8 @@ boc/
 *.exe
 *.o
 *.so
+*.egg-info
+dist/
 
 # Packages #
 ############
@@ -47,6 +47,7 @@ boc/
 *.log
 *.sql
 *.sqlite
+db/credentials.py
 
 # OS generated files #
 ######################

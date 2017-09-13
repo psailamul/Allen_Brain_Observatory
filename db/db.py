@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import sys
 import sshtunnel
 import argparse
 import psycopg2
@@ -9,6 +8,7 @@ import credentials
 from config import Allen_Brain_Observatory_Config
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
 main_config = Allen_Brain_Observatory_Config()
+
 
 class db(object):
     def __init__(self, config):
@@ -120,27 +120,21 @@ class db(object):
         if self.status_message:
             self.return_status('INSERT')
 
-    def select_cells_by_rf_coor(self, x_min, x_max, y_min, y_max):
+    def select_cells_by_rf_coor(self, namedict):
         """
         Select cells by rf coordinates.
         """
-        namedict = [{
-            'xmin': xmin,
-            'xmax': xmax,
-            'ymin': ymin,
-            'ymax': ymax
-        }]
-        self.cur.executemany(
+        self.cur.execute(
             """
             SELECT * FROM rf
-            WHERE on_center_x >= x_min and on_center_x < x_max and on_center_y >= y_min and on_center_y < y_max;
-            VALUES
-            (%(x_min)s, %(x_max)s, %(y_min)s, %(y_max)s)
-            """,
-            namedict)
+            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s
+            """
+            %
+            (namedict['x_min'], namedict['x_max'], namedict['y_min'], namedict['y_max']))
         if self.status_message:
             self.return_status('INSERT')
         return self.cur.fetchall()
+
 
 def initialize_database():
     """Initialize the psql database from the schema file."""
@@ -156,7 +150,7 @@ def get_cells_by_rf(list_of_dicts):
     queries = []
     with db(config) as db_conn:
         for d in list_of_dicts:
-            queries += [db.select_cells_by_rf_coor(db_conn,x_min=d['x_min'], x_max=d['x_max'], y_min=d['y_min'], y_max=d['y_max'])]
+            queries += [db_conn.select_cells_by_rf_coor(d)]
     return queries
 
 
@@ -168,7 +162,8 @@ def add_cell_data(
     Inputs:::
     cell_rf_dict: dictionary containing cell_id_number and its RF properties.
     list_of_cell_stim_dicts: a list of dictionaries, each containing the cell's
-        id + a pointer to a data numpy file and a boolean for the stimuli it contains.
+        id + a pointer to a data numpy file and a boolean for the stimuli it
+        contains.
     ------------------------------
     For a given cell, e.g., cell_1
 
@@ -182,20 +177,22 @@ def add_cell_data(
             'session': A,
             'drifting_gratings': True,
             'ALL OTHER COLUMNS': False,
-            'cell_npy': os.path.join(data_dir, '%s_%s_%s.npy' % (cell_id, session, stimulus))
+            'cell_npy': os.path.join(data_dir, '%s_%s_%s.npy' % (
+                cell_id, session, stimulus))
         },
         {
             'cell_id': 1,
             'session': B,
             'drifting_gratings': True,
             'ALL OTHER COLUMNS': False,
-            'cell_npy': os.path.join(data_dir, '%s_%s_%s.npy' % (cell_id, session, stimulus))
+            'cell_npy': os.path.join(
+                data_dir, '%s_%s_%s.npy' % (cell_id, session, stimulus))
         }
-    ]    
+    ]
     """
     config = credentials.postgresql_connection()
     with db(config) as db_conn:
-        db_conn.populate_db_with_rf(cell_rf_dict)
+        db_conn.populate_db_with_rf([cell_rf_dict])
         db_conn.populate_db_with_cell_stim(list_of_cell_stim_dicts)
 
 
@@ -205,11 +202,9 @@ def get_performance(experiment_name):
         perf = db_conn.get_performance(experiment_name=experiment_name)
     return perf
 
+
 def main(
-        initialize_db,
-        reset_process=False):
-    if reset_process:
-        reset_in_process()
+        initialize_db):
     if initialize_db:
         print 'Initializing database.'
         initialize_database()
