@@ -132,9 +132,8 @@ class RF_queries_generator():
             if conditions.find(',') == -1 : # No seperator
                 print "Error : unknown condition expression"
             else:
-
                 if FLAG_FIRST:
-                    command_text+=" and"
+                    command_text+= " and"
                 else:
                     FLAG_FIRST = True
                 lo_bound,up_bound = conditions.split(',') 

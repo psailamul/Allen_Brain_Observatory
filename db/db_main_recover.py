@@ -149,7 +149,7 @@ def get_cells_by_rf(list_of_dicts):
     queries =[]
     with db(config) as db_conn:
         for d in list_of_dicts:
-            queries += [db_conn.select_cells_by_rf_coor(d)]
+            queries = [db_conn.select_cells_by_rf_coor(d)]
     return queries
 
 
@@ -161,7 +161,7 @@ def add_cell_data(
     Inputs:::
     cell_rf_dict: dictionary containing cell_id_number and its RF properties.
     list_of_cell_stim_dicts: a list of dictionaries, each containing the cell's
-        id + a pointer to a data numpy file and a boolean for the stimuli it contains.
+        id  a pointer to a data numpy file and a boolean for the stimuli it contains.
     ------------------------------
     For a given cell, e.g., cell_1
 
