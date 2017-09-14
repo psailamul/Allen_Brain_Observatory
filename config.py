@@ -1,7 +1,8 @@
 # Config
 import os
 
-def get_host_path(HOST=False,PATH=True):
+
+def get_host_path(HOST=False, PATH=True):
     import socket
     if socket.gethostname() =='x7' :
         host='x7'; path='/home/pachaya/Allen_Brain_Observatory/'
@@ -9,6 +10,8 @@ def get_host_path(HOST=False,PATH=True):
         host='g13'; path= '/home/pachaya/Allen_Brain_Observatory/'
     elif socket.gethostname() =='x8' :
         host='x8'; path='/home/pachaya/Allen_Brain_Observatory/'
+    elif socket.gethostname() =='x9' :
+        host='x9'; path='/home/drew/Documents/Allen_Brain_Observatory/'
     else:
         raise Exception('Unknown Host : Please add your directory at get_host_path()')
     if(HOST&PATH):
@@ -28,6 +31,9 @@ class Allen_Brain_Observatory_Config():
 
         self.data_loc = '/media/data_cifs/AllenData/'
         self.manifest_file=self.data_loc+'boc/manifest.json'
+        self.tmp_pachaya_folder = 'pachaya_scripts'
+        self.all_exps_csv = os.path.join(self.tmp_pachaya_folder, 'all_exps.csv')
+        self.log_dir = 'logs'
         self.DB_loc = 'DataForTrain/'
         self.stimulus_template_loc = self.data_loc+self.DB_loc+'all_stimulus_template/'
         
@@ -46,33 +52,34 @@ class Allen_Brain_Observatory_Config():
         
         """Brain Observatory project information"""
         self.stim={
-        'DG':'drifting_gratings',
-        'LSN':'locally_sparse_noise',
-        'LSN4':'locally_sparse_noise_4deg',
-        'LSN8':'locally_sparse_noise_8deg',
-        'NM1':'natural_movie_one',
-        'NM2':'natural_movie_two',
-        'NM3':'natural_movie_three',
-        'NS':'natural_scenes',
-        'Spon':'spontaneous',
-        'SG':'static_gratings'}
+            'DG':'drifting_gratings',
+            'LSN':'locally_sparse_noise',
+            'LSN4':'locally_sparse_noise_4deg',
+            'LSN8':'locally_sparse_noise_8deg',
+            'NM1':'natural_movie_one',
+            'NM2':'natural_movie_two',
+            'NM3':'natural_movie_three',
+            'NS':'natural_scenes',
+            'Spon':'spontaneous',
+            'SG':'static_gratings'
+        }
         self.session={
-        'A':u'three_session_A',
-        'B':u'three_session_B',
-        'C':u'three_session_C',
-        'C2':u'three_session_C2'
+            'A':u'three_session_A',
+            'B':u'three_session_B',
+            'C':u'three_session_C',
+            'C2':u'three_session_C2'
         }
         self.sess_with_number={
             'locally_sparse_noise_4deg':'locally_sparse_noise_four_deg',
             'locally_sparse_noise_8deg':'locally_sparse_noise_eight_deg'}
         self.session_RF_stim ={
-        'C': ['locally_sparse_noise'],
-        'C2': ['locally_sparse_noise_4deg','locally_sparse_noise_8deg'],
+            'C': ['locally_sparse_noise'],
+            'C2': ['locally_sparse_noise_4deg','locally_sparse_noise_8deg'],
         }
         self.session_name_for_RF =['locally_sparse_noise','locally_sparse_noise_4deg','locally_sparse_noise_8deg']
         self.LSN_size_in_deg={
-        'height':74.4,
-        'width':130.2
+            'height':74.4,
+            'width':130.2
         }
         self.RF_sign = ['on', 'off']
         self.pick_main_RF = ['locally_sparse_noise', 'locally_sparse_noise_8deg']
@@ -82,7 +89,8 @@ class Allen_Brain_Observatory_Config():
             'natural_movie_one',
             'natural_movie_three',
             'natural_movie_two',
-            'natural_scenes']
+            'natural_scenes'
+        ]
 
         """Parameters"""
         self.rf_shuffles = 5000
@@ -96,9 +104,6 @@ class Allen_Brain_Observatory_Config():
         self.reshape_img_size_h = 31
         self.reshape_img_size_w = 31
         self.save_folder ='DataForTrain/'
-        
-
-
         self.db_ssh_forward = False
 
         # Find all precomputed cell metrics  here http://alleninstitute.github.io/AllenSDK/brain_observatory.html#precomputed-cell-metrics

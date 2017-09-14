@@ -13,23 +13,17 @@ ALTER TABLE rf ADD CONSTRAINT unique_rfs UNIQUE (cell_specimen_id , lsn_name , e
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 import matplotlib.pyplot as plt
 from config import Allen_Brain_Observatory_Config
-from tqdm import tqdm
-import pandas as pd
 import numpy as np
-import db_main #import db_main  #, add_cell_data, initialize_database, get_performance
+from db import db
 from helper_funcs import *
-import time 
-main_config=Allen_Brain_Observatory_Config()
 from matplotlib.patches import Ellipse
 import argparse
-import numpy.random as rnd
-
-# AllenSDK methods 
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
 
+main_config=Allen_Brain_Observatory_Config()
 
 def main():
     queries = [
@@ -48,7 +42,7 @@ def main():
     ]
     queries_label = ['center x in (9,50), y in (9,20)','all cells with on RF']
     #import ipdb; ipdb.set_trace()
-    all_data_dicts = db_main.get_cells_by_rf(queries)
+    all_data_dicts = db.get_cells_by_rf(queries)
     visual_space_h=np.floor(main_config.LSN_size_in_deg['height'])
     visual_space_w=np.floor(main_config.LSN_size_in_deg['width'])
     color='b' # b for on , r for off
