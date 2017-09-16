@@ -10,7 +10,22 @@ class declare_allen_datasets():
     def globals(self):
         """Global variables for all datasets."""
         return {
-            'neural_delay': 150  # MS delay for trimming neural data
+            'neural_delay': 150,  # MS delay for trimming neural data
+            'tf_types': {  # How to store each in tfrecords
+                'neural_trace_trimmed': 'float',
+                'proc_stimuli': 'string',
+                'ROImask': 'string',
+                'pupil_size': 'float',
+                'running_speed': 'float',
+                'eye_locations_spherical': 'float',
+                'cell_specimen_id': 'int64',
+                'on_center_x': 'float',
+                'on_center_y': 'float',
+                'off_center_x': 'float',
+                'off_center_y': 'float',
+                'on_width_x': 'float',
+                'off_width_y': 'float'
+            },
         }
 
     def add_globals(self, exp):
@@ -38,31 +53,16 @@ class declare_allen_datasets():
                 'neural_trace_trimmed': 'split',
                 'proc_stimuli': 'split',
                 'ROImask': 'repeat',
-                'pupil_size': 'split',
-                'running_speed': 'split', 
-                'eye_locations_spherical': 'split',
+                # 'pupil_size': 'split',
+                # 'running_speed': 'split', 
+                # 'eye_locations_spherical': 'split',
                 'cell_specimen_id': 'repeat',
-                'on_center_x': 'repeat',
-                'on_center_y': 'repeat',
-                'off_center_x': 'repeat',
-                'off_center_y': 'repeat',
-                'on_width_x': 'repeat',
-                'off_width_y': 'repeat'
-            },
-            'tf_types': {  # How to store this data in tfrecords
-                'neural_trace_trimmed': 'float',
-                'proc_stimuli': 'string',
-                'ROImask': 'string',
-                'pupil_size': 'float',
-                'running_speed': 'float',
-                'eye_locations_spherical': 'float',
-                'cell_specimen_id': 'int64',
-                'on_center_x': 'float',
-                'on_center_y': 'float',
-                'off_center_x': 'float',
-                'off_center_y': 'float',
-                'on_width_x': 'float',
-                'off_width_y': 'float'
+                # 'on_center_x': 'repeat',
+                # 'on_center_y': 'repeat',
+                # 'off_center_x': 'repeat',
+                # 'off_center_y': 'repeat',
+                # 'on_width_x': 'repeat',
+                # 'off_width_y': 'repeat'
             },
             'store_means': [
                 'neural_trace_trimmed',

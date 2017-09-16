@@ -1,6 +1,7 @@
 import os
 import argparse
 import numpy as np
+import tensorflow as tf
 from db import db
 from config import Allen_Brain_Observatory_Config as Config
 from declare_datasets import declare_allen_datasets as DA
@@ -120,7 +121,7 @@ def load_npzs(data_dicts, exp_dict):
                 else:
                     raise RuntimeError('Fucked up packing data into list of dicts.')
             event_dict += [it_event]
-    return output_data
+    return event_dict
 
 
 def create_example(data_dict, feature_types):
@@ -154,9 +155,9 @@ def prepare_data_for_tf_records(
     """Package dict into tfrecords."""
     if isinstance(cv_split, float):
         cv_inds = np.random.permutation(len(data_files))
-        val_len = np.round(len(data_files) * cv_split)
-        val_ind = cv_inds[:val_len]
-        train_ind = cv_inds[val_len:]
+        val_len = np.round(len(data_files) * cv_split).astype(int)
+        val_ind = cv_inds[val_len:]
+        train_ind = cv_inds[:val_len]
         cv_data = {
             'train': np.asarray(data_files)[train_ind],
             'val': np.asarray(data_files)[val_ind]
@@ -171,10 +172,10 @@ def prepare_data_for_tf_records(
             output_directory,
             '%s_%s.%s' % (k, set_name, ext))
         with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
-            for idx, d in tqdm(enumerate(v)):
+            for idx, d in tqdm(enumerate(v), total=len(v), desc='Encoding %s' % k):
                 for imk, imv in means.iteritems():
-                    means[imk] += [data_dict[imk]]
-                example = create_example(data_dict, feature_types)
+                    means[imk] += [d[imk]]
+                example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
                 tfrecord_writer.write(serialized)
                 example = None
@@ -205,7 +206,7 @@ def package_dataset(config, dataset_info, output_directory):
         set_name=dataset_info['experiment_name'],
         cv_split=dataset_info['cv_split'],
         store_means=dataset_info['store_means'],
-        feature_types=dataset_info['feature_types'])
+        feature_types=dataset_info['tf_types'])
 
 
 def main(experiment_name, output_directory=None):
