@@ -7,11 +7,30 @@ from declare_datasets import declare_allen_datasets as DA
 from tqdm import tqdm
 
 
+def bytes_feature(values):
+    """Encodes an float matrix into a byte list for a tfrecord."""
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[values]))
+
+
+def int64_feature(values):
+    """Encodes an int list into a tf int64 list for a tfrecord."""
+    if not isinstance(values, (tuple, list)):
+        values = [values]
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=values))
+
+
+def float_feature(values):
+    if not isinstance(values, (tuple, list)):
+        values = [values]
+    return tf.train.Feature(float_list=tf.train.FloatList(value=values))
+
+
 def fix_malformed_pointers(d, filter_ext='.npy', rep_ext='.npz'):
     """Replace .npy extensions if they were erroniously placed in the DB."""
     if '.npy' in d:
         d = '%s%s' % (d.split(filter_ext)[0], rep_ext)
     return d
+
 
 def load_npzs(data_dicts, exp_dict):
     """Load cell data from an npz."""
@@ -104,9 +123,67 @@ def load_npzs(data_dicts, exp_dict):
     return output_data
 
 
-def prepare_data_for_tf_records(data_files, output_directory):
+def create_example(data_dict, feature_types):
+    """Create entry in tfrecords."""
+    tf_dict = {}
+    for k, v in data_dict.iteritems():
+        it_feature_type = feature_types[k]
+        if it_feature_type == 'float':
+            tf_dict[k] = float_feature(v)
+        elif it_feature_type == 'int64':
+            tf_dict[k] = int64_feature(v)
+        elif it_feature_type == 'string':
+            tf_dict[k] = bytes_feature(v.tostring())
+    return tf.train.Example(
+        # Example contains a Features proto object
+        features=tf.train.Features(
+            # Features has a map of string to Feature proto objects
+            feature=tf_dict
+        )
+    )
+
+
+def prepare_data_for_tf_records(
+        data_files,
+        output_directory,
+        set_name,
+        cv_split,
+        store_means,
+        feature_types,
+        ext='tfrecords'):
     """Package dict into tfrecords."""
-    
+    if isinstance(cv_split, float):
+        cv_inds = np.random.permutation(len(data_files))
+        val_len = np.round(len(data_files) * cv_split)
+        val_ind = cv_inds[:val_len]
+        train_ind = cv_inds[val_len:]
+        cv_data = {
+            'train': np.asarray(data_files)[train_ind],
+            'val': np.asarray(data_files)[val_ind]
+        }
+    elif isinstance(cv_split, basestring):
+        raise RuntimeError('Split by session...')
+    else:
+        raise RuntimeError('Selected crossvalidation %s is not yet implemented.' % cv_split)
+    means = {k: [] for k in store_means}
+    for k, v in cv_data.iteritems():
+        it_name = os.path.join(
+            output_directory,
+            '%s_%s.%s' % (k, set_name, ext))
+        with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
+            for idx, d in tqdm(enumerate(v)):
+                for imk, imv in means.iteritems():
+                    means[imk] += [data_dict[imk]]
+                example = create_example(data_dict, feature_types)
+                serialized = example.SerializeToString()
+                tfrecord_writer.write(serialized)
+                example = None
+        mean_file = os.path.join(
+            output_directory,
+            '%s_%s_means' % (k, set_name))
+        np.savez(mean_file, means)
+        print 'Finished encoding: %s' % it_name
+
 
 def package_dataset(config, dataset_info, output_directory):
     """Query and package."""
@@ -122,7 +199,13 @@ def package_dataset(config, dataset_info, output_directory):
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
     data_files = load_npzs(data_dicts, dataset_info)
-    prepped_data = prepare_data_for_tf_records(data_files, output_directory)
+    prepped_data = prepare_data_for_tf_records(
+        data_files=data_files,
+        output_directory=output_directory,
+        set_name=dataset_info['experiment_name'],
+        cv_split=dataset_info['cv_split'],
+        store_means=dataset_info['store_means'],
+        feature_types=dataset_info['feature_types'])
 
 
 def main(experiment_name, output_directory=None):

@@ -33,6 +33,7 @@ class declare_allen_datasets():
             }],
             'stimuli': ['movies'],
             'cross_ref': 'rf_coordinate_range_and_stimuli',
+            'cv_split': 0.9,
             'include_targets': {  # How to store this data in tfrecords
                 'neural_trace_trimmed': 'split',
                 'proc_stimuli': 'split',
@@ -47,6 +48,25 @@ class declare_allen_datasets():
                 'off_center_y': 'repeat',
                 'on_width_x': 'repeat',
                 'off_width_y': 'repeat'
-            }
+            },
+            'tf_types': {  # How to store this data in tfrecords
+                'neural_trace_trimmed': 'float',
+                'proc_stimuli': 'string',
+                'ROImask': 'string',
+                'pupil_size': 'float',
+                'running_speed': 'float',
+                'eye_locations_spherical': 'float',
+                'cell_specimen_id': 'int64',
+                'on_center_x': 'float',
+                'on_center_y': 'float',
+                'off_center_x': 'float',
+                'off_center_y': 'float',
+                'on_width_x': 'float',
+                'off_width_y': 'float'
+            },
+            'store_means': [
+                'neural_trace_trimmed',
+                'proc_stimuli'
+            ]
         }
         return self.add_globals(exp_dict)
