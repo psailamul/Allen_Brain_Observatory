@@ -4,62 +4,153 @@ import numpy as np
 from db import db
 from config import Allen_Brain_Observatory_Config as Config
 from declare_datasets import declare_allen_datasets as DA
+from tqdm import tqdm
 
 
-def load_npzs(data_dicts):
+def fix_malformed_pointers(d, filter_ext='.npy', rep_ext='.npz'):
+    """Replace .npy extensions if they were erroniously placed in the DB."""
+    if '.npy' in d:
+        d = '%s%s' % (d.split(filter_ext)[0], rep_ext)
+    return d
+
+def load_npzs(data_dicts, exp_dict):
     """Load cell data from an npz."""
-    cell_fields = [
-        'neural_trace',
-        'stim_template',
-        'stim_table',
-        'ROI_mask',
-        'other_recording',
-        'RF_info'
-    ]
     data_files = []
-    missing_keys = []
-    for d in data_dicts:
+    key_list = []
+    if exp_dict['only_process_n'] is not None or exp_dict['only_process_n'] > 0:
+        data_dicts = data_dicts[:exp_dict['only_process_n']]
+
+    output_data = []
+    for d in tqdm(data_dicts, total=len(data_dicts), desc='Preparing data'):
         df = {}
-        it_check = []
-        cell_data = [np.load(d['output_dict'])]
-        for k, v in cell_data.iteritems():
-            df[k] = v  # Load data
-        data_files += [df]
-        for k in cell_fields.keys():
-            if k not in df.keys():
-                it_check += [k]
-        missing_keys += [it_check]
-    remove_keys = np.unique(missing_keys)
+        data_pointer = fix_malformed_pointers(d['cell_output_npy'])
+        cell_data = np.load(data_pointer)
+        cell_id = d['cell_specimen_id']
+        df['cell_specimen_id'] = cell_id
+
+        # Stim table
+        stim_table = np.load(cell_data['stim_table'].item())
+        stim_table = stim_table['stim_table']
+
+        # Stimuli
+        raw_stimuli = np.load(cell_data['stim_template'].item())
+        df['raw_stimuli'] = raw_stimuli
+        proc_stimuli = raw_stimuli[stim_table[:, 0]]
+        df['proc_stimuli'] = proc_stimuli
+
+        # Neural data
+        neural_data = np.load(cell_data['neural_trace'].item())
+        neural_data = neural_data['corrected_trace']
+        df['neural_trace'] = neural_data
+
+        # Trim neural data
+        stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
+        neural_data_trimmed = neural_data[stim_table_idx]
+        df['neural_trace_trimmed'] = neural_data_trimmed
+
+        # ROI mask
+        ROImask = np.load(cell_data['ROImask'].item())
+        ROImask = ROImask['roi_loc_mask']
+        df['ROImask'] = ROImask[:, :, None]
+
+        # AUX data
+        aux_data = np.load(cell_data['other_recording'].item())
+        pupil_size = aux_data['pupil_size']
+        running_speed = aux_data['running_speed']
+        eye_locations_spherical = aux_data['eye_locations_spherical']
+        eye_locations_cartesian = aux_data['eye_locations_cartesian']
+        df['pupil_size'] = pupil_size[stim_table_idx]
+        df['running_speed'] = running_speed.item()['dxcm'][stim_table_idx]
+        df['eye_locations_spherical'] = eye_locations_spherical[stim_table_idx, :]
+        df['eye_locations_cartesian'] = eye_locations_cartesian[stim_table_idx, :]
+
+        # RF data
+        df['on_center_x'] = d['on_center_x']
+        df['on_center_y'] = d['on_center_y']
+        df['off_center_x'] = d['off_center_x']
+        df['off_center_y'] = d['off_center_y']
+        df['on_height'] = d['on_height']
+        df['on_width'] = d['on_width_x']
+        df['off_height'] = d['off_height']
+        df['off_width'] = d['off_width_x']
+
+        # Package data
+        df = {k: v for k, v in df.iteritems() if k in exp_dict['include_targets']}
+        output_data += [df]
+        it_check = [k for k, v in df.iteritems() if v is not None] 
+        key_list += [it_check]
+    keep_keys = np.unique(key_list)
+    remove_keys = list(set(exp_dict['include_targets'].keys()) - set(keep_keys))
     if remove_keys is not None:
-        for idx, d in enumerate(data_files):
-            it_d = {k: v for k, v in d.iteritems() if k not in remove_keys}
-            data_files[idx] = it_d
-    return data_files
+        print 'Removing keys which were not populated across cells: %s' % remove_keys
+        for idx, d in enumerate(output_data):
+            it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
+            output_data[idx] = it_d
+
+    #Concatenate data into equal-sized lists
+    event_dict = []
+    for d in output_data: 
+        ref_length = d[exp_dict['reference_data_key']].shape[0]
+        for idx in range(ref_length):
+            it_event = {}
+            for k, v in d.iteritems():
+                if exp_dict['include_targets'][k] == 'split':
+                    it_event[k] = v[idx]
+                elif exp_dict['include_targets'][k] == 'repeat':
+                    it_event[k] = v
+                else:
+                    raise RuntimeError('Fucked up packing data into list of dicts.')
+            event_dict += [it_event]
+    return output_data
 
 
-def prepare_data_for_tf_records():
-    pass
-
+def prepare_data_for_tf_records(data_files, output_directory):
+    """Package dict into tfrecords."""
+    
 
 def package_dataset(config, dataset_info, output_directory):
     """Query and package."""
     dataset_instructions = dataset_info['cross_ref']
-    if 'coordinates' in dataset_instructions:
-        data_dicts = db.get_cells_by_rf(dataset_info['rf_coordinate_range'])
+    if dataset_instructions == 'rf_coordinate_range':
+        # TODO fix this API so it doesn't rely on conditionals.
+        data_dicts = db.get_cells_all_data_by_rf(dataset_info['rf_coordinate_range'])[0]
+    elif dataset_instructions == 'rf_coordinate_range_and_stimuli':
+        data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
+            rfs=dataset_info['rf_coordinate_range'],
+            stimuli=dataset_info['stimuli'])[0]
     else:
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
-    data_files = load_npzs(data_dicts)
-    prepped_data = prepare_data_for_tf_records(data_files)
+    data_files = load_npzs(data_dicts, dataset_info)
+    prepped_data = prepare_data_for_tf_records(data_files, output_directory)
 
 
 def main(experiment_name, output_directory=None):
     """Pull desired experiment cells and encode as tfrecords."""
+    assert experiment_name is not None, 'Name the experiment to process!'
     config = Config()
-    da = DA()[experiment_name]
+    da = DA()[experiment_name]()
     if output_directory is None:
         output_directory = config.tf_record_output
     package_dataset(
         config=config,
         dataset_info=da,
         output_directory=output_directory)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--experiment",
+        dest="experiment_name",
+        type=str,
+        default=None,
+        help='Encode this Allen brain institute experiment.')
+    parser.add_argument(
+        "--output",
+        dest="output_directory",
+        type=str,
+        default=None,
+        help='Save tfrecords to this directory.')
+    main(**vars(parser.parse_args()))
+

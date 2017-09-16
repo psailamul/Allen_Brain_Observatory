@@ -142,7 +142,7 @@ def process_cell(
             for stimulus in data_set.list_stimuli():
                 output_pointer = os.path.join(
                     config.output_pointer_loc,
-                    '%s_%s_%s.npy' % (
+                    '%s_%s_%s.npz' % (
                         cell_id,
                         session['session_type'],
                         stimulus)

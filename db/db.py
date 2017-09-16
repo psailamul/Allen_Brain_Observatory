@@ -136,6 +136,47 @@ class db(object):
         return self.cur.fetchall()
 
 
+    def gather_data_by_rf_coor(self, namedict):
+        """
+        Select cells by rf coordinates.
+        """
+        self.cur.execute(
+            """
+            SELECT * FROM rf
+            INNER JOIN cells on cells.cell_specimen_id=rf.cell_specimen_id
+            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s
+            """
+            %
+            (namedict['x_min'], namedict['x_max'], namedict['y_min'], namedict['y_max']))
+        if self.status_message:
+            self.return_status('INSERT')
+        return self.cur.fetchall()
+
+
+    def gather_data_by_rf_coor_and_stim(self, rf_dict, stimuli_filter):
+        """
+        Select cells by rf coordinates.
+        """
+        if stimuli_filter == 'movies':
+            stim_string = '(natural_movie_one = True or natural_movie_two = True or natural_movie_three = True)'
+        elif stimuli_filter == 'scenes':
+            stim_string = 'natural_scenes = True'
+        else:
+            raise RuntimeError('Stimulus filter not yet implemented.')
+
+        self.cur.execute(
+            """
+            SELECT * FROM rf
+            INNER JOIN cells on cells.cell_specimen_id=rf.cell_specimen_id
+            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s and %s
+            """
+            %
+            (rf_dict['x_min'], rf_dict['x_max'], rf_dict['y_min'], rf_dict['y_max'], stim_string))
+        if self.status_message:
+            self.return_status('INSERT')
+        return self.cur.fetchall()
+
+
 def initialize_database():
     """Initialize the psql database from the schema file."""
     config = credentials.postgresql_connection()
@@ -151,6 +192,26 @@ def get_cells_by_rf(list_of_dicts):
     with db(config) as db_conn:
         for d in list_of_dicts:
             queries += [db_conn.select_cells_by_rf_coor(d)]
+    return queries
+
+
+def get_cells_all_data_by_rf(list_of_dicts):
+    """Get all data for cells by their RF centers."""
+    config = credentials.postgresql_connection()
+    queries = []
+    with db(config) as db_conn:
+        for d in list_of_dicts:
+            queries += [db_conn.gather_data_by_rf_coor(d)]
+    return queries
+
+
+def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli):
+    """Get all data for cells by their RF centers."""
+    config = credentials.postgresql_connection()
+    queries = []
+    with db(config) as db_conn:
+        for it_rf, it_stim in zip(rfs, stimuli):
+            queries += [db_conn.gather_data_by_rf_coor_and_stim(it_rf, it_stim)]
     return queries
 
 

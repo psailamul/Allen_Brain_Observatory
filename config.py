@@ -29,7 +29,9 @@ class Allen_Brain_Observatory_Config():
         self.repo_PATH = get_host_path()
         self.host = get_host_path(HOST=True, PATH=False)
 
+        # TODO: Replace the concats with os.path.join() and reorganize
         self.data_loc = '/media/data_cifs/AllenData/'
+        self.tf_record_output = os.path.join(self.data_loc, 'tfrecords')
         self.manifest_file=self.data_loc+'boc/manifest.json'
         self.tmp_pachaya_folder = 'pachaya_scripts'
         self.all_exps_csv = os.path.join(self.tmp_pachaya_folder, 'all_exps.csv')
