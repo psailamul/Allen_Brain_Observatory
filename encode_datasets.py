@@ -106,6 +106,7 @@ def load_npzs(data_dicts, exp_dict):
         for idx, d in enumerate(output_data):
             it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
             output_data[idx] = it_d
+    # TODO handle NaNs in output_data here
 
     #Concatenate data into equal-sized lists
     event_dict = []
