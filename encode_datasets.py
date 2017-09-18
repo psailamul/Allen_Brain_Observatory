@@ -9,6 +9,29 @@ from tqdm import tqdm
 import cPickle as pickle
 
 
+def create_data_loader_class(template_file, meta_dict, output_file):
+    """Write a data loader python class for this dataset."""
+    with open(template_file, 'r') as f:
+        text = f.readlines()
+    import ipdb;ipdb.set_trace()
+    for k, v in meta_dict:
+        text.replace(k, v)
+    with open(output_file, 'w') as f:
+        f.writelines(text)
+
+
+def fixed_len_feature(length=[], dtype='int64'):
+    """Return variables for loading data with tensorflow."""
+    if dtype == 'int64':
+        return tf.FixedLenFeature(length, tf.int64)
+    elif dtype == 'string':
+        return tf.FixedLenFeature(length, tf.string)
+    elif dtype == 'float':
+        return tf.FixedLenFeature(length, tf.float32)
+    else:
+        raise RuntimeError('Cannot understand the fixed_len_feature dtype.')
+
+
 def load_data(f, allow_pkls=False):
     """Load data from npy or pickle files."""
     ext = f.split('.')[-1]
@@ -38,6 +61,7 @@ def int64_feature(values):
 
 
 def float_feature(values):
+    """TF floating point feature for tfrecords."""
     if not isinstance(values, (tuple, list)):
         values = [values]
     return tf.train.Feature(float_list=tf.train.FloatList(value=values))
@@ -163,6 +187,15 @@ def create_example(data_dict, feature_types):
     )
 
 
+def prepare_tf_dicts(data_dict, feature_types):
+    """Prepare tf data types for loading tf variables."""
+    tf_dict = {}
+    for k, v in data_dict.iteritems():
+        it_feature_type = feature_types[k]
+        tf_dict[k] = fixed_len_feature(dtype=v)
+    return tf_dict
+
+
 def prepare_data_for_tf_records(
         data_files,
         output_directory,
@@ -170,6 +203,8 @@ def prepare_data_for_tf_records(
         cv_split,
         store_means,
         feature_types,
+        cc_repo=None,
+        stimuli_key='proc_stimuli',
         ext='tfrecords'):
     """Package dict into tfrecords."""
     if isinstance(cv_split, float):
@@ -204,6 +239,37 @@ def prepare_data_for_tf_records(
         np.savez(mean_file, means)
         print 'Finished encoding: %s' % it_name
 
+    # Save file containing info about the stimuli (i.e. X for X -> Y)
+    meta_file = os.path.join(
+        output_directory,
+        '%s_meta' % (set_name))
+    im_size = d[stimuli_key].shape
+    tf_load_vars = prepare_tf_dicts(v[0], feature_types)
+    meta = {
+        'im_size': im_size,
+        'folds':  cv_data.keys(),
+        'tf_dict': tf_load_vars,
+        'tf_reader': {k: {'dtype': tf.float32, 'reshape': None} for k in v[0].keys()}
+    }
+    np.save(meta_file, meta)
+
+    # Create a dataloader template file for the cc_bp repo
+    if cc_repo is not None:
+        dl_file = os.path.join(
+            cc_repo['path'],
+            '%s.py' % (set_name))
+        loader_meta = {
+            'NAME': set_name,
+            'OUTPUT_SIZE': cc_repo['output_size'],
+            'IM_SIZE': im_size,
+            'MODEL_IM_SIZE': cc_repo['model_im_size'],
+            'META_FILE': meta_file,
+            'LOSS_FUNCTION': cc_repo['loss_function'],
+            'SCORE_METRIC': cc_repo['score_metric'],
+            'PREPROCESS': cc_repo['preprocess']
+        }
+        create_data_loader_class(cc_repo['template_file'], loader_meta, dl_file)
+
 
 def package_dataset(config, dataset_info, output_directory):
     """Query and package."""
@@ -219,13 +285,25 @@ def package_dataset(config, dataset_info, output_directory):
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
     data_files = load_npzs(data_dicts, dataset_info)
+
+    # Prepare meta file to create a dataset specific data loader
+    cc_repo = {
+        'template_file': config.cc_data_dir,
+        'path': config.cc_path
+    }
+    for k, v in dataset_info['cc_repo_vars'].iteritems():
+        cc_repo[k] = v
+
+    # Create tf records and meta files/data loader
     prepped_data = prepare_data_for_tf_records(
         data_files=data_files,
         output_directory=output_directory,
         set_name=dataset_info['experiment_name'],
         cv_split=dataset_info['cv_split'],
         store_means=dataset_info['store_means'],
-        feature_types=dataset_info['tf_types'])
+        stimuli_key=dataset_info['reference_data_key'],
+        feature_types=dataset_info['tf_types'],
+        cc_repo=cc_repo)
 
 
 def main(experiment_name, output_directory=None):

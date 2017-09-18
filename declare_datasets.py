@@ -67,6 +67,13 @@ class declare_allen_datasets():
             'store_means': [
                 'neural_trace_trimmed',
                 'proc_stimuli'
-            ]
+            ],
+            'cc_repo_vars': {
+                'output_size': [1, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304],
+                'loss_function': 'l2',
+                'score_metric': 'l2',
+                'preprocess': 'resize'
+            }
         }
         return self.add_globals(exp_dict)

@@ -1,37 +1,40 @@
 # Config
 import os
+import socket
 
-
-def get_host_path(HOST=False, PATH=True):
-    import socket
-    if socket.gethostname() =='x7' :
-        host='x7'; path='/home/pachaya/Allen_Brain_Observatory/'
-    elif socket.gethostname() =='g13':
-        host='g13'; path= '/home/pachaya/Allen_Brain_Observatory/'
-    elif socket.gethostname() =='x8' :
-        host='x8'; path='/home/pachaya/Allen_Brain_Observatory/'
-    elif socket.gethostname() =='x9' :
-        host='x9'; path='/home/drew/Documents/Allen_Brain_Observatory/'
-    else:
-        raise Exception('Unknown Host : Please add your directory at get_host_path()')
-    if(HOST&PATH):
-        return host, path
-    elif(HOST):
-        return host
-    else:
-        return path
-
-        
 class Allen_Brain_Observatory_Config():
+
+    def get_host_path(self):
+        if socket.gethostname() =='x7' :
+            self.host='x7'
+            self.repo_PATH='/home/pachaya/Allen_Brain_Observatory/'
+        elif socket.gethostname() =='g13':
+            self.host='g13'
+            self.repo_PATH='/home/pachaya/Allen_Brain_Observatory/'
+        elif socket.gethostname() =='x8' :
+            self.host='x8'
+            self.repo_PATH='/home/pachaya/Allen_Brain_Observatory/'
+        elif socket.gethostname() =='x9' :
+            self.host='x9'
+            self.repo_PATH='/home/drew/Documents/Allen_Brain_Observatory/'
+            self.cc_path = '/home/drew/Documents/contextual_circuit_bp/'
+        else:
+            raise Exception('Unknown Host : Please add your directory at get_host_path()')
+
     def __init__(self, **kwargs):
         self._id=''
         """ Directories"""
-        self.repo_PATH = get_host_path()
-        self.host = get_host_path(HOST=True, PATH=False)
+        self.get_host_path()
 
         # TODO: Replace the concats with os.path.join() and reorganize
         self.data_loc = '/media/data_cifs/AllenData/'
         self.tf_record_output = os.path.join(self.data_loc, 'tfrecords')
+
+        # Template for cc_bp repo data loading
+        self.cc_template = 'template_cc_model.txt'
+        self.cc_data_dir = os.path.join(self.cc_path, 'dataset_processing')
+
+        # TODO: @pachaya clean up the below and partition into sections
         self.manifest_file=self.data_loc+'boc/manifest.json'
         self.tmp_pachaya_folder = 'pachaya_scripts'
         self.all_exps_csv = os.path.join(self.tmp_pachaya_folder, 'all_exps.csv')
@@ -98,7 +101,7 @@ class Allen_Brain_Observatory_Config():
         self.rf_shuffles = 5000
         self.alpha = 0.5
         self.FILTERS = True
-        self.filters_file =  get_host_path()+'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl'  # None if no filters
+        self.filters_file = self.repo_PATH+'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl'  # None if no filters
         self.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
         # Order for Name Code 
         # Area / depth / Stimuli - SG, DG, NS, NM, LSN / aShow only data with results from all stimuli allStim = True

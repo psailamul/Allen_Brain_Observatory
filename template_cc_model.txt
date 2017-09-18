@@ -1,0 +1,27 @@
+import os
+import tensorflow as tf
+from glob import glob
+from config import Config
+from ops import tf_fun
+from utils import py_utils
+import random
+
+
+class data_processing(object):
+    def __init__(self):
+        self.name = NAME
+        self.config = Config()
+        self.output_size = [OUTPUT_SIZE]
+        self.im_size = [IM_SIZE]
+        self.model_input_image_size = [MODEL_IM_SIZE]
+        self.meta = META_FILE
+        self.default_loss_function = LOSS_FUNCTION
+        self.score_metric = SCORE_METRIC
+        self.preprocess = PREPROCESS
+
+        # Load vars from the meta file
+        meta_data = np.load(self.meta)
+        self.folds = meta_data['folds']
+        self.tf_dict = meta_data['tf_dict']
+        self.tf_reader = meta_data['tf_reader']
+
