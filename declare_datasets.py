@@ -25,7 +25,7 @@ class declare_allen_datasets():
                 'off_center_y': 'float',
                 'on_width_x': 'float',
                 'off_width_y': 'float'
-            },
+            }
         }
 
     def add_globals(self, exp):
@@ -38,7 +38,7 @@ class declare_allen_datasets():
         """Pull data from all neurons."""
         exp_dict = {
             'experiment_name': 'all_neurons',
-            'only_process_n': 2,  # Set to None to process all
+            'only_process_n': 1,  # Set to None to process all
             'reference_data_key': 'proc_stimuli',
             'rf_coordinate_range': [{  # Get all cells
                 'x_min': -10000,
