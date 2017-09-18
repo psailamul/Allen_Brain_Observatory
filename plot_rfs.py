@@ -1,15 +1,6 @@
-###############################################################################################################
-"""
-CREATE TABLE cells (_id bigserial primary key, cell_specimen_id int, session varchar, drifting_gratings boolean, locally_sparse_noise boolean, locally_sparse_noise_four_deg boolean, locally_sparse_noise_eight_deg boolean, natural_movie_one boolean, natural_movie_two boolean, natural_movie_three boolean, natural_scenes boolean, spontaneous boolean, static_gratings boolean, specimen_recording_pointer varchar, traces_loc_pointer varchar, ROImask_loc_pointer varchar, stim_table_loc_pointer varchar)
+"""Script for plotting cells by their RFs and figuring out which cells to pull for experiments."""
 
-CREATE TABLE rf (_id bigserial primary key, cell_specimen_id int, lsn_name varchar, experiment_container_id int, found_on boolean, found_off boolean, alpha float, number_of_shuffles int, on_distance float, on_area float, on_overlap float, on_height float, on_center_x float, on_center_y float, on_width_x float, on_width_y float, on_rotation float, off_distance float, off_area float, off_overlap float, off_height float, off_center_x float, off_center_y float, off_width_x float, off_width_y float, off_rotation float)
-
-ALTER TABLE cells ADD CONSTRAINT unique_cells UNIQUE (cell_specimen_id, session , drifting_gratings , locally_sparse_noise , locally_sparse_noise_four_deg , locally_sparse_noise_eight_deg , natural_movie_one , natural_movie_two , natural_movie_three , natural_scenes , spontaneous , static_gratings , specimen_recording_pointer , traces_loc_pointer , ROImask_loc_pointer , stim_table_loc_pointer )
-
-ALTER TABLE rf ADD CONSTRAINT unique_rfs UNIQUE (cell_specimen_id , lsn_name , experiment_container_id , found_on , found_off , alpha , number_of_shuffles , on_distance , on_area , on_overlap , on_height , on_center_x , on_center_y , on_width_x , on_width_y , on_rotation , off_distance , off_area , off_overlap, off_height , off_center_x , off_center_y , off_width_x , off_width_y , off_rotation )
-
-"""
-###############################################################################################################
+import cv2
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 import matplotlib.pyplot as plt
 from config import Allen_Brain_Observatory_Config
@@ -22,16 +13,28 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
+from tqdm import tqdm
 
-main_config=Allen_Brain_Observatory_Config()
 
-def main():
+def queries_list():
     queries = [
-        {  # Get a range
-          'x_min': 9,
-          'x_max': 50,
-          'y_min': 9,
-          'y_max': 20,
+        # {  # Get a range
+        #   'x_min': 9,
+        #   'x_max': 50,
+        #   'y_min': 9,
+        #   'y_max': 20,
+        # },
+        {
+          'x_min': 26,
+          'x_max': 28,
+          'y_min': 45,
+          'y_max': 47,
+        },
+        {
+          'x_min': 20,
+          'x_max': 30,
+          'y_min': 40,
+          'y_max': 50,
         },
         {  # Get all
           'x_min': -10000,
@@ -40,46 +43,104 @@ def main():
           'y_max': 10000,
         }
     ]
-    queries_label = ['center x in (9,50), y in (9,20)','all cells with on RF']
-    #import ipdb; ipdb.set_trace()
-    all_data_dicts = db.get_cells_by_rf(queries)
-    visual_space_h=np.floor(main_config.LSN_size_in_deg['height'])
-    visual_space_w=np.floor(main_config.LSN_size_in_deg['width'])
-    color='b' # b for on , r for off
+    query_labels = [
+        # 'center x in (9,50), y in (9,20)',
+        'Selected cell density.',
+        'Elipse-extended cell density.',
+        'All cells with on RF'
+    ]
+    return queries, query_labels
 
-    for data_dicts, label in zip(all_data_dicts,queries_label):
+
+def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5,5)):
+    """Main script for plotting cells by RFs."""
+    main_config = Allen_Brain_Observatory_Config()
+    queries, query_labels = queries_list()
+    if filter_by_stim is not None:
+        print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
+        stimuli = [filter_by_stim] * len(queries)
+        all_data_dicts = db.get_cells_all_data_by_rf_and_stimuli(queries, stimuli)
+    else:
+        print 'Pulling cells by their RFs.'
+        all_data_dicts = db.get_cells_all_data_by_rf(queries)
+    visual_space_h = np.floor(main_config.LSN_size_in_deg['height'])
+    visual_space_w = np.floor(main_config.LSN_size_in_deg['width'])
+    if plot_heatmap:
+        for data_dicts, label in tqdm(
+                zip(
+                    all_data_dicts,
+                    query_labels),
+                total=len(all_data_dicts),
+                desc='Plotting cell heatmap'):
+
+            canvas = np.zeros((int(visual_space_h), int(visual_space_w)))
+            for dat in data_dicts:
+                canvas[int(dat['on_center_y']), int(dat['on_center_x'])] += 1
+            canvas = cv2.GaussianBlur(canvas, kernel, 0)
+            f = plt.figure()
+            plt.title(label)
+            plt.imshow(canvas)
+            plt.show()
+            plt.close(f)
+
+    for data_dicts, label in tqdm(
+            zip(
+                all_data_dicts,
+                query_labels),
+            total=len(all_data_dicts),
+            desc='Plotting cell centroids'):
         fig = plt.figure()
         for dat in data_dicts:
-            plt.scatter(dat['on_center_x'],dat['on_center_y'])
-        plt.xlim(0,visual_space_w)
-        plt.ylim(0,visual_space_h)
+            plt.scatter(dat['on_center_y'], dat['on_center_x'])
+        plt.xlim(0, visual_space_w)
+        plt.ylim(0, visual_space_h)
         plt.title(label)
         plt.show()
 
-    #import ipdb; ipdb.set_trace()
-    for data_dicts, label in zip(all_data_dicts,queries_label):
+    for data_dicts, label in tqdm(
+            zip(
+                all_data_dicts,
+                query_labels),
+            total=len(all_data_dicts),
+            desc='Plotting cell elipsoids'):
         ells=[]
         fig, ax = plt.subplots()
         ax.set_xlim(0,visual_space_w)
         ax.set_ylim(0,visual_space_h)
-        import ipdb; ipdb.set_trace()
         for dat in data_dicts:
-            xy = (dat['on_center_x'],dat['on_center_y'])
-            width = 3 * np.abs(dat['on_width_x'])
-            height = 3 * np.abs(dat['on_width_y'])
+            xy = (dat['on_center_y'], dat['on_center_x'])
+            width = 3 * np.abs(dat['on_width_y'])
+            height = 3 * np.abs(dat['on_width_x'])
             angle = dat['on_rotation']
             if np.logical_not(any(np.isnan(xy))):
-                ellipse = mpatches.Ellipse(xy, width=width, height=height, angle=angle, lw=2, edgecolor=color,
-                                           facecolor=color,alpha=0.1)
+                ellipse = mpatches.Ellipse(
+                    xy,
+                    width=width,
+                    height=height,
+                    angle=angle,
+                    lw=2,
+                    edgecolor=color,
+                    facecolor=color,
+                    alpha=0.1)
                 ax.add_artist(ellipse)
-        import ipdb; ipdb.set_trace()
-        plt.xlim(0,visual_space_w)
-        plt.ylim(0,visual_space_h)
+        plt.xlim(0, visual_space_w)
+        plt.ylim(0, visual_space_h)
         plt.title(label)
         plt.show()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--stim_filter',
+        type=str,
+        default='movies',
+        dest='filter_by_stim',
+        help='Filter cells by a stimulus type as well as their RF properties.')
+    parser.add_argument(
+        '--plot_heatmap',
+        action='store_true',
+        dest='plot_heatmap',
+        help='Plot a blurred, heatmap version of the centroids.')
     args = parser.parse_args()
     main(**vars(args))

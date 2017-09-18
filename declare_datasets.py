@@ -34,10 +34,10 @@ class declare_allen_datasets():
             exp[k] = v
         return exp
 
-    def all_neurons(self):
+    def ALLEN_all_neurons(self):
         """Pull data from all neurons."""
         exp_dict = {
-            'experiment_name': 'all_neurons',
+            'experiment_name': 'ALLEN_all_neurons',
             'only_process_n': 1,  # Set to None to process all
             'reference_data_key': 'proc_stimuli',
             'rf_coordinate_range': [{  # Get all cells
@@ -77,3 +77,34 @@ class declare_allen_datasets():
             }
         }
         return self.add_globals(exp_dict)
+
+
+    def ALLEN_selected_cells_1(self):
+        """A set of cells with very similar RF properties ("on" response)."""
+        exp_dict = self.ALLEN_all_neurons()
+        exp_dict['rf_coordinate_range'] = [
+            {
+                'x_min': 26,
+                'x_max': 28,
+                'y_min': 45,
+                'y_max': 47,
+            }
+        ]
+        exp_dict['only_process_n'] = None  # Set to None to process all
+        return self.add_globals(exp_dict)
+
+
+    def ALLEN_selected_cells_1_extended(self):
+        """An expanded set of cells with very similar RF properties ("on" response)."""
+        exp_dict = self.ALLEN_all_neurons()
+        exp_dict['rf_coordinate_range'] = [
+            {
+                'x_min': 20,
+                'x_max': 30,
+                'y_min': 40,
+                'y_max': 50,
+            }
+        ]
+        exp_dict['only_process_n'] = None  # Set to None to process all
+        return self.add_globals(exp_dict)
+

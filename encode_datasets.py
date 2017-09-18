@@ -13,9 +13,9 @@ def create_data_loader_class(template_file, meta_dict, output_file):
     """Write a data loader python class for this dataset."""
     with open(template_file, 'r') as f:
         text = f.readlines()
-    import ipdb;ipdb.set_trace()
-    for k, v in meta_dict:
-        text.replace(k, v)
+    for k, v in meta_dict.iteritems():
+        for idx, t in enumerate(text):
+            text[idx] = t.replace(k, str(v))
     with open(output_file, 'w') as f:
         f.writelines(text)
 
@@ -148,7 +148,7 @@ def load_npzs(data_dicts, exp_dict):
         for idx, d in enumerate(output_data):
             it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
             output_data[idx] = it_d
-    # TODO handle NaNs in output_data here
+    # TODO handle NaNs in output_data here.
 
     #Concatenate data into equal-sized lists
     event_dict = []
@@ -187,11 +187,10 @@ def create_example(data_dict, feature_types):
     )
 
 
-def prepare_tf_dicts(data_dict, feature_types):
+def prepare_tf_dicts(feature_types):
     """Prepare tf data types for loading tf variables."""
     tf_dict = {}
-    for k, v in data_dict.iteritems():
-        it_feature_type = feature_types[k]
+    for k, v in feature_types.iteritems():
         tf_dict[k] = fixed_len_feature(dtype=v)
     return tf_dict
 
@@ -225,17 +224,24 @@ def prepare_data_for_tf_records(
         it_name = os.path.join(
             output_directory,
             '%s_%s.%s' % (k, set_name, ext))
+        idx = 0
         with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
             for idx, d in tqdm(enumerate(v), total=len(v), desc='Encoding %s' % k):
                 for imk, imv in means.iteritems():
-                    means[imk] += [d[imk]]
+                    if idx == 0: 
+                        means[imk] = d[imk]
+                    else:
+                        means[imk] += d[imk]
                 example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
                 tfrecord_writer.write(serialized)
                 example = None
+                idx += 1
         mean_file = os.path.join(
             output_directory,
             '%s_%s_means' % (k, set_name))
+        num_its = float(len(v))
+        means = {k: v / num_its for k, v in means.iteritems()}
         np.savez(mean_file, means)
         print 'Finished encoding: %s' % it_name
 
@@ -244,7 +250,7 @@ def prepare_data_for_tf_records(
         output_directory,
         '%s_meta' % (set_name))
     im_size = d[stimuli_key].shape
-    tf_load_vars = prepare_tf_dicts(v[0], feature_types)
+    tf_load_vars = prepare_tf_dicts(feature_types)
     meta = {
         'im_size': im_size,
         'folds':  cv_data.keys(),
@@ -288,7 +294,7 @@ def package_dataset(config, dataset_info, output_directory):
 
     # Prepare meta file to create a dataset specific data loader
     cc_repo = {
-        'template_file': config.cc_data_dir,
+        'template_file': config.cc_template,
         'path': config.cc_path
     }
     for k, v in dataset_info['cc_repo_vars'].iteritems():
