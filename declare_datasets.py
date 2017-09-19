@@ -1,5 +1,9 @@
+"""Declare new allen datasets to be encoded as TFrecords."""
+
+
 class declare_allen_datasets():
     """Class for declaring datasets to be encoded as tfrecords."""
+
     def __getitem__(self, name):
         """Method for addressing class methods."""
         return getattr(self, name)
@@ -78,7 +82,6 @@ class declare_allen_datasets():
         }
         return self.add_globals(exp_dict)
 
-
     def ALLEN_selected_cells_1(self):
         """A set of cells with very similar RF properties ("on" response)."""
         exp_dict = self.ALLEN_all_neurons()
@@ -93,9 +96,8 @@ class declare_allen_datasets():
         exp_dict['only_process_n'] = None  # Set to None to process all
         return self.add_globals(exp_dict)
 
-
     def ALLEN_selected_cells_1_extended(self):
-        """An expanded set of cells with very similar RF properties ("on" response)."""
+        """An expanded set of cells, similar RF properties ("on" response)."""
         exp_dict = self.ALLEN_all_neurons()
         exp_dict['rf_coordinate_range'] = [
             {
@@ -107,4 +109,3 @@ class declare_allen_datasets():
         ]
         exp_dict['only_process_n'] = None  # Set to None to process all
         return self.add_globals(exp_dict)
-

@@ -1,19 +1,15 @@
-import os
-import tensorflow as tf
-from glob import glob
 from config import Config
-from ops import tf_fun
-from utils import py_utils
-import random
 
 
 class data_processing(object):
+    """Template file for Allen neural data."""
     def __init__(self):
+        """Init global variables for contextual circuit bp."""
         self.name = NAME
         self.config = Config()
-        self.output_size = [OUTPUT_SIZE]
-        self.im_size = [IM_SIZE]
-        self.model_input_image_size = [MODEL_IM_SIZE]
+        self.output_size = OUTPUT_SIZE
+        self.im_size = IM_SIZE
+        self.model_input_image_size = MODEL_IM_SIZE
         self.meta = META_FILE
         self.default_loss_function = LOSS_FUNCTION
         self.score_metric = SCORE_METRIC

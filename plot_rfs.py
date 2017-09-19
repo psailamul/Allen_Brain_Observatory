@@ -1,22 +1,17 @@
-"""Script for plotting cells by their RFs and figuring out which cells to pull for experiments."""
+"""Script for plotting cells and figuring out which to pull for experiments."""
 
 import cv2
-from allensdk.core.brain_observatory_cache import BrainObservatoryCache
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 from config import Allen_Brain_Observatory_Config
 import numpy as np
 from db import db
-from helper_funcs import *
-from matplotlib.patches import Ellipse
 import argparse
-import matplotlib.pyplot as plt
-from matplotlib import ticker
-import matplotlib.gridspec as gridspec
 import matplotlib.patches as mpatches
 from tqdm import tqdm
 
 
 def queries_list():
+    """Dictionary with all cell queries to run."""
     queries = [
         # {  # Get a range
         #   'x_min': 9,
@@ -25,22 +20,22 @@ def queries_list():
         #   'y_max': 20,
         # },
         {
-          'x_min': 26,
-          'x_max': 28,
-          'y_min': 45,
-          'y_max': 47,
+            'x_min': 26,
+            'x_max': 28,
+            'y_min': 45,
+            'y_max': 47,
         },
         {
-          'x_min': 20,
-          'x_max': 30,
-          'y_min': 40,
-          'y_max': 50,
+            'x_min': 20,
+            'x_max': 30,
+            'y_min': 40,
+            'y_max': 50,
         },
         {  # Get all
-          'x_min': -10000,
-          'x_max': 10000,
-          'y_min': -10000,
-          'y_max': 10000,
+            'x_min': -10000,
+            'x_max': 10000,
+            'y_min': -10000,
+            'y_max': 10000,
         }
     ]
     query_labels = [
@@ -52,14 +47,16 @@ def queries_list():
     return queries, query_labels
 
 
-def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5,5)):
+def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
     """Main script for plotting cells by RFs."""
     main_config = Allen_Brain_Observatory_Config()
     queries, query_labels = queries_list()
     if filter_by_stim is not None:
         print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
         stimuli = [filter_by_stim] * len(queries)
-        all_data_dicts = db.get_cells_all_data_by_rf_and_stimuli(queries, stimuli)
+        all_data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
+            queries,
+            stimuli)
     else:
         print 'Pulling cells by their RFs.'
         all_data_dicts = db.get_cells_all_data_by_rf(queries)
@@ -103,10 +100,9 @@ def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5,5)):
                 query_labels),
             total=len(all_data_dicts),
             desc='Plotting cell elipsoids'):
-        ells=[]
         fig, ax = plt.subplots()
-        ax.set_xlim(0,visual_space_w)
-        ax.set_ylim(0,visual_space_h)
+        ax.set_xlim(0, visual_space_w)
+        ax.set_ylim(0, visual_space_h)
         for dat in data_dicts:
             xy = (dat['on_center_y'], dat['on_center_x'])
             width = 3 * np.abs(dat['on_width_y'])

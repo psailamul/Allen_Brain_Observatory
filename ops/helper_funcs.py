@@ -1,4 +1,4 @@
-# All helper Functions for the project
+"""Helper functions for handling Allen brain data."""
 
 import cPickle as pickle
 from config import Allen_Brain_Observatory_Config

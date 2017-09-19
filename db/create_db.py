@@ -1,6 +1,4 @@
-"""
-Populate the db and optionally initialize it.
-"""
+"""Populate the db and optionally initialize it."""
 import db
 import argparse
 import os
@@ -14,23 +12,24 @@ from utils import logger
 from utils import py_utils
 
 
-def session_filters(config, cells_ID_list):
-    """Find cells that present in all sessions"""
+def session_filters(config, cells_id_list):
+    """Find cells that present in all sessions."""
     masterkey = {k: v for k, v in config.session.iteritems()
-                 if v in cells_ID_list.keys()}
+                 if v in cells_id_list.keys()}
     reference_session = masterkey[masterkey.keys()[0]]
-    reference_cells = cells_ID_list[reference_session]
+    reference_cells = cells_id_list[reference_session]
     flist = {}  # List of cells that found in all three sessions
     for cell in reference_cells:
         checks = []
         for k in masterkey.keys()[1:]:
-            v = cells_ID_list[masterkey[k]]
+            v = cells_id_list[masterkey[k]]
             checks += [cell in v]
         flist[cell] = all(checks)
     return flist
 
 
-def add_None_to_rfdict(Ref_dict, FLAG_ON=False, FLAG_OFF=False):
+def add_none_to_rfdict(ref_dict, flag_on=False, flag_off=False):
+    """Allen RF keys."""
     list_keys_on = [
         'on_distance',
         'on_area',
@@ -53,17 +52,18 @@ def add_None_to_rfdict(Ref_dict, FLAG_ON=False, FLAG_OFF=False):
         'off_width_y',
         'off_rotation'
     ]
-    if not FLAG_ON:
+    if not flag_on:
         for key in list_keys_on:
-            Ref_dict[key] = None
+            ref_dict[key] = None
 
-    if not FLAG_OFF:
+    if not flag_off:
         for key in list_keys_off:
-            Ref_dict[key] = None
-    return Ref_dict
+            ref_dict[key] = None
+    return ref_dict
 
 
 def get_all_pointers(config, cid, sess, stim):
+    """Get data file pointers."""
     sess_type = sess['session_type']
     if stim in config.available_stims:
         stim_template = "%s%s_template.pkl" % (
@@ -85,7 +85,7 @@ def get_all_pointers(config, cid, sess, stim):
 
 
 def get_stim_list_boolean(boc, config, this_stim, output_dict):
-
+    """Check if stim_list exists."""
     for stim in boc.get_all_stimuli():
         if stim in config.sess_with_number.keys():
             stim = config.sess_with_number[stim]
@@ -95,6 +95,7 @@ def get_stim_list_boolean(boc, config, this_stim, output_dict):
 
 
 def filter_dict(cell_rf_dict):
+    """Handle data types for psql database."""
     for k, v in cell_rf_dict.iteritems():
         if isinstance(v, np.ndarray):
             if v.size == 0:
@@ -111,14 +112,14 @@ def process_cell(
         boc,
         config,
         exp_session,
-        RFinfo_this_exp,
+        rf_info_this_exp,
         recorded_cells_list):
-    # Get common cells
-    cells_ID_list = {}
+    """Process allen data to re-organize by cells."""
+    cells_id_list = {}
     for sess in exp_session:
         tmp = boc.get_ophys_experiment_data(sess['id'])
-        cells_ID_list[sess['session_type']] = tmp.get_cell_specimen_ids()
-    common_cells = session_filters(config, cells_ID_list)
+        cells_id_list[sess['session_type']] = tmp.get_cell_specimen_ids()
+    common_cells = session_filters(config, cells_id_list)
     common_cell_id = []
     for cell_specimen_id, session_filter in common_cells.iteritems():
         if session_filter:
@@ -126,12 +127,12 @@ def process_cell(
     ###############################################
     # get RF and cell DB for each cell
     for cell_id in common_cell_id:
-        this_cell_rf = RFinfo_this_exp[cell_id]
+        this_cell_rf = rf_info_this_exp[cell_id]
         for rf in this_cell_rf:
             if rf['lsn_name'] in config.pick_main_RF:
-                represent_RF = rf
-        cell_rf_dict = represent_RF.copy()
-        cell_rf_dict = add_None_to_rfdict(
+                represent_rf = rf
+        cell_rf_dict = represent_rf.copy()
+        cell_rf_dict = add_none_to_rfdict(
             cell_rf_dict,
             FLAG_ON=cell_rf_dict['found_on'],
             FLAG_OFF=cell_rf_dict['found_off'])
@@ -146,7 +147,7 @@ def process_cell(
                         cell_id,
                         session['session_type'],
                         stimulus)
-                    )
+                )
                 all_pointers = get_all_pointers(
                     config=config,
                     cid=cell_id,
@@ -183,12 +184,12 @@ def process_cell(
                     output_dict=it_stim_dict)
                 list_of_cell_stim_dicts += [it_stim_dict]
         recorded_cells_list[cell_id] = {
-          'cell_rf_dict': cell_rf_dict,
-          'list_of_cell_stim_dicts': list_of_cell_stim_dicts
+            'cell_rf_dict': cell_rf_dict,
+            'list_of_cell_stim_dicts': list_of_cell_stim_dicts
         }
         db.add_cell_data(
-                cell_rf_dict,
-                list_of_cell_stim_dicts)
+            cell_rf_dict,
+            list_of_cell_stim_dicts)
     return recorded_cells_list
 
 
@@ -203,7 +204,7 @@ def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
     idx_range = np.arange(start_exp, end_exp)
 
     # ---> list of exp / then dict of cell name
-    RFs_info = helper_funcs.load_object(
+    rfs_info = helper_funcs.load_object(
         os.path.join(
             config.RF_info_loc,
             "all_cells_RF_info_08_30_17.pkl"))
@@ -220,7 +221,7 @@ def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
             boc,
             config,
             exp_session,
-            RFs_info[idx],
+            rfs_info[idx],
             recorded_cells_list)
     fname = "Recorded_cells_list_for_db_%s.pkl" % timestamp
     helper_funcs.save_object(recorded_cells_list, fname)
@@ -228,6 +229,7 @@ def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
 
 
 def main(initialize_database, start_exp=None, end_exp=None):
+    """Main function to process Allen data."""
     config = Config()
     boc = BrainObservatoryCache(manifest_file=config.manifest_file)
     timestamp = py_utils.timestamp()

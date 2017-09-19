@@ -1,10 +1,12 @@
+"""Functions for encoding cells as TFrecords for contextual circuit bp."""
+
 import os
 import argparse
 import numpy as np
 import tensorflow as tf
 from db import db
 from config import Allen_Brain_Observatory_Config as Config
-from declare_datasets import declare_allen_datasets as DA
+from declare_datasets import declare_allen_datasets as dad
 from tqdm import tqdm
 import cPickle as pickle
 
@@ -49,12 +51,12 @@ def load_data(f, allow_pkls=False):
 
 
 def bytes_feature(values):
-    """Encodes an float matrix into a byte list for a tfrecord."""
+    """Encode an float matrix into a byte list for a tfrecord."""
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[values]))
 
 
 def int64_feature(values):
-    """Encodes an int list into a tf int64 list for a tfrecord."""
+    """Encode an int list into a tf int64 list for a tfrecord."""
     if not isinstance(values, (tuple, list)):
         values = [values]
     return tf.train.Feature(int64_list=tf.train.Int64List(value=values))
@@ -76,12 +78,12 @@ def fix_malformed_pointers(d, filter_ext='.npy', rep_ext='.npz'):
 
 def load_npzs(data_dicts, exp_dict):
     """Load cell data from an npz."""
-    data_files = []
     key_list = []
     if exp_dict['only_process_n'] is not None or exp_dict['only_process_n'] > 0:
-        print 'Trimming query from %s to %s cells.' % (len(data_dicts), exp_dict['only_process_n'])
+        print 'Trimming query from %s to %s cells.' % (
+            len(data_dicts), exp_dict['only_process_n'])
         data_dicts = data_dicts[:exp_dict['only_process_n']]
-        
+
     output_data = []
     for d in tqdm(data_dicts, total=len(data_dicts), desc='Preparing data'):
         df = {}
@@ -91,17 +93,23 @@ def load_npzs(data_dicts, exp_dict):
         df['cell_specimen_id'] = cell_id
 
         # Stim table
-        stim_table = load_data(cell_data['stim_table'].item(), allow_pkls=True)
+        stim_table = load_data(
+            cell_data['stim_table'].item(),
+            allow_pkls=True)
         stim_table = stim_table['stim_table']
 
         # Stimuli
-        raw_stimuli = load_data(cell_data['stim_template'].item(), allow_pkls=False)
+        raw_stimuli = load_data(
+            cell_data['stim_template'].item(),
+            allow_pkls=False)
         df['raw_stimuli'] = raw_stimuli
         proc_stimuli = raw_stimuli[stim_table[:, 0]]
         df['proc_stimuli'] = proc_stimuli
 
         # Neural data
-        neural_data = load_data(cell_data['neural_trace'].item(), allow_pkls=True)
+        neural_data = load_data(
+            cell_data['neural_trace'].item(),
+            allow_pkls=True)
         neural_data = neural_data['corrected_trace']
         df['neural_trace'] = neural_data
 
@@ -111,12 +119,14 @@ def load_npzs(data_dicts, exp_dict):
         df['neural_trace_trimmed'] = neural_data_trimmed
 
         # ROI mask
-        ROImask = load_data(cell_data['ROImask'].item(), allow_pkls=True)
-        ROImask = ROImask['roi_loc_mask']
-        df['ROImask'] = ROImask[:, :, None]
+        roi_mask = load_data(cell_data['ROImask'].item(), allow_pkls=True)
+        roi_mask = roi_mask['roi_loc_mask']
+        df['ROImask'] = roi_mask[:, :, None]
 
         # AUX data
-        aux_data = load_data(cell_data['other_recording'].item(), allow_pkls=True)
+        aux_data = load_data(
+            cell_data['other_recording'].item(),
+            allow_pkls=True)
         pupil_size = aux_data['pupil_size']
         running_speed = aux_data['running_speed']
         eye_locations_spherical = aux_data['eye_locations_spherical']
@@ -139,10 +149,11 @@ def load_npzs(data_dicts, exp_dict):
         # Package data
         df = {k: v for k, v in df.iteritems() if k in exp_dict['include_targets']}
         output_data += [df]
-        it_check = [k for k, v in df.iteritems() if v is not None] 
+        it_check = [k for k, v in df.iteritems() if v is not None]
         key_list += [it_check]
     keep_keys = np.unique(key_list)
-    remove_keys = list(set(exp_dict['include_targets'].keys()) - set(keep_keys))
+    remove_keys = list(
+        set(exp_dict['include_targets'].keys()) - set(keep_keys))
     if remove_keys is not None:
         print 'Removing keys which were not populated across cells: %s' % remove_keys
         for idx, d in enumerate(output_data):
@@ -150,9 +161,9 @@ def load_npzs(data_dicts, exp_dict):
             output_data[idx] = it_d
     # TODO handle NaNs in output_data here.
 
-    #Concatenate data into equal-sized lists
+    # Concatenate data into equal-sized lists
     event_dict = []
-    for d in output_data: 
+    for d in output_data:
         ref_length = d[exp_dict['reference_data_key']].shape[0]
         for idx in range(ref_length):
             it_event = {}
@@ -162,7 +173,8 @@ def load_npzs(data_dicts, exp_dict):
                 elif exp_dict['include_targets'][k] == 'repeat':
                     it_event[k] = v
                 else:
-                    raise RuntimeError('Fucked up packing data into list of dicts.')
+                    raise RuntimeError(
+                        'Fucked up packing data into list of dicts.')
             event_dict += [it_event]
     return event_dict
 
@@ -218,7 +230,8 @@ def prepare_data_for_tf_records(
     elif isinstance(cv_split, basestring):
         raise RuntimeError('Split by session...')
     else:
-        raise RuntimeError('Selected crossvalidation %s is not yet implemented.' % cv_split)
+        raise RuntimeError(
+            'Selected crossvalidation %s is not yet implemented.' % cv_split)
     means = {k: [] for k in store_means}
     for k, v in cv_data.iteritems():
         it_name = os.path.join(
@@ -226,9 +239,12 @@ def prepare_data_for_tf_records(
             '%s_%s.%s' % (k, set_name, ext))
         idx = 0
         with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
-            for idx, d in tqdm(enumerate(v), total=len(v), desc='Encoding %s' % k):
+            for idx, d in tqdm(
+                    enumerate(v),
+                    total=len(v),
+                    desc='Encoding %s' % k):
                 for imk, imv in means.iteritems():
-                    if idx == 0: 
+                    if idx == 0:
                         means[imk] = d[imk]
                     else:
                         means[imk] += d[imk]
@@ -253,9 +269,10 @@ def prepare_data_for_tf_records(
     tf_load_vars = prepare_tf_dicts(feature_types)
     meta = {
         'im_size': im_size,
-        'folds':  cv_data.keys(),
+        'folds': cv_data.keys(),
         'tf_dict': tf_load_vars,
-        'tf_reader': {k: {'dtype': tf.float32, 'reshape': None} for k in v[0].keys()}
+        'tf_reader': {
+            k: {'dtype': tf.float32, 'reshape': None} for k in v[0].keys()}
     }
     np.save(meta_file, meta)
 
@@ -272,9 +289,10 @@ def prepare_data_for_tf_records(
             'META_FILE': meta_file,
             'LOSS_FUNCTION': cc_repo['loss_function'],
             'SCORE_METRIC': cc_repo['score_metric'],
-            'PREPROCESS': cc_repo['preprocess']
+            'PREPROCESS': cc_repo['preprocess'],
         }
-        create_data_loader_class(cc_repo['template_file'], loader_meta, dl_file)
+        create_data_loader_class(
+            cc_repo['template_file'], loader_meta, dl_file)
 
 
 def package_dataset(config, dataset_info, output_directory):
@@ -282,7 +300,8 @@ def package_dataset(config, dataset_info, output_directory):
     dataset_instructions = dataset_info['cross_ref']
     if dataset_instructions == 'rf_coordinate_range':
         # TODO fix this API so it doesn't rely on conditionals.
-        data_dicts = db.get_cells_all_data_by_rf(dataset_info['rf_coordinate_range'])[0]
+        data_dicts = db.get_cells_all_data_by_rf(
+            dataset_info['rf_coordinate_range'])[0]
     elif dataset_instructions == 'rf_coordinate_range_and_stimuli':
         data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
             rfs=dataset_info['rf_coordinate_range'],
@@ -301,7 +320,7 @@ def package_dataset(config, dataset_info, output_directory):
         cc_repo[k] = v
 
     # Create tf records and meta files/data loader
-    prepped_data = prepare_data_for_tf_records(
+    prepare_data_for_tf_records(
         data_files=data_files,
         output_directory=output_directory,
         set_name=dataset_info['experiment_name'],
@@ -316,14 +335,14 @@ def main(experiment_name, output_directory=None):
     """Pull desired experiment cells and encode as tfrecords."""
     assert experiment_name is not None, 'Name the experiment to process!'
     config = Config()
-    da = DA()[experiment_name]()
+    da = dad()[experiment_name]()
     if output_directory is None:
         output_directory = config.tf_record_output
     package_dataset(
         config=config,
         dataset_info=da,
         output_directory=output_directory)
-
+    # TODO: Incorporate logger
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -340,4 +359,3 @@ if __name__ == '__main__':
         default=None,
         help='Save tfrecords to this directory.')
     main(**vars(parser.parse_args()))
-
