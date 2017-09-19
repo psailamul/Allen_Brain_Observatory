@@ -118,6 +118,7 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         if len(raw_stimuli.shape) < 4:
             # Ensure that stimuli are a 4D tensor.
             raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
+        raw_stimuli = raw_stimuli.astype(np.float32)
         df['raw_stimuli'] = raw_stimuli
         proc_stimuli = raw_stimuli[stim_table[:, 0]]
         df['proc_stimuli'] = proc_stimuli
@@ -126,7 +127,7 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         neural_data = load_data(
             cell_data['neural_trace'].item(),
             allow_pkls=True)
-        neural_data = neural_data['corrected_trace']
+        neural_data = neural_data['corrected_trace'].astype(np.float32)
         df['neural_trace'] = neural_data
 
         # Trim neural data
@@ -135,9 +136,11 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         df['neural_trace_trimmed'] = neural_data_trimmed
 
         # ROI mask
-        roi_mask = load_data(cell_data['ROImask'].item(), allow_pkls=True)
+        roi_mask = load_data(
+            cell_data['ROImask'].item(),
+            allow_pkls=True)
         roi_mask = roi_mask['roi_loc_mask']
-        df['ROImask'] = np.expand_dims(roi_mask, axis=-1)
+        df['ROImask'] = np.expand_dims(roi_mask, axis=-1).astype(np.float32)
 
         # AUX data
         aux_data = load_data(
@@ -309,7 +312,7 @@ def prepare_data_for_tf_records(
         else:
             it_shape = iv.shape
         tf_reader[ik] = {'dtype': tf.float32, 'reshape': it_shape}
-    tf_reader['image']['reshape'] = cc_repo['model_im_size']
+    # tf_reader['image']['reshape'] = cc_repo['model_im_size']
     meta = {
         'im_size': im_size,
         'folds': {k: k for k in cv_data.keys()},
