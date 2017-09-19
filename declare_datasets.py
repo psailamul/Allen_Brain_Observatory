@@ -10,6 +10,7 @@ class declare_allen_datasets():
 
     def __contains__(self, name):
         """Method for checking class contents."""
+        return hasattr(self, name)
 
     def globals(self):
         """Global variables for all datasets."""
@@ -43,7 +44,8 @@ class declare_allen_datasets():
         exp_dict = {
             'experiment_name': 'ALLEN_all_neurons',
             'only_process_n': 1,  # Set to None to process all
-            'reference_data_key': 'proc_stimuli',
+            'reference_image_key': {'proc_stimuli': 'image'},
+            'reference_label_key': {'neural_trace_trimmed': 'label'},
             'rf_coordinate_range': [{  # Get all cells
                 'x_min': -10000,
                 'x_max': 10000,
@@ -54,8 +56,10 @@ class declare_allen_datasets():
             'cross_ref': 'rf_coordinate_range_and_stimuli',
             'cv_split': 0.9,
             'include_targets': {  # How to store this data in tfrecords
-                'neural_trace_trimmed': 'split',
-                'proc_stimuli': 'split',
+                # 'neural_trace_trimmed': 'split',
+                # 'proc_stimuli': 'split',
+                'image': 'split',  # Corresponds to reference_image_key
+                'label': 'split',  # Corresponds to reference_label_key
                 'ROImask': 'repeat',
                 # 'pupil_size': 'split',
                 # 'running_speed': 'split', 
@@ -69,12 +73,12 @@ class declare_allen_datasets():
                 # 'off_width_y': 'repeat'
             },
             'store_means': [
-                'neural_trace_trimmed',
-                'proc_stimuli'
+                'image',
+                'label'
             ],
             'cc_repo_vars': {
                 'output_size': [1, 1],  # target variable -- neural activity,
-                'model_im_size': [152, 304],
+                'model_im_size': [152, 304, 1],
                 'loss_function': 'l2',
                 'score_metric': 'l2',
                 'preprocess': 'resize'

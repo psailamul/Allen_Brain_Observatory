@@ -1,5 +1,5 @@
 """Helper functions for handling Allen brain data."""
-
+import os
 import cPickle as pickle
 from config import Allen_Brain_Observatory_Config
 
@@ -23,3 +23,9 @@ def get_sess_key(sesstxt, config=None):
     for code, txt in config.session.iteritems():
         if sesstxt == txt:
             return code
+
+
+def make_dir(d):
+    """Make directory d if it does not exist."""
+    if not os.path.exists(d):
+        os.makedirs(d)

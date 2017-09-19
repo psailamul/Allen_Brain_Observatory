@@ -19,24 +19,24 @@ def queries_list():
         #   'y_min': 9,
         #   'y_max': 20,
         # },
-        {
-            'x_min': 26,
-            'x_max': 28,
-            'y_min': 45,
-            'y_max': 47,
-        },
+        # {
+        #     'x_min': 26,
+        #     'x_max': 28,
+        #     'y_min': 45,
+        #     'y_max': 47,
+        # },
         {
             'x_min': 20,
             'x_max': 30,
             'y_min': 40,
             'y_max': 50,
         },
-        {  # Get all
-            'x_min': -10000,
-            'x_max': 10000,
-            'y_min': -10000,
-            'y_max': 10000,
-        }
+        # {  # Get all
+        #     'x_min': -10000,
+        #     'x_max': 10000,
+        #     'y_min': -10000,
+        #     'y_max': 10000,
+        # }
     ]
     query_labels = [
         # 'center x in (9,50), y in (9,20)',

@@ -9,6 +9,15 @@ from config import Allen_Brain_Observatory_Config as Config
 from declare_datasets import declare_allen_datasets as dad
 from tqdm import tqdm
 import cPickle as pickle
+from ops import helper_funcs
+
+
+def get_field(d, field, alt):
+    """Error handling for absent dict keys."""
+    if field in d:
+        return d[field]
+    else:
+        return alt
 
 
 def create_data_loader_class(template_file, meta_dict, output_file):
@@ -76,7 +85,7 @@ def fix_malformed_pointers(d, filter_ext='.npy', rep_ext='.npz'):
     return d
 
 
-def load_npzs(data_dicts, exp_dict):
+def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
     """Load cell data from an npz."""
     key_list = []
     if exp_dict['only_process_n'] is not None or exp_dict['only_process_n'] > 0:
@@ -88,7 +97,11 @@ def load_npzs(data_dicts, exp_dict):
     for d in tqdm(data_dicts, total=len(data_dicts), desc='Preparing data'):
         df = {}
         data_pointer = fix_malformed_pointers(d['cell_output_npy'])
-        cell_data = load_data(data_pointer, allow_pkls=True)
+        try:
+            cell_data = load_data(data_pointer, allow_pkls=True)
+        except:
+            print 'WARNING: You need to fix the npz extensions for %s' % data_pointer
+            cell_data = load_data('%s.npy.npz' % data_pointer.strip('.npz'), allow_pkls=True)
         cell_id = d['cell_specimen_id']
         df['cell_specimen_id'] = cell_id
 
@@ -102,6 +115,9 @@ def load_npzs(data_dicts, exp_dict):
         raw_stimuli = load_data(
             cell_data['stim_template'].item(),
             allow_pkls=False)
+        if len(raw_stimuli.shape) < 4:
+            # Ensure that stimuli are a 4D tensor.
+            raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
         df['raw_stimuli'] = raw_stimuli
         proc_stimuli = raw_stimuli[stim_table[:, 0]]
         df['proc_stimuli'] = proc_stimuli
@@ -121,20 +137,33 @@ def load_npzs(data_dicts, exp_dict):
         # ROI mask
         roi_mask = load_data(cell_data['ROImask'].item(), allow_pkls=True)
         roi_mask = roi_mask['roi_loc_mask']
-        df['ROImask'] = roi_mask[:, :, None]
+        df['ROImask'] = np.expand_dims(roi_mask, axis=-1)
 
         # AUX data
         aux_data = load_data(
             cell_data['other_recording'].item(),
             allow_pkls=True)
-        pupil_size = aux_data['pupil_size']
-        running_speed = aux_data['running_speed']
-        eye_locations_spherical = aux_data['eye_locations_spherical']
-        eye_locations_cartesian = aux_data['eye_locations_cartesian']
-        df['pupil_size'] = pupil_size[stim_table_idx]
-        df['running_speed'] = running_speed.item()['dxcm'][stim_table_idx]
-        df['eye_locations_spherical'] = eye_locations_spherical[stim_table_idx, :]
-        df['eye_locations_cartesian'] = eye_locations_cartesian[stim_table_idx, :]
+
+        pupil_size = get_field(aux_data, 'pupil_size', None)
+        running_speed = get_field(aux_data, 'running_speed', None)
+        eye_locations_spherical = get_field(aux_data, 'eye_locations_spherical', None)
+        eye_locations_cartesian = get_field(aux_data, 'eye_locations_cartesian', None)
+        if pupil_size is not None:
+            df['pupil_size'] = pupil_size[stim_table_idx]
+        else:
+            df['pupil_size'] = None
+        if running_speed is not None:
+            df['running_speed'] = running_speed.item()['dxcm'][stim_table_idx]
+        else:
+            df['running_speed'] = None
+        if eye_locations_spherical is not None:
+            df['eye_locations_spherical'] = eye_locations_spherical[stim_table_idx, :]
+        else:
+            df['eye_locations_spherical'] = None
+        if eye_locations_cartesian is not None:
+            df['eye_locations_cartesian'] = eye_locations_cartesian[stim_table_idx, :]
+        else:
+            df['eye_locations_cartesian'] = None
 
         # RF data
         df['on_center_x'] = d['on_center_x']
@@ -146,8 +175,14 @@ def load_npzs(data_dicts, exp_dict):
         df['off_height'] = d['off_height']
         df['off_width'] = d['off_width_x']
 
+        # Rename images/neural traces for contextual_circuit_bp
+        df['image'] = df.pop(stimuli_key.keys()[0])
+        df['label'] = df.pop(neural_key.keys()[0])
+
         # Package data
-        df = {k: v for k, v in df.iteritems() if k in exp_dict['include_targets']}
+        df = {
+            k: v for k, v in df.iteritems()
+            if k in exp_dict['include_targets']}
         output_data += [df]
         it_check = [k for k, v in df.iteritems() if v is not None]
         key_list += [it_check]
@@ -164,7 +199,7 @@ def load_npzs(data_dicts, exp_dict):
     # Concatenate data into equal-sized lists
     event_dict = []
     for d in output_data:
-        ref_length = d[exp_dict['reference_data_key']].shape[0]
+        ref_length = d['image'].shape[0]
         for idx in range(ref_length):
             it_event = {}
             for k, v in d.iteritems():
@@ -215,7 +250,7 @@ def prepare_data_for_tf_records(
         store_means,
         feature_types,
         cc_repo=None,
-        stimuli_key='proc_stimuli',
+        stimuli_key=None,
         ext='tfrecords'):
     """Package dict into tfrecords."""
     if isinstance(cv_split, float):
@@ -236,7 +271,7 @@ def prepare_data_for_tf_records(
     for k, v in cv_data.iteritems():
         it_name = os.path.join(
             output_directory,
-            '%s_%s.%s' % (k, set_name, ext))
+            '%s_%s.%s' % (set_name, k, ext))
         idx = 0
         with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
             for idx, d in tqdm(
@@ -255,7 +290,7 @@ def prepare_data_for_tf_records(
                 idx += 1
         mean_file = os.path.join(
             output_directory,
-            '%s_%s_means' % (k, set_name))
+            '%s_%s_means' % (set_name, k))
         num_its = float(len(v))
         means = {k: v / num_its for k, v in means.iteritems()}
         np.savez(mean_file, means)
@@ -265,14 +300,21 @@ def prepare_data_for_tf_records(
     meta_file = os.path.join(
         output_directory,
         '%s_meta' % (set_name))
-    im_size = d[stimuli_key].shape
+    im_size = d[stimuli_key.values()[0]].shape
     tf_load_vars = prepare_tf_dicts(feature_types)
+    tf_reader = {}
+    for ik, iv in v[0].iteritems():
+        if isinstance(iv, float) or isinstance(iv, int):
+            it_shape = [1, 1]
+        else:
+            it_shape = iv.shape
+        tf_reader[ik] = {'dtype': tf.float32, 'reshape': it_shape}
+    tf_reader['image']['reshape'] = cc_repo['model_im_size']
     meta = {
         'im_size': im_size,
-        'folds': cv_data.keys(),
+        'folds': {k: k for k in cv_data.keys()},
         'tf_dict': tf_load_vars,
-        'tf_reader': {
-            k: {'dtype': tf.float32, 'reshape': None} for k in v[0].keys()}
+        'tf_reader': tf_reader
     }
     np.save(meta_file, meta)
 
@@ -309,15 +351,27 @@ def package_dataset(config, dataset_info, output_directory):
     else:
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
-    data_files = load_npzs(data_dicts, dataset_info)
+    data_files = load_npzs(
+        data_dicts,
+        dataset_info,
+        stimuli_key=dataset_info['reference_image_key'],
+        neural_key=dataset_info['reference_label_key'],
+    )
 
     # Prepare meta file to create a dataset specific data loader
     cc_repo = {
         'template_file': config.cc_template,
-        'path': config.cc_path
+        'path': config.cc_data_dir
     }
     for k, v in dataset_info['cc_repo_vars'].iteritems():
         cc_repo[k] = v
+
+    # Add tf_type entries for reference keys
+    cat_dict = dict(
+        dataset_info['reference_image_key'].items() +
+        dataset_info['reference_label_key'].items())
+    for k, v in cat_dict.iteritems():
+        dataset_info['tf_types'][v] = dataset_info['tf_types'][k]
 
     # Create tf records and meta files/data loader
     prepare_data_for_tf_records(
@@ -326,7 +380,7 @@ def package_dataset(config, dataset_info, output_directory):
         set_name=dataset_info['experiment_name'],
         cv_split=dataset_info['cv_split'],
         store_means=dataset_info['store_means'],
-        stimuli_key=dataset_info['reference_data_key'],
+        stimuli_key=dataset_info['reference_image_key'],
         feature_types=dataset_info['tf_types'],
         cc_repo=cc_repo)
 
@@ -337,12 +391,15 @@ def main(experiment_name, output_directory=None):
     config = Config()
     da = dad()[experiment_name]()
     if output_directory is None:
-        output_directory = config.tf_record_output
+        output_directory = os.path.join(
+            config.tf_record_output)
+    helper_funcs.make_dir(output_directory)
     package_dataset(
         config=config,
         dataset_info=da,
         output_directory=output_directory)
     # TODO: Incorporate logger
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

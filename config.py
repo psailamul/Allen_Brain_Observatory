@@ -28,7 +28,7 @@ class Allen_Brain_Observatory_Config():
 
         # TODO: Replace the concats with os.path.join() and reorganize
         self.data_loc = '/media/data_cifs/AllenData/'
-        self.tf_record_output = os.path.join(self.data_loc, 'tfrecords')
+        self.tf_record_output = '/media/data_cifs/contextual_circuit/tf_records'
 
         # Template for cc_bp repo data loading
         self.cc_template = 'template_cc_model.txt'
