@@ -1,7 +1,6 @@
 import os
 from setuptools import setup, find_packages
-from db import credentials
-
+from db import credentials, createdb
 
 """python setup.py install"""
 
@@ -20,5 +19,7 @@ os.popen(
     'sudo -u postgres createdb %s -O %s' % (
         params['database'],
         params['user']), 'w').write(sys_password)
+createdb.main(
+    initialize_database=True)
 
 print 'Installed required packages and created DB.'

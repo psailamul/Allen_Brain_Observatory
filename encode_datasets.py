@@ -271,6 +271,7 @@ def prepare_data_for_tf_records(
         raise RuntimeError(
             'Selected crossvalidation %s is not yet implemented.' % cv_split)
     means = {k: [] for k in store_means}
+    maxs = {k: [] for k in store_means}    
     for k, v in cv_data.iteritems():
         it_name = os.path.join(
             output_directory,
@@ -286,6 +287,7 @@ def prepare_data_for_tf_records(
                         means[imk] = d[imk]
                     else:
                         means[imk] += d[imk]
+                    maxs[imk] = np.max(d[imk])
                 example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
                 tfrecord_writer.write(serialized)
@@ -295,7 +297,10 @@ def prepare_data_for_tf_records(
             output_directory,
             '%s_%s_means' % (set_name, k))
         num_its = float(len(v))
-        means = {k: v / num_its for k, v in means.iteritems()}
+        means = {k: {
+            'mean': v / num_its,
+            'max': maxs[k]
+            } for k, v in means.iteritems()}
         np.savez(mean_file, means)
         print 'Finished encoding: %s' % it_name
 

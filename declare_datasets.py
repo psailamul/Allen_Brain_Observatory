@@ -79,8 +79,8 @@ class declare_allen_datasets():
             'cc_repo_vars': {
                 'output_size': [1, 1],  # target variable -- neural activity,
                 'model_im_size': [152, 304, 1],
-                'loss_function': 'l2',
-                'score_metric': 'l2',
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
                 'preprocess': 'resize'
             }
         }
@@ -97,7 +97,8 @@ class declare_allen_datasets():
                 'y_max': 47,
             }
         ]
-        exp_dict['only_process_n'] = None  # Set to None to process all
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_1'
+        exp_dict['only_process_n'] = 10  # Set to None to process all
         return self.add_globals(exp_dict)
 
     def ALLEN_selected_cells_1_extended(self):
@@ -111,5 +112,6 @@ class declare_allen_datasets():
                 'y_max': 50,
             }
         ]
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_1_extended'
         exp_dict['only_process_n'] = None  # Set to None to process all
         return self.add_globals(exp_dict)

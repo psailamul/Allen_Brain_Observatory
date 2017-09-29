@@ -71,14 +71,26 @@ def get_all_pointers(config, cid, sess, stim):
     else:
         stim_template = None
     pointer_list = {
-        'fluorescence_trace': "%s%s_%s_traces.npz" % (
-            config.fluorescence_traces_loc, cid, sess_type),
-        'stim_table': "%s%s_%s_%s_table.npz" % (
-            config.stim_table_loc, sess['id'], sess_type, stim),
-        'other_recording': "%s%s_related_traces.npz" % (
-            config.specimen_recording_loc, sess['id']),
-        'ROImask': "%s%s_%s_ROImask.npz" % (
-            config.ROIs_mask_loc, cid, sess_type),
+        'fluorescence_trace': os.path.join(
+            config.fluorescence_traces_loc,
+            '%s_%s_traces.npz' % (
+                cid, sess_type)
+        ),
+        'stim_table':  os.path.join(
+            config.stim_table_loc,
+            '%s_%s_%s_table.npz' % (
+                sess['id'], sess_type, stim)
+        ),
+        'other_recording':  os.path.join(
+            config.specimen_recording_loc,
+            '%s_related_traces.npz' % (
+                sess['id'])
+        ),
+        'ROImask':  os.path.join(
+            config.ROIs_mask_loc,
+            '%s_%s_ROImask.npz"' % (
+                cid, sess_type)
+        ),
         'stim_template': stim_template,
     }
     return pointer_list
@@ -134,8 +146,8 @@ def process_cell(
         cell_rf_dict = represent_rf.copy()
         cell_rf_dict = add_none_to_rfdict(
             cell_rf_dict,
-            FLAG_ON=cell_rf_dict['found_on'],
-            FLAG_OFF=cell_rf_dict['found_off'])
+            flag_on=cell_rf_dict['found_on'],
+            flag_off=cell_rf_dict['found_off'])
         cell_rf_dict = filter_dict(cell_rf_dict)
         list_of_cell_stim_dicts = []
         for session in exp_session:
@@ -153,6 +165,7 @@ def process_cell(
                     cid=cell_id,
                     sess=session,
                     stim=stimulus)
+                import ipdb;ipdb.set_trace()
                 if stimulus in config.session_name_for_RF:
                     for rf in this_cell_rf:
                         if rf['lsn_name'] == stimulus:
