@@ -364,11 +364,14 @@ def prepare_tf_dicts(feature_types, d):
     tf_dict = {}
     for k, v in feature_types.iteritems():
         # TODO: Change this interface to more flexibly preallocate shapes.
-        if v is not 'string' and\
-                k in d.keys() and\
-                isinstance(d, np.ndarray) and\
-                d[k].shape[0] > 1:
-            shape = d[k].shape[0]
+        if v is 'float' and k in d.keys():
+            if isinstance(d[k], list):
+                shape = len(d[k])
+            elif isinstance(d[k], np.ndarray):
+                shape = d[k].shape[0]
+            else:
+                print 'Cannot understand the type of feature %s.' % k
+                shape = []
         else:
             shape = []
         tf_dict[k] = fixed_len_feature(dtype=v, length=shape)
