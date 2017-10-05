@@ -66,15 +66,16 @@ def get_all_pointers(config, cid, sess, stim):
     """Get data file pointers."""
     sess_type = sess['session_type']
     if stim in config.available_stims:
-        stim_template = "%s%s_template.pkl" % (
-            config.stimulus_template_loc, stim)
+        stim_template = os.path.join(
+            config.stimulus_template_loc,
+            '%s_template.pkl' % stim)
     else:
         stim_template = None
     pointer_list = {
-        'fluorescence_trace': os.path.join(
+        config.fluoresence_type: os.path.join(
             config.fluorescence_traces_loc,
-            '%s_%s_traces.npz' % (
-                cid, sess_type)
+            '%s_%s_%s.npz' % (
+                cid, sess_type, config.fluoresence_type.strip('_loc'))
         ),
         'stim_table':  os.path.join(
             config.stim_table_loc,
@@ -165,14 +166,13 @@ def process_cell(
                     cid=cell_id,
                     sess=session,
                     stim=stimulus)
-                import ipdb;ipdb.set_trace()
                 if stimulus in config.session_name_for_RF:
                     for rf in this_cell_rf:
                         if rf['lsn_name'] == stimulus:
                             rf_from_this_stim = rf.copy()
                     np.savez(
                         output_pointer,
-                        neural_trace=all_pointers['fluorescence_trace'],
+                        neural_trace=all_pointers[config.fluoresence_type],
                         stim_template=all_pointers['stim_template'],
                         stim_table=all_pointers['stim_table'],
                         ROImask=all_pointers['ROImask'],
@@ -181,7 +181,7 @@ def process_cell(
                 else:
                     np.savez(
                         output_pointer,
-                        neural_trace=all_pointers['fluorescence_trace'],
+                        neural_trace=all_pointers[config.fluoresence_type],
                         stim_template=all_pointers['stim_template'],
                         stim_table=all_pointers['stim_table'],
                         ROImask=all_pointers['ROImask'],

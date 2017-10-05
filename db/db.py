@@ -94,9 +94,37 @@ class db(object):
         self.cur.executemany(
             """
             INSERT INTO cells
-            (cell_specimen_id, session , drifting_gratings , locally_sparse_noise , locally_sparse_noise_four_deg , locally_sparse_noise_eight_deg , natural_movie_one , natural_movie_two , natural_movie_three , natural_scenes , spontaneous , static_gratings , cell_output_npy)
+            (
+            cell_specimen_id,
+            session,
+            drifting_gratings,
+            locally_sparse_noise,
+            locally_sparse_noise_four_deg,
+            locally_sparse_noise_eight_deg,
+            natural_movie_one,
+            natural_movie_two,
+            natural_movie_three,
+            natural_scenes,
+            spontaneous,
+            static_gratings,
+            cell_output_npy
+            )
             VALUES
-            (%(cell_specimen_id)s, %(session)s, %(drifting_gratings)s, %(locally_sparse_noise)s, %(locally_sparse_noise_four_deg)s, %(locally_sparse_noise_eight_deg)s, %(natural_movie_one)s, %(natural_movie_two)s, %(natural_movie_three)s, %(natural_scenes)s, %(spontaneous)s, %(static_gratings)s, %(cell_output_npy)s)
+            (
+            %(cell_specimen_id)s,
+            %(session)s,
+            %(drifting_gratings)s,
+            %(locally_sparse_noise)s,
+            %(locally_sparse_noise_four_deg)s,
+            %(locally_sparse_noise_eight_deg)s,
+            %(natural_movie_one)s,
+            %(natural_movie_two)s,
+            %(natural_movie_three)s,
+            %(natural_scenes)s,
+            %(spontaneous)s,
+            %(static_gratings)s,
+            %(cell_output_npy)s
+            )
             """,
             namedict)
         if self.status_message:
@@ -112,9 +140,61 @@ class db(object):
         self.cur.executemany(
             """
             INSERT INTO rf
-            (cell_specimen_id , lsn_name , experiment_container_id , found_on , found_off , alpha , number_of_shuffles , on_distance , on_area , on_overlap , on_height , on_center_x , on_center_y , on_width_x , on_width_y , on_rotation , off_distance , off_area , off_overlap, off_height , off_center_x , off_center_y , off_width_x , off_width_y , off_rotation )
+            (
+            cell_specimen_id,
+            lsn_name,
+            experiment_container_id,
+            found_on,
+            found_off,
+            alpha,
+            number_of_shuffles,
+            on_distance,
+            on_area,
+            on_overlap,
+            on_height,
+            on_center_x,
+            on_center_y,
+            on_width_x,
+            on_width_y,
+            on_rotation,
+            off_distance,
+            off_area,
+            off_overlap,
+            off_height,
+            off_center_x,
+            off_center_y,
+            off_width_x,
+            off_width_y,
+            off_rotation
+            )
             VALUES
-            (%(cell_specimen_id)s, %(lsn_name)s, %(experiment_container_id)s, %(found_on)s, %(found_off)s, %(alpha)s, %(number_of_shuffles)s, %(on_distance)s, %(on_area)s, %(on_overlap)s, %(on_height)s, %(on_center_x)s, %(on_center_y)s, %(on_width_x)s, %(on_width_y)s, %(on_rotation)s, %(off_distance)s, %(off_area)s, %(off_overlap)s, %(off_height)s, %(off_center_x)s, %(off_center_y)s, %(off_width_x)s, %(off_width_y)s, %(off_rotation)s)
+            (
+            %(cell_specimen_id)s,
+            %(lsn_name)s,
+            %(experiment_container_id)s,
+            %(found_on)s,
+            %(found_off)s,
+            %(alpha)s,
+            %(number_of_shuffles)s,
+            %(on_distance)s,
+            %(on_area)s,
+            %(on_overlap)s,
+            %(on_height)s,
+            %(on_center_x)s,
+            %(on_center_y)s,
+            %(on_width_x)s,
+            %(on_width_y)s,
+            %(on_rotation)s,
+            %(off_distance)s,
+            %(off_area)s,
+            %(off_overlap)s,
+            %(off_height)s,
+            %(off_center_x)s,
+            %(off_center_y)s,
+            %(off_width_x)s,
+            %(off_width_y)s,
+            %(off_rotation)s
+            )
             """,
             namedict)
         if self.status_message:
@@ -127,14 +207,22 @@ class db(object):
         self.cur.execute(
             """
             SELECT * FROM rf
-            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s
+            WHERE
+            on_center_x >= %s and
+            on_center_x < %s and
+            on_center_y >= %s and
+            on_center_y < %s
             """
             %
-            (namedict['x_min'], namedict['x_max'], namedict['y_min'], namedict['y_max']))
+            (
+                namedict['x_min'],
+                namedict['x_max'],
+                namedict['y_min'],
+                namedict['y_max'])
+            )
         if self.status_message:
             self.return_status('INSERT')
         return self.cur.fetchall()
-
 
     def gather_data_by_rf_coor(self, namedict):
         """
@@ -144,34 +232,91 @@ class db(object):
             """
             SELECT * FROM rf
             INNER JOIN cells on cells.cell_specimen_id=rf.cell_specimen_id
-            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s
+            WHERE
+            on_center_x >= %s and
+            on_center_x < %s and
+            on_center_y >= %s and
+            on_center_y < %s
             """
             %
-            (namedict['x_min'], namedict['x_max'], namedict['y_min'], namedict['y_max']))
+            (
+                namedict['x_min'],
+                namedict['x_max'],
+                namedict['y_min'],
+                namedict['y_max'])
+            )
         if self.status_message:
             self.return_status('INSERT')
         return self.cur.fetchall()
 
+    def proc_stim_query(
+            self,
+            stim_string,
+            stim_query,
+            logical=' or ',
+            column=None,
+            sub_query=None):
+        if len(stim_string) > 0:
+            stim_string += logical
+        if column is not None:
+            stim_query = '%s=\'' % column + stim_query + '\''
+        if sub_query is not None:
+            stim_query = '(%s and (%s))' % (stim_query, sub_query)
+        stim_string += stim_query
+        return stim_string
 
-    def gather_data_by_rf_coor_and_stim(self, rf_dict, stimuli_filter):
+    def gather_data_by_rf_coor_and_stim(
+            self,
+            rf_dict,
+            stimuli_filter=None,
+            session_filter=None):
         """
         Select cells by rf coordinates.
         """
-        if stimuli_filter == 'movies':
-            stim_string = '(natural_movie_one = True or natural_movie_two = True or natural_movie_three = True)'
-        elif stimuli_filter == 'scenes':
-            stim_string = 'natural_scenes = True'
-        else:
-            raise RuntimeError('Stimulus filter not yet implemented.')
 
+        # Create stimulus filter
+        stim_string = ''
+        for stim_query in stimuli_filter:
+            stim_string = self.proc_stim_query(
+                stim_string,
+                stim_query)
+        if len(stim_string) > 0 and session_filter is None:
+            stim_string = ' and ' + stim_string
+        print 'Querying stimuli by: %s.' % stim_string
+
+        # Create session filter
+        session_string = ''
+        for session_query in session_filter:
+            session_string = self.proc_stim_query(
+                session_string,
+                session_query,
+                sub_query=stim_string,
+                column='session')
+        if len(session_string) > 0:
+            session_string = ' and ' + session_string
+            print 'Querying session by: %s.' % session_string
+            stim_string = session_string
+
+        # Query DB
         self.cur.execute(
             """
             SELECT * FROM rf
             INNER JOIN cells on cells.cell_specimen_id=rf.cell_specimen_id
-            WHERE on_center_x >= %s and on_center_x < %s and on_center_y >= %s and on_center_y < %s and %s
+            WHERE
+            on_center_x >= %s and
+            on_center_x < %s and
+            on_center_y >= %s and
+            on_center_y < %s
+            %s
             """
             %
-            (rf_dict['x_min'], rf_dict['x_max'], rf_dict['y_min'], rf_dict['y_max'], stim_string))
+            (
+                rf_dict['x_min'],
+                rf_dict['x_max'],
+                rf_dict['y_min'],
+                rf_dict['y_max'],
+                stim_string)
+            )
         if self.status_message:
             self.return_status('INSERT')
         return self.cur.fetchall()
@@ -205,13 +350,18 @@ def get_cells_all_data_by_rf(list_of_dicts):
     return queries
 
 
-def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli):
+def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli, sessions):
     """Get all data for cells by their RF centers."""
     config = credentials.postgresql_connection()
     queries = []
     with db(config) as db_conn:
-        for it_rf, it_stim in zip(rfs, stimuli):
-            queries += [db_conn.gather_data_by_rf_coor_and_stim(it_rf, it_stim)]
+        for it_rf in rfs:
+            queries += [
+                db_conn.gather_data_by_rf_coor_and_stim(
+                    it_rf,
+                    stimuli,
+                    sessions)
+            ]
     return queries
 
 

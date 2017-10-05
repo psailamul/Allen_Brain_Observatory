@@ -28,26 +28,45 @@ class Allen_Brain_Observatory_Config():
         """ Directories"""
         self.get_host_path()
 
-        # TODO: Replace the concats with os.path.join() and reorganize
+        # TODO: Document these parameters
         self.data_loc = '/media/data_cifs/AllenData'
         self.tf_record_output = '/media/data_cifs/contextual_circuit/tf_records'
+        self.deconv_model_dir = os.path.join(
+            self.data_loc,
+            'deconv_models')
+        self.log_dir = 'logs'
+        self.DB_loc = 'DataForTrain'
+        self.cc_template = 'template_cc_model.txt'
+        self.tmp_pachaya_folder = 'pachaya_scripts'  # Holding old files here
+
+        # Parameters
+        self.rf_shuffles = 5000
+        self.alpha = 0.5
+        self.FILTERS = True
+        self.filters_file = os.path.join(  # None if no filters
+            self.repo_PATH,
+            'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl')
+        self.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
+
+        # Order for Name Code
+        # Area / depth / Stimuli - SG, DG, NS, NM, LSN / aShow only
+        # data with results from all stimuli allStim = True
+        self.RESHAPE_IMG_NS = True
+        self.reshape_img_size_h = 31
+        self.reshape_img_size_w = 31
+        self.save_folder = 'DataForTrain/'
+        self.db_ssh_forward = False
 
         # Template for cc_bp repo data loading
-        self.cc_template = 'template_cc_model.txt'
         self.cc_data_dir = os.path.join(
             self.cc_path,
             'dataset_processing')
-
-        # TODO: @pachaya clean up the below and partition into sections
         self.manifest_file = os.path.join(
             self.data_loc,
             'boc/manifest.json')
-        self.tmp_pachaya_folder = 'pachaya_scripts'  # Holding old files here
         self.all_exps_csv = os.path.join(
             self.tmp_pachaya_folder,
             'all_exps.csv')
-        self.log_dir = 'logs'
-        self.DB_loc = 'DataForTrain'
         self.stimulus_template_loc = os.path.join(
             self.data_loc,
             self.DB_loc,
@@ -60,9 +79,10 @@ class Allen_Brain_Observatory_Config():
             self.data_loc,
             self.DB_loc,
             'all_imaging_responses')
+        self.fluoresence_type = 'dff_traces_loc'  # 'fluorescence_traces'
         self.fluorescence_traces_loc = os.path.join(
             self.imaging_response_loc,
-            'fluorescence_traces')
+            self.fluoresence_type)
         self.ROIs_mask_loc = os.path.join(
             self.imaging_response_loc,
             'ROIs_mask')
@@ -79,7 +99,8 @@ class Allen_Brain_Observatory_Config():
         self.Allen_analysed_stimulus_loc = os.path.join(
             self.data_loc,
             self.DB_loc,
-            'Allen_stimulus_analysis', 'By_cell_ID')
+            'Allen_stimulus_analysis',
+            'By_cell_ID')
         self.precal_matrix_loc = os.path.join(
             self.data_loc,
             self.DB_loc,
@@ -138,28 +159,3 @@ class Allen_Brain_Observatory_Config():
             'natural_movie_two',
             'natural_scenes'
         ]
-
-        # Parameters
-        self.rf_shuffles = 5000
-        self.alpha = 0.5
-        self.FILTERS = True
-        self.filters_file = os.path.join(  # None if no filters
-            self.repo_PATH,
-            'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl')  
-        self.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
-        # Order for Name Code
-        # Area / depth / Stimuli - SG, DG, NS, NM, LSN / aShow only data with results from all stimuli allStim = True
-        self.RESHAPE_IMG_NS = True
-        self.reshape_img_size_h = 31
-        self.reshape_img_size_w = 31
-        self.save_folder ='DataForTrain/'
-        self.db_ssh_forward = False
-
-        # Find all precomputed cell metrics  here http://alleninstitute.github.io/AllenSDK/brain_observatory.html#precomputed-cell-metrics
-        # Natural Scenes response p value	p_ns
-        # natural movie 1	    response reliability (session A)	reliability_nm1_a
-        #                          response reliability (session B)	reliability_nm1_b
-        #                          response reliability (session C)	reliability_nm1_c
-        # natural movie 2	response reliability	reliability_nm2
-        # natural movie 3	response reliability	reliability_nm3
-        # locally sparse noise      RF chi^2	rf_chi2_lsn   [blank/nonblank]

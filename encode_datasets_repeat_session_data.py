@@ -40,6 +40,7 @@ def fixed_len_feature(length=[], dtype='int64'):
     elif dtype == 'float':
         return tf.FixedLenFeature(length, tf.float32)
     else:
+        import ipdb;ipdb.set_trace()
         raise RuntimeError('Cannot understand the fixed_len_feature dtype.')
 
 
@@ -255,43 +256,83 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
     # TODO handle NaNs in output_data here.
     if exp_dict['cc_repo_vars']['output_size'][0] > 1:
         # Multi neuron target; consolidate event_dict.
+        if 'stimulus_name' not in exp_dict['include_targets'].keys():
+            raise RuntimeError(
+                'You must include \'stimulus_name\' in data targets.')
         stimuli = [d['stimulus_name'] for d in output_data]
         unique_stimuli, ri = np.unique(
             stimuli,
             return_index=True)
 
         # Concatenate image/labels appropriately.
+        temp_labels = {}
+        temp_ROImasks = {}
+        temp_images = {}
+        temp_cell_specimen_ids = {}
+        for stim in zip(unique_stimuli):
+            stim = stim[0]
+            temp_labels[stim] = []
+            temp_ROImasks[stim] = []
+            temp_images[stim] = []
+            temp_cell_specimen_ids[stim] = []
+            for d in output_data:
+                if d['stimulus_name'] == stim:
+                    temp_labels[stim] += [d['label'][:, None]]
+                    temp_ROImasks[stim] += [d['ROImask']]
+                    temp_images[stim] += [d['image']]
+                    temp_cell_specimen_ids[stim] += [d['cell_specimen_id']]
+        temp_event_index = {
+            k: output_data[idx]['event_index'] for idx, k in zip(
+                ri, unique_stimuli)}
+
+        # Row concatenate cells with multiple viewings
         labels = {}
         ROImasks = {}
         images = {}
+        event_index = {}
         cell_specimen_ids = {}
-        for stim in zip(unique_stimuli):
-            stim = stim[0]
-            labels[stim] = []
-            ROImasks[stim] = []
-            images[stim] = []
-            cell_specimen_ids[stim] = []
-            for d in output_data:
-                if d['stimulus_name'] == stim:
-                    labels[stim] += [d['label'][:, None]]
-                    ROImasks[stim] += [np.expand_dims(d['ROImask'], axis=0)]
-                    images[stim] += [d['image']]
-                    cell_specimen_ids[stim] += [d['cell_specimen_id']]
-        ROImasks = {
-            k: np.concatenate(v, axis=0)
-            for k, v in ROImasks.iteritems()}
-        labels = {
-            k: np.concatenate(v, axis=-1)
-            for k, v in labels.iteritems()}
-        cell_specimen_ids = {
-            k: np.asarray(v)
-            for k, v in cell_specimen_ids.iteritems()}
+        for k, v in temp_cell_specimen_ids.iteritems():
+            unique_cells = np.unique(v)
+            it_labels = []  # Concatenate traces
+            it_ROImasks = []  # Concatenate traces
+            it_images = []  # Concatenate traces
+            it_event_idx = []  # Concatenate event index
+            for cell in unique_cells:
+                cell_idx = np.where(v == cell)[0]
+                cell_labels = []
+                cell_ROImasks = []
+                cell_images = []
+                cell_events = []
+                for cidx in cell_idx:
+                    cell_labels += [temp_labels[k][cidx]]
+                    cell_ROImasks += [temp_ROImasks[k]]
+                    cell_images += [temp_images[k]]
+                    cell_events += [temp_event_index[k]]
+                if len(it_labels) == 0:
+                    it_labels = np.concatenate(cell_labels, axis=0)
+                    it_event_idx = np.concatenate(cell_events, axis=0)
+                    it_ROImasks = np.concatenate(cell_ROImasks, axis=-1)
+                    it_images = np.concatenate(cell_images, axis=0)
+                else:
+                    it_labels = np.concatenate(
+                        (
+                            it_labels,
+                            np.concatenate(cell_labels, axis=0)
+                        ),
+                        axis=1)
+            import ipdb;ipdb.set_trace()
+            labels[k] = it_labels
+            ROImasks[k] = it_ROImasks
+            images[k] = it_images
+            event_index[k] = it_event_idx
+            cell_specimen_ids[k] = unique_cells
+
         images = {
             k: output_data[idx]['image'] for idx, k in zip(
                 ri, unique_stimuli)}
-        event_index = {
-            k: output_data[idx]['event_index'] for idx, k in zip(
-                ri, unique_stimuli)}
+
+        # Trim to only have cells that are in every dict
+        cell_counts = [v for v in cell_specimen_ids.values()]
 
         # Package into a list of dicts.
         output_data = []
@@ -302,7 +343,6 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                 cell_specimen_ids.iteritems(),
                 event_index.iteritems()):
             assert ik == lk == rk == ck == ek, 'Issue with keys.'
-            print 'TODO: Implement same-cell concatenation.'
             output_data += [{
                 'image': iv,
                 'cell_specimen_id': cv,
@@ -333,6 +373,7 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                     raise RuntimeError(
                         'Fucked up packing data into list of dicts.')
             event_dict += [it_event]
+
     return event_dict
 
 
@@ -340,10 +381,7 @@ def create_example(data_dict, feature_types):
     """Create entry in tfrecords."""
     tf_dict = {}
     for k, v in data_dict.iteritems():
-        if k not in feature_types.keys():
-            raise RuntimeError('Cannot understand specified feature types.')
-        else:
-            it_feature_type = feature_types[k]
+        it_feature_type = feature_types[k]
         if it_feature_type == 'float':
             tf_dict[k] = float_feature(v)
         elif it_feature_type == 'int64':
@@ -359,19 +397,11 @@ def create_example(data_dict, feature_types):
     )
 
 
-def prepare_tf_dicts(feature_types, d):
+def prepare_tf_dicts(feature_types):
     """Prepare tf data types for loading tf variables."""
     tf_dict = {}
     for k, v in feature_types.iteritems():
-        # TODO: Change this interface to more flexibly preallocate shapes.
-        if v is not 'string' and\
-                k in d.keys() and\
-                isinstance(d, np.ndarray) and\
-                d[k].shape[0] > 1:
-            shape = d[k].shape[0]
-        else:
-            shape = []
-        tf_dict[k] = fixed_len_feature(dtype=v, length=shape)
+        tf_dict[k] = fixed_len_feature(dtype=v)
     return tf_dict
 
 
@@ -386,29 +416,18 @@ def prepare_data_for_tf_records(
         stimuli_key=None,
         ext='tfrecords'):
     """Package dict into tfrecords."""
-    if cv_split.keys()[0] == 'random_cv_split':
+    if isinstance(cv_split, float):
         cv_inds = np.random.permutation(len(data_files))
-        val_len = np.round(
-            len(data_files) * cv_split.values()[0]).astype(int)
+        val_len = np.round(len(data_files) * cv_split).astype(int)
         val_ind = cv_inds[val_len:]
         train_ind = cv_inds[:val_len]
         cv_data = {
             'train': np.asarray(data_files)[train_ind],
             'val': np.asarray(data_files)[val_ind]
         }
-    elif cv_split.keys()[0] == 'cv_split':
-        cv_inds = np.arannge(len(data_files))
-        val_len = np.round(
-            len(data_files) * cv_split.values()[0]).astype(int)
-        val_ind = cv_inds[val_len:]
-        train_ind = cv_inds[:val_len]
-        cv_data = {
-            'train': np.asarray(data_files)[train_ind],
-            'val': np.asarray(data_files)[val_ind]
-        }
-    elif cv_split.keys()[0] == 'split_on_stim':
+    elif isinstance(cv_split, dict):
         import ipdb;ipdb.set_trace()
-        # stim_names = [d['stimulus_name'] for d in data_files]
+        stim_names = [d['stimulus_name'] for d in data_files]
         cv_data = {
             'train': [],
             'val': []
@@ -456,7 +475,7 @@ def prepare_data_for_tf_records(
         output_directory,
         '%s_meta' % (set_name))
     im_size = d[stimuli_key.values()[0]].shape
-    tf_load_vars = prepare_tf_dicts(feature_types, d)
+    tf_load_vars = prepare_tf_dicts(feature_types)
     tf_reader = {}
     for ik, iv in v[0].iteritems():
         if isinstance(iv, float) or isinstance(iv, int):
