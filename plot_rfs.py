@@ -25,18 +25,18 @@ def queries_list():
         #     'y_min': 45,
         #     'y_max': 47,
         # },
-        {
-            'x_min': 20,
-            'x_max': 30,
-            'y_min': 40,
-            'y_max': 50,
-        },
-        # {  # Get all
-        #     'x_min': -10000,
-        #     'x_max': 10000,
-        #     'y_min': -10000,
-        #     'y_max': 10000,
-        # }
+        # {
+        #     'x_min': 20,
+        #     'x_max': 30,
+        #     'y_min': 40,
+        #     'y_max': 50,
+        # },
+        {  # Get all
+            'x_min': -10000,
+            'x_max': 10000,
+            'y_min': -10000,
+            'y_max': 10000,
+        }
     ]
     query_labels = [
         # 'center x in (9,50), y in (9,20)',
@@ -47,16 +47,25 @@ def queries_list():
     return queries, query_labels
 
 
-def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
+def main(
+        filter_by_stim=[
+                'natural_movie_one',
+                'natural_movie_two',
+                'natural_movie_three'
+            ],
+        plot_heatmap=False,
+        color='b',
+        kernel=(5, 5)):
     """Main script for plotting cells by RFs."""
     main_config = Allen_Brain_Observatory_Config()
     queries, query_labels = queries_list()
     if filter_by_stim is not None:
         print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
-        stimuli = [filter_by_stim] * len(queries)
-        all_data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
-            queries,
-            stimuli)
+        all_data_dicts = []
+        for q in queries:
+            all_data_dicts += [db.get_cells_all_data_by_rf_and_stimuli(
+                [q],
+                filter_by_stim)]
     else:
         print 'Pulling cells by their RFs.'
         all_data_dicts = db.get_cells_all_data_by_rf(queries)
@@ -71,8 +80,11 @@ def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
                 desc='Plotting cell heatmap'):
 
             canvas = np.zeros((int(visual_space_h), int(visual_space_w)))
-            for dat in data_dicts:
-                canvas[int(dat['on_center_y']), int(dat['on_center_x'])] += 1
+            for dat in data_dicts[0]:
+                try:
+                    canvas[int(dat['on_center_y']), int(dat['on_center_x'])] += 1
+                except:
+                    import ipdb;ipdb.set_trace()
             canvas = cv2.GaussianBlur(canvas, kernel, 0)
             f = plt.figure()
             plt.title(label)
@@ -87,7 +99,7 @@ def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
             total=len(all_data_dicts),
             desc='Plotting cell centroids'):
         fig = plt.figure()
-        for dat in data_dicts:
+        for dat in data_dicts[0]:
             plt.scatter(dat['on_center_y'], dat['on_center_x'])
         plt.xlim(0, visual_space_w)
         plt.ylim(0, visual_space_h)
@@ -103,7 +115,7 @@ def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
         fig, ax = plt.subplots()
         ax.set_xlim(0, visual_space_w)
         ax.set_ylim(0, visual_space_h)
-        for dat in data_dicts:
+        for dat in data_dicts[0]:
             xy = (dat['on_center_y'], dat['on_center_x'])
             width = 3 * np.abs(dat['on_width_y'])
             height = 3 * np.abs(dat['on_width_x'])
@@ -127,12 +139,6 @@ def main(filter_by_stim=True, plot_heatmap=False, color='b', kernel=(5, 5)):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--stim_filter',
-        type=str,
-        default='movies',
-        dest='filter_by_stim',
-        help='Filter cells by a stimulus type as well as their RF properties.')
     parser.add_argument(
         '--plot_heatmap',
         action='store_true',

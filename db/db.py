@@ -273,29 +273,32 @@ class db(object):
         """
         Select cells by rf coordinates.
         """
-
         # Create stimulus filter
         stim_string = ''
-        for stim_query in stimuli_filter:
-            stim_string = self.proc_stim_query(
-                stim_string,
-                stim_query)
-        if len(stim_string) > 0 and session_filter is None:
-            stim_string = ' and ' + stim_string
-        print 'Querying stimuli by: %s.' % stim_string
+        if stimuli_filter is not None:
+            for stim_query in stimuli_filter:
+                stim_string = self.proc_stim_query(
+                    stim_string,
+                    stim_query)
+            if len(stim_string) > 0 and session_filter is None:
+                stim_string = ' and ' + stim_string
+            print 'Querying stimuli by: %s.' % stim_string
 
         # Create session filter
-        session_string = ''
-        for session_query in session_filter:
-            session_string = self.proc_stim_query(
-                session_string,
-                session_query,
-                sub_query=stim_string,
-                column='session')
-        if len(session_string) > 0:
-            session_string = ' and ' + session_string
-            print 'Querying session by: %s.' % session_string
-            stim_string = session_string
+        if session_filter is not None:
+            session_string = ''
+            for session_query in session_filter:
+                session_string = self.proc_stim_query(
+                    session_string,
+                    session_query,
+                    sub_query=stim_string,
+                    column='session')
+            if len(session_string) > 0:
+                session_string = ' and ' + session_string
+                print 'Querying session by: %s.' % session_string
+                stim_string = session_string
+        else:
+            stim_string = ' and (%s)' % stim_string.split('and ')[-1]
 
         # Query DB
         self.cur.execute(
@@ -350,7 +353,7 @@ def get_cells_all_data_by_rf(list_of_dicts):
     return queries
 
 
-def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli, sessions):
+def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli, sessions=None):
     """Get all data for cells by their RF centers."""
     config = credentials.postgresql_connection()
     queries = []

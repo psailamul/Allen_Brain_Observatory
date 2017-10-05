@@ -32,6 +32,7 @@ class declare_allen_datasets():
                 'off_width_y': 'float',
                 'event_index': 'float',
                 'stimulus_name': 'string',
+                'stimulus_iterations': 'float'
             },
             'include_targets': {  # How to store this data in tfrecords
                 # 'neural_trace_trimmed': 'split',
@@ -41,6 +42,7 @@ class declare_allen_datasets():
                 'event_index': 'split',
                 'label': 'split',  # Corresponds to reference_label_key
                 'ROImask': 'repeat',
+                'stimulus_iterations': 'split',
                 # 'pupil_size': 'split',
                 # 'running_speed': 'split', \
                 # 'eye_locations_spherical': 'split',
@@ -61,10 +63,10 @@ class declare_allen_datasets():
             'stimuli': [
                 'natural_movie_one',
                 # 'natural_movie_two',
-                # 'natural_movie_three'
+                'natural_movie_three'
             ],
             'sessions': [
-                # 'three_session_A',
+                'three_session_A',
                 # 'three_session_B',
                 'three_session_C2'
             ],
@@ -81,21 +83,6 @@ class declare_allen_datasets():
         for k, v in self.globals().iteritems():
             exp[k] = v
         return exp
-
-    def ALLEN_selected_cells_1(self):
-        """A set of cells with very similar RF properties ("on" response)."""
-        exp_dict = self.ALLEN_all_neurons()
-        exp_dict['rf_coordinate_range'] = [
-            {
-                'x_min': 26,
-                'x_max': 28,
-                'y_min': 45,
-                'y_max': 47,
-            }
-        ]
-        exp_dict['experiment_name'] = 'ALLEN_selected_cells_1'
-        exp_dict['only_process_n'] = 10  # Set to None to process all
-        return self.add_globals(exp_dict)
 
     def ALLEN_selected_cells_1_extended(self):
         """An expanded set of cells, similar RF properties ("on" response)."""
@@ -144,4 +131,109 @@ class declare_allen_datasets():
         # exp_dict['cv_split'] = {
         #     'stimulus_name': 'natural_movie_one'  # Specify train set
         # }
+        return exp_dict
+
+    # 10/5/17 datasets
+    def ALLEN_selected_cells_1(self):
+        """A single cell from the dense RF region."""
+        exp_dict = self.ALLEN_all_neurons()
+        exp_dict = {
+            'experiment_name': 'ALLEN_selected_cells_1',
+            'only_process_n': 1,  # Set to None to process all
+            'randomize_selection': True,
+            'reference_image_key': {'proc_stimuli': 'image'},
+            'reference_label_key': {'neural_trace_trimmed': 'label'},
+            'rf_coordinate_range': [{  # Get all cells
+                'x_min': 26,
+                'x_max': 28,
+                'y_min': 45,
+                'y_max': 47,
+            }],
+            'cross_ref': 'rf_coordinate_range_and_stimuli',
+            'store_means': [
+                'image',
+                'label'
+            ],
+            'cc_repo_vars': {
+                'output_size': [1, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            },
+            # 'deconv_method': 'elephant'
+        }
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['cv_split'] = {
+            'split_on_stim': 'natural_movie_one'  # Specify train set
+        }
+        return self.add_globals(exp_dict)
+
+    def ALLEN_selected_cells_23(self):
+        """23 cells from the dense RF region."""
+        exp_dict = self.ALLEN_all_neurons()
+        exp_dict = {
+            'experiment_name': 'ALLEN_selected_cells_23',
+            'only_process_n': 23,  # Set to None to process all
+            'randomize_selection': True,
+            'reference_image_key': {'proc_stimuli': 'image'},
+            'reference_label_key': {'neural_trace_trimmed': 'label'},
+            'rf_coordinate_range': [{  # Get all cells
+                'x_min': 26,
+                'x_max': 28,
+                'y_min': 45,
+                'y_max': 47,
+            }],
+            'cross_ref': 'rf_coordinate_range_and_stimuli',
+            'store_means': [
+                'image',
+                'label'
+            ],
+            'cc_repo_vars': {
+                'output_size': [23, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            },
+            # 'deconv_method': 'elephant'
+        }
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['cv_split'] = {
+            'split_on_stim': 'natural_movie_one'  # Specify train set
+        }
+        return self.add_globals(exp_dict)
+
+    def ALLEN_all_neurons_random(self):
+        """23 random cells from across the visual field."""
+        exp_dict = {
+            'experiment_name': 'ALLEN_all_neurons',
+            'only_process_n': 23,  # Set to None to process all
+            'randomize_selection': True,
+            'reference_image_key': {'proc_stimuli': 'image'},
+            'reference_label_key': {'neural_trace_trimmed': 'label'},
+            'rf_coordinate_range': [{  # Get all cells
+                'x_min': -10000,
+                'x_max': 10000,
+                'y_min': -10000,
+                'y_max': 10000,
+            }],
+            'cross_ref': 'rf_coordinate_range_and_stimuli',
+            'store_means': [
+                'image',
+                'label'
+            ],
+            'cc_repo_vars': {
+                'output_size': [23, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            },
+            # 'deconv_method': 'elephant'
+        }
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['cv_split'] = {
+            'split_on_stim': 'natural_movie_one'  # Specify train set
+        }
         return exp_dict

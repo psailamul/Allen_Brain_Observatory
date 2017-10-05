@@ -277,38 +277,84 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                     ROImasks[stim] += [np.expand_dims(d['ROImask'], axis=0)]
                     images[stim] += [d['image']]
                     cell_specimen_ids[stim] += [d['cell_specimen_id']]
-        ROImasks = {
-            k: np.concatenate(v, axis=0)
-            for k, v in ROImasks.iteritems()}
-        labels = {
-            k: np.concatenate(v, axis=-1)
-            for k, v in labels.iteritems()}
-        cell_specimen_ids = {
-            k: np.asarray(v)
-            for k, v in cell_specimen_ids.iteritems()}
-        images = {
-            k: output_data[idx]['image'] for idx, k in zip(
-                ri, unique_stimuli)}
-        event_index = {
-            k: output_data[idx]['event_index'] for idx, k in zip(
-                ri, unique_stimuli)}
+
+        cat_labels = {}
+        cat_ROImasks = {}
+        cat_images = {}
+        cat_repeats = {}
+        cat_events = {}
+        cat_cell_specimen_ids = {}
+        for stim in unique_stimuli:
+            cells = np.asarray(cell_specimen_ids[stim])
+            unique_cells = np.unique(cells)
+            cat_cell_specimen_ids[stim] = unique_cells
+            for cell_count, cell in enumerate(unique_cells):
+                cell_ids = np.where(cells == cell)[0]
+                for cell_it, ci in enumerate(cell_ids):
+                    if cell_it == 0:
+                        cell_labels = labels[stim][ci]
+                        cell_images = images[stim][ci]
+                        cell_ROImasks = ROImasks[stim][ci]
+                        cell_events = np.arange(len(cell_labels))
+                        cell_repeats = np.ones(len(cell_labels)) * cell_it
+                    else:
+                        cell_labels = np.concatenate(
+                            (
+                                cell_labels,
+                                labels[stim][ci]),
+                            axis=0)
+                        cell_images = np.concatenate(
+                            (
+                                cell_images,
+                                images[stim][ci]),
+                            axis=0)
+                        cell_events = np.concatenate(
+                            (
+                                cell_events,
+                                np.arange(len(cell_labels))),
+                            axis=0)
+                        cell_repeats = np.concatenate(
+                            (
+                                cell_repeats,
+                                np.ones(len(cell_labels)) * cell_it),
+                            axis=0)
+                if cell_count == 0:
+                    cat_labels[stim] = cell_labels
+                    cat_ROImasks[stim] = cell_ROImasks
+                    cat_images[stim] = cell_images
+                    cat_events[stim] = cell_events
+                    cat_repeats[stim] = cell_repeats
+                else:
+                    cat_labels[stim] = np.concatenate(
+                        (
+                            cat_labels[stim],
+                            cell_labels
+                        ),
+                        axis=1)
+                    cat_ROImasks[stim] = np.concatenate(
+                        (
+                            cat_ROImasks[stim],
+                            cell_ROImasks
+                        ),
+                        axis=0)
 
         # Package into a list of dicts.
         output_data = []
-        for (ik, iv), (lk, lv), (rk, rv), (ck, cv), (ek, ev) in zip(
-                images.iteritems(),
-                labels.iteritems(),
-                ROImasks.iteritems(),
-                cell_specimen_ids.iteritems(),
-                event_index.iteritems()):
+        for (ik, iv), (lk, lv), (rk, rv), (ck, cv), (rk, rv), (ek, ev) in zip(
+                cat_images.iteritems(),
+                cat_labels.iteritems(),
+                cat_ROImasks.iteritems(),
+                cat_cell_specimen_ids.iteritems(),
+                cat_repeats.iteritems(),
+                cat_events.iteritems()):
             assert ik == lk == rk == ck == ek, 'Issue with keys.'
-            print 'TODO: Implement same-cell concatenation.'
             output_data += [{
                 'image': iv,
                 'cell_specimen_id': cv,
                 'ROImask': rv,
                 'label': lv,
                 'stimulus_name': ik,
+                'stimulus_iterations': rv,
                 'event_index': ev,
             }]
 
@@ -349,7 +395,12 @@ def create_example(data_dict, feature_types):
         elif it_feature_type == 'int64':
             tf_dict[k] = int64_feature(v)
         elif it_feature_type == 'string':
-            tf_dict[k] = bytes_feature(v.tostring())
+            if isinstance(v, basestring):
+                # Strings
+                tf_dict[k] = bytes_feature(str(v))
+            else:
+                # Images
+                tf_dict[k] = bytes_feature(v.tostring())
     return tf.train.Example(
         # Example contains a Features proto object
         features=tf.train.Features(
@@ -370,7 +421,7 @@ def prepare_tf_dicts(feature_types, d):
             elif isinstance(d[k], np.ndarray):
                 shape = d[k].shape[0]
             else:
-                print 'Cannot understand the type of feature %s.' % k
+                print 'WARNING: cannot understand the type of feature %s.' % k
                 shape = []
         else:
             shape = []
@@ -410,7 +461,19 @@ def prepare_data_for_tf_records(
             'val': np.asarray(data_files)[val_ind]
         }
     elif cv_split.keys()[0] == 'split_on_stim':
-        import ipdb;ipdb.set_trace()
+        train_ind = np.asarray(
+            [True if cv_split.values()[0] in d['stimulus_name'] else False
+                for d in data_files])
+        val_ind = train_ind == False
+        cv_data = {
+            'train': np.asarray(data_files)[train_ind],
+            'val': np.asarray(data_files)[val_ind]
+        }
+        print 'Split data into Train: %s, Validation: %s.' % (
+            np.sum(train_ind),
+            np.sum(val_ind))
+    elif cv_split.keys()[0] == 'split_on_repeat':
+        raise RuntimeError('CV type: split_on_repeat is not yet implemented.')
         # stim_names = [d['stimulus_name'] for d in data_files]
         cv_data = {
             'train': [],
@@ -462,8 +525,10 @@ def prepare_data_for_tf_records(
     tf_load_vars = prepare_tf_dicts(feature_types, d)
     tf_reader = {}
     for ik, iv in v[0].iteritems():
-        if isinstance(iv, float) or isinstance(iv, int):
-            it_shape = [1, 1]
+        if isinstance(iv, float) or\
+            isinstance(iv, int) or\
+                isinstance(iv, basestring):
+            it_shape = []
         else:
             it_shape = iv.shape
         tf_reader[ik] = {'dtype': tf.float32, 'reshape': it_shape}
@@ -547,11 +612,11 @@ def package_dataset(config, dataset_info, output_directory):
         cc_repo=cc_repo)
 
 
-def main(experiment_name, output_directory=None):
+def main(dataset, output_directory=None):
     """Pull desired experiment cells and encode as tfrecords."""
-    assert experiment_name is not None, 'Name the experiment to process!'
+    assert dataset is not None, 'Name the experiment to process!'
     config = Config()
-    da = dad()[experiment_name]()
+    da = dad()[dataset]()
     if output_directory is None:
         output_directory = os.path.join(
             config.tf_record_output)
@@ -567,11 +632,11 @@ def main(experiment_name, output_directory=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--experiment",
-        dest="experiment_name",
+        "--dataset",
+        dest="dataset",
         type=str,
         default=None,
-        help='Encode this Allen brain institute experiment.')
+        help='Encode an Allen brain institute dataset.')
     parser.add_argument(
         "--output",
         dest="output_directory",
