@@ -1,5 +1,6 @@
 # testing files #
 ################
+*.dat
 *.pyc
 *.py~
 
