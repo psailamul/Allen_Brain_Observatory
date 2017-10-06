@@ -297,6 +297,9 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
     unique_cells = np.unique(cell_specimen_ids)
 
     # Trim to specified number of cells if desired.
+    exp_dict['only_process_n'] = np.min(
+        [len(unique_cells),
+        exp_dict['only_process_n']])
     if exp_dict[
             'only_process_n'] is not None or exp_dict['only_process_n'] > 0:
         print 'Trimming query from %s to %s cells.' % (
@@ -432,7 +435,7 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                             cat_ROImasks[stim].shape[1:3]) - np.asarray(
                             cell_ROImasks.shape[1:3]))
 
-                    if pad_offset:
+                    if np.any(pad_offset):
                         # Add padding -- This isn't correctly aligning cells.
                         cell_ROImasks = cv2.copyMakeBorder(
                             cell_ROImasks.squeeze(),
@@ -607,10 +610,13 @@ def prepare_data_for_tf_records(
                     total=len(v),
                     desc='Encoding %s' % k):
                 for imk, imv in means.iteritems():
-                    if idx == 0:
-                        means[imk] = d[imk]
-                    else:
-                        means[imk] += d[imk]
+                    try:
+                        if idx == 0:
+                            means[imk] = d[imk]
+                        else:
+                            means[imk] += d[imk]
+                    except:
+                        import ipdb;ipdb.set_trace()
                     maxs[imk] = np.max(d[imk])
                 example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
@@ -671,6 +677,29 @@ def prepare_data_for_tf_records(
             cc_repo['template_file'], loader_meta, dl_file)
 
 
+def inclusive_cell_filter(data_dicts, sessions):
+    """Filter to only keep cells appearing in all sessions"""
+    cell_info = {}
+    for d in data_dicts:
+        cell_name = d['cell_specimen_id']
+        cell_session = d['session']
+        if cell_name not in cell_info.keys():
+            cell_info[cell_name] = [cell_session]
+        else:
+            cell_info[cell_name] += [cell_session]
+    filtered_data_dicts = []
+    for idx, d in enumerate(data_dicts):
+        test = [
+            k in cell_info[d['cell_specimen_id']]
+            for k in np.asarray(sessions)]
+        if all(test):
+            filtered_data_dicts += [d]
+    print 'Filtered %s/%s exclusive cells.' % (
+        len(data_dicts) - len(filtered_data_dicts),
+        len(data_dicts))
+    return filtered_data_dicts
+
+
 def package_dataset(config, dataset_info, output_directory):
     """Query and package."""
     dataset_instructions = dataset_info['cross_ref']
@@ -682,13 +711,19 @@ def package_dataset(config, dataset_info, output_directory):
         data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
             rfs=dataset_info['rf_coordinate_range'],
             stimuli=dataset_info['stimuli'],
-            sessions=dataset_info['sessions']
-            )[0]
+            sessions=dataset_info['sessions'])[0]
     else:
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
     if len(data_dicts) == 0:
         raise RuntimeError('Empty cell query.')
+
+    # Filter cells satisfying only one condition (could be done in a subquery)
+    data_dicts = inclusive_cell_filter(
+        data_dicts=data_dicts,
+        sessions=dataset_info['sessions'])
+
+    # Load data
     data_files = load_npzs(
         data_dicts,
         dataset_info,
