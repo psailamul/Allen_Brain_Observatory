@@ -169,12 +169,12 @@ class declare_allen_datasets():
         }
         return self.add_globals(exp_dict)
 
-    def ALLEN_selected_cells_23(self):
+    def ALLEN_selected_cells_103(self):
         """23 cells from the dense RF region."""
         exp_dict = self.ALLEN_all_neurons()
         exp_dict = {
-            'experiment_name': 'ALLEN_selected_cells_23',
-            'only_process_n': 23,  # Set to None to process all
+            'experiment_name': 'ALLEN_selected_cells_103',
+            'only_process_n': 103,  # Set to None to process all
             'randomize_selection': True,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
@@ -190,7 +190,7 @@ class declare_allen_datasets():
                 'label'
             ],
             'cc_repo_vars': {
-                'output_size': [23, 1],  # target variable -- neural activity,
+                'output_size': [103, 1],  # target variable -- neural activity,
                 'model_im_size': [152, 304, 1],
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
@@ -205,10 +205,10 @@ class declare_allen_datasets():
         return self.add_globals(exp_dict)
 
     def ALLEN_all_neurons_random(self):
-        """23 random cells from across the visual field."""
+        """103 random cells from across the visual field."""
         exp_dict = {
             'experiment_name': 'ALLEN_all_neurons',
-            'only_process_n': 23,  # Set to None to process all
+            'only_process_n': 103,  # Set to None to process all
             'randomize_selection': True,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
@@ -224,7 +224,7 @@ class declare_allen_datasets():
                 'label'
             ],
             'cc_repo_vars': {
-                'output_size': [23, 1],  # target variable -- neural activity,
+                'output_size': [103, 1],  # target variable -- neural activity,
                 'model_im_size': [152, 304, 1],
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
