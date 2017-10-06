@@ -1,4 +1,5 @@
 """Declare new allen datasets to be encoded as TFrecords."""
+import numpy as np
 
 
 class declare_allen_datasets():
@@ -72,7 +73,8 @@ class declare_allen_datasets():
             ],
             'cv_split': {
                 'random_cv_split': 0.9
-            }
+            },
+            'np_type': np.float32
         }
         # exp_dict['cv_split'] = {
         #     'stimulus_name': 'natural_movie_one'  # Specify train set
@@ -103,7 +105,7 @@ class declare_allen_datasets():
         """Pull data from all neurons."""
         exp_dict = {
             'experiment_name': 'ALLEN_all_neurons',
-            'only_process_n': 2,  # Set to None to process all
+            'only_process_n': None,  # Set to None to process all
             'randomize_selection': True,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},

@@ -43,8 +43,10 @@ def fixed_len_feature(length=[], dtype='int64'):
         raise RuntimeError('Cannot understand the fixed_len_feature dtype.')
 
 
-def load_data(f, allow_pkls=False):
+def load_data(f, allow_pkls=False, np_type=None):
     """Load data from npy or pickle files."""
+    if np_type is None:
+        np_type = np.float32
     f = f.strip('"')
     ext = f.split('.')[-1]
     assert ext is not None, 'Cannot find an extension on file: %s' % f
@@ -52,7 +54,7 @@ def load_data(f, allow_pkls=False):
         ext = 'npy'
         f = '%s.npy' % f.split('.')[0]
     if ext == 'npy' or ext == 'npz':
-        return np.load(f)
+        return np.load(f).astype(np_type)
     elif ext == 'pkl' or ext == 'p':
         out = pickle.load(open(f, 'rb'))
         return out
@@ -129,29 +131,35 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         df = {}
         data_pointer = fix_malformed_pointers(d['cell_output_npy'])
         try:
-            cell_data = load_data(data_pointer, allow_pkls=True)
+            cell_data = load_data(
+                data_pointer,
+                allow_pkls=True,
+                np_type=exp_dict['np_type'])
         except:
             print 'WARNING: Fix the npz extensions for %s' % data_pointer
             cell_data = load_data(
-                '%s.npy.npz' % data_pointer.strip('.npz'), allow_pkls=True)
+                '%s.npy.npz' % data_pointer.strip('.npz'),
+                allow_pkls=True,
+                np_type=exp_dict['np_type'])
         cell_id = d['cell_specimen_id']
         df['cell_specimen_id'] = cell_id
 
         # Stim table
         stim_table = load_data(
             cell_data['stim_table'].item(),
-            allow_pkls=True)
+            allow_pkls=True,
+            np_type=exp_dict['np_type'])
         stim_table = stim_table['stim_table']
 
         # Stimuli
         raw_stimuli = load_data(
             cell_data['stim_template'].item(),
-            allow_pkls=False)
+            allow_pkls=False,
+            np_type=exp_dict['np_type'])
         df['stimulus_name'] = cell_data['stim_template'].item()
         if len(raw_stimuli.shape) < 4:
             # Ensure that stimuli are a 4D tensor.
             raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
-        raw_stimuli = raw_stimuli.astype(np.float32)
         df['raw_stimuli'] = raw_stimuli
         proc_stimuli = raw_stimuli[stim_table[:, 0]]
         df['proc_stimuli'] = proc_stimuli
@@ -159,7 +167,8 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         # Neural data
         neural_data = load_data(
             cell_data['neural_trace'].item(),
-            allow_pkls=True)
+            allow_pkls=True,
+            np_type=exp_dict['np_type'])
         # TODO: Register fields in pachaya's data creation with create_db.py
         # to avoid the below.
         trace_key = [k for k in neural_data.keys() if 'trace' in k]
@@ -181,14 +190,16 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         # ROI mask
         roi_mask = load_data(
             cell_data['ROImask'].item(),
-            allow_pkls=True)
+            allow_pkls=True,
+            np_type=exp_dict['np_type'])
         roi_mask = roi_mask['roi_loc_mask']
         df['ROImask'] = np.expand_dims(roi_mask, axis=-1).astype(np.float32)
 
         # AUX data
         aux_data = load_data(
             cell_data['other_recording'].item(),
-            allow_pkls=True)
+            allow_pkls=True,
+            np_type=exp_dict['np_type'])
 
         pupil_size = get_field(aux_data, 'pupil_size', None)
         running_speed = get_field(aux_data, 'running_speed', None)
