@@ -298,8 +298,9 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
 
     # Trim to specified number of cells if desired.
     exp_dict['only_process_n'] = np.min(
-        [len(unique_cells),
-        exp_dict['only_process_n']])
+        [
+            len(unique_cells),
+            exp_dict['only_process_n']])
     if exp_dict[
             'only_process_n'] is not None or exp_dict['only_process_n'] > 0:
         print 'Trimming query from %s to %s cells.' % (
@@ -422,6 +423,7 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                     cat_repeats[stim] = cell_repeats
                 else:
                     # Concatenate cells across dimensions
+                    # TODO: MAKE SURE THE SAME INDEX IS USED ACROSS SESSIONS.
                     cat_labels[stim] = np.concatenate(
                         (
                             cat_labels[stim],
@@ -610,13 +612,10 @@ def prepare_data_for_tf_records(
                     total=len(v),
                     desc='Encoding %s' % k):
                 for imk, imv in means.iteritems():
-                    try:
-                        if idx == 0:
-                            means[imk] = d[imk]
-                        else:
-                            means[imk] += d[imk]
-                    except:
-                        import ipdb;ipdb.set_trace()
+                    if idx == 0:
+                        means[imk] = d[imk]
+                    else:
+                        means[imk] += d[imk]
                     maxs[imk] = np.max(d[imk])
                 example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
@@ -630,7 +629,7 @@ def prepare_data_for_tf_records(
         means = {k: {
             'mean': v / num_its,
             'max': maxs[k]
-            } for k, v in means.iteritems()}
+            } for k, v in means.iteritems() if not isinstance(v, list)}
         np.savez(mean_file, means)
         print 'Finished encoding: %s' % it_name
 
