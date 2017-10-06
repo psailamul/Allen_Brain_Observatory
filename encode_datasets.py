@@ -1,6 +1,7 @@
 """Functions for encoding cells as TFrecords for contextual circuit bp."""
 
 import os
+import gc
 import argparse
 import numpy as np
 import tensorflow as tf
@@ -10,6 +11,7 @@ from declare_datasets import declare_allen_datasets as dad
 from tqdm import tqdm
 import cPickle as pickle
 from ops import helper_funcs, deconvolve
+# from memory_profiler import profile
 
 
 def get_field(d, field, alt):
@@ -43,10 +45,8 @@ def fixed_len_feature(length=[], dtype='int64'):
         raise RuntimeError('Cannot understand the fixed_len_feature dtype.')
 
 
-def load_data(f, allow_pkls=False, np_type=None):
+def load_data(f, allow_pkls=False):
     """Load data from npy or pickle files."""
-    if np_type is None:
-        np_type = np.float32
     f = f.strip('"')
     ext = f.split('.')[-1]
     assert ext is not None, 'Cannot find an extension on file: %s' % f
@@ -54,7 +54,7 @@ def load_data(f, allow_pkls=False, np_type=None):
         ext = 'npy'
         f = '%s.npy' % f.split('.')[0]
     if ext == 'npy' or ext == 'npz':
-        return np.load(f).astype(np_type)
+        return np.load(f)
     elif ext == 'pkl' or ext == 'p':
         out = pickle.load(open(f, 'rb'))
         return out
@@ -90,10 +90,206 @@ def fix_malformed_pointers(d, filter_ext='.npy', rep_ext='.npz'):
     return d
 
 
+# @profile
+def process_body(
+        d,
+        exp_dict,
+        stimuli_key,
+        neural_key,
+        deconv,
+        all_stimuli=None):
+    """Process cell data body function."""
+    df = {}
+    cell_data = load_cell_meta(d)
+    cell_id = d['cell_specimen_id']
+    df['cell_specimen_id'] = cell_id
+
+    # Stim table
+    stim_table = load_data(
+        cell_data['stim_table'].item(),
+        allow_pkls=True)
+    stim_table = stim_table['stim_table']
+
+    # Stimuli
+    raw_stimuli = all_stimuli[cell_data['stim_template'].item()]['raw']
+    df['stimulus_name'] = cell_data['stim_template'].item()
+    df['raw_stimuli'] = raw_stimuli
+    proc_stimuli = all_stimuli[cell_data['stim_template'].item()]['processed']
+    df['proc_stimuli'] = proc_stimuli
+
+    # Neural data
+    neural_data = load_data(
+        cell_data['neural_trace'].item(),
+        allow_pkls=True)
+    # TODO: Register fields in pachaya's data creation with create_db.py
+    # to avoid the below.
+    trace_key = [k for k in neural_data.keys() if 'trace' in k]
+    if trace_key is None:
+        raise RuntimeError(
+            'Could not find a \'trace\' key in the neural_data dict.' +
+            'Found the following keys: %s' % neural_data.keys())
+    neural_data = neural_data[trace_key[0]].astype(exp_dict['data_type'])
+    df['neural_trace'] = neural_data
+
+    # Trim neural data
+    if exp_dict['deconv_method'] is not None:
+        neural_data = deconv.deconvolve(
+            neural_data).astype(exp_dict['data_type'])
+
+    stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
+    neural_data_trimmed = neural_data[stim_table_idx]
+    df['neural_trace_trimmed'] = neural_data_trimmed
+
+    # ROI mask
+    roi_mask = load_data(
+        cell_data['ROImask'].item(),
+        allow_pkls=True)
+    roi_mask = roi_mask['roi_loc_mask']
+    df['ROImask'] = np.expand_dims(
+        roi_mask, axis=-1).astype(exp_dict['image_type'])
+
+    # AUX data
+    aux_data = load_data(
+        cell_data['other_recording'].item(),
+        allow_pkls=True)
+
+    pupil_size = get_field(aux_data, 'pupil_size', None)
+    running_speed = get_field(aux_data, 'running_speed', None)
+    eye_locations_spherical = get_field(
+        aux_data,
+        'eye_locations_spherical',
+        None)
+    eye_locations_cartesian = get_field(
+        aux_data,
+        'eye_locations_cartesian',
+        None)
+    if pupil_size is not None:
+        df['pupil_size'] = pupil_size[stim_table_idx]
+    else:
+        df['pupil_size'] = None
+    if running_speed is not None:
+        df['running_speed'] = running_speed.item()['dxcm'][stim_table_idx]
+    else:
+        df['running_speed'] = None
+    if eye_locations_spherical is not None:
+        df['eye_locations_spherical'] = eye_locations_spherical[
+            stim_table_idx, :]
+    else:
+        df['eye_locations_spherical'] = None
+    if eye_locations_cartesian is not None:
+        df['eye_locations_cartesian'] = eye_locations_cartesian[
+            stim_table_idx, :]
+    else:
+        df['eye_locations_cartesian'] = None
+
+    # RF data
+    df['on_center_x'] = d['on_center_x']
+    df['on_center_y'] = d['on_center_y']
+    df['off_center_x'] = d['off_center_x']
+    df['off_center_y'] = d['off_center_y']
+    df['on_height'] = d['on_height']
+    df['on_width'] = d['on_width_x']
+    df['off_height'] = d['off_height']
+    df['off_width'] = d['off_width_x']
+
+    # Rename images/neural traces for contextual_circuit_bp
+    df['image'] = df.pop(stimuli_key.keys()[0])
+    df['label'] = df.pop(neural_key.keys()[0])
+    df['event_index'] = range(len(df['label']))
+
+    # Package data
+    df = {
+        k: v for k, v in df.iteritems()
+        if k in exp_dict['include_targets']
+    }
+    return df
+
+
+def load_cell_meta(d):
+    """Wrapper and error handeling for loading cell meta data."""
+    data_pointer = fix_malformed_pointers(d['cell_output_npy'])
+    try:
+        cell_data = load_data(data_pointer, allow_pkls=True)
+    except:
+        print 'WARNING: Fix the npz extensions for %s' % data_pointer
+        cell_data = load_data(
+            '%s.npy.npz' % data_pointer.strip('.npz'), allow_pkls=True)
+    return cell_data
+
+
+def preload_raw_stimuli(data_dicts, exp_dict):
+    """Preload all stimuli to save memory."""
+    stim_names, stim_orders = [], []
+    # Get a list of all stimuli
+    for d in data_dicts:
+        cell_data = load_cell_meta(d)
+        stim_names += [cell_data['stim_template'].item()]
+        stim_table = load_data(
+            cell_data['stim_table'].item(),
+            allow_pkls=True)
+        stim_orders += [stim_table['stim_table'][:, 0]]
+
+    # Find unique stimuli
+    unique_stimuli = np.unique(stim_names)
+
+    # Find unique orderings
+    unique_orders = {}
+    np_stim_names = np.asarray(stim_names)
+    for stim in unique_stimuli:
+        stim_idxs = np_stim_names == stim
+        it_orders = np.asarray(
+            [x for x, check in zip(stim_orders, stim_idxs) if check])
+        order_check = np.var(it_orders, axis=0).sum() == 0
+        if order_check:
+            raise ValueError('Variance detected across stimulus orderings.')
+        unique_orders[stim] = it_orders[0]
+
+    # Load the stimuli into memory
+    all_stimuli = {}
+    for stim in unique_stimuli:
+        raw_stimuli = np.load(stim).astype(exp_dict['image_type'])
+        if len(raw_stimuli.shape) < 4:
+            # Ensure that stimuli are a 4D tensor.
+            raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
+        all_stimuli[stim] = {
+            'raw': raw_stimuli,
+            'processed': raw_stimuli[unique_orders[stim]]
+        }
+    return all_stimuli
+
+
+def process_cell_data(
+        data_dicts,
+        exp_dict,
+        stimuli_key,
+        neural_key):
+    """Loop for processing cell data."""
+    deconv = deconvolve.deconvolve(exp_dict)
+
+    # Preprocess raw_stimuli
+    all_stimuli = preload_raw_stimuli(data_dicts=data_dicts, exp_dict=exp_dict)
+
+    # Variables
+    key_list = []
+    output_data = []
+    for d in tqdm(data_dicts, total=len(data_dicts), desc='Preparing data'):
+        df = process_body(
+            d=d,
+            exp_dict=exp_dict,
+            stimuli_key=stimuli_key,
+            neural_key=neural_key,
+            deconv=deconv,
+            all_stimuli=all_stimuli)
+        output_data += [df]
+        it_check = [k for k, v in df.iteritems() if v is not None]
+        key_list += [it_check]
+        del df
+        gc.collect()
+    return output_data, key_list
+
+
 def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
     """Load cell data from an npz."""
-    deconv = deconvolve.deconvolve(exp_dict)
-    key_list = []
 
     # Organize data_dicts by cell
     cell_specimen_ids = [d['cell_specimen_id'] for d in data_dicts]
@@ -125,134 +321,12 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         data_dicts = [
             d for d in data_dicts if d['cell_specimen_id'] in keep_cells]
 
-    # Process cell data
-    output_data = []
-    for d in tqdm(data_dicts, total=len(data_dicts), desc='Preparing data'):
-        df = {}
-        data_pointer = fix_malformed_pointers(d['cell_output_npy'])
-        try:
-            cell_data = load_data(
-                data_pointer,
-                allow_pkls=True,
-                np_type=exp_dict['np_type'])
-        except:
-            print 'WARNING: Fix the npz extensions for %s' % data_pointer
-            cell_data = load_data(
-                '%s.npy.npz' % data_pointer.strip('.npz'),
-                allow_pkls=True,
-                np_type=exp_dict['np_type'])
-        cell_id = d['cell_specimen_id']
-        df['cell_specimen_id'] = cell_id
+    output_data, key_list = process_cell_data(
+        data_dicts,
+        exp_dict,
+        stimuli_key,
+        neural_key)
 
-        # Stim table
-        stim_table = load_data(
-            cell_data['stim_table'].item(),
-            allow_pkls=True,
-            np_type=exp_dict['np_type'])
-        stim_table = stim_table['stim_table']
-
-        # Stimuli
-        raw_stimuli = load_data(
-            cell_data['stim_template'].item(),
-            allow_pkls=False,
-            np_type=exp_dict['np_type'])
-        df['stimulus_name'] = cell_data['stim_template'].item()
-        if len(raw_stimuli.shape) < 4:
-            # Ensure that stimuli are a 4D tensor.
-            raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
-        df['raw_stimuli'] = raw_stimuli
-        proc_stimuli = raw_stimuli[stim_table[:, 0]]
-        df['proc_stimuli'] = proc_stimuli
-
-        # Neural data
-        neural_data = load_data(
-            cell_data['neural_trace'].item(),
-            allow_pkls=True,
-            np_type=exp_dict['np_type'])
-        # TODO: Register fields in pachaya's data creation with create_db.py
-        # to avoid the below.
-        trace_key = [k for k in neural_data.keys() if 'trace' in k]
-        if trace_key is None:
-            raise RuntimeError(
-                'Could not find a \'trace\' key in the neural_data dict.' +
-                'Found the following keys: %s' % neural_data.keys())
-        neural_data = neural_data[trace_key[0]].astype(np.float32)
-        df['neural_trace'] = neural_data
-
-        # Trim neural data
-        if exp_dict['deconv_method'] is not None:
-            neural_data = deconv.deconvolve(neural_data)
-
-        stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
-        neural_data_trimmed = neural_data[stim_table_idx]
-        df['neural_trace_trimmed'] = neural_data_trimmed
-
-        # ROI mask
-        roi_mask = load_data(
-            cell_data['ROImask'].item(),
-            allow_pkls=True,
-            np_type=exp_dict['np_type'])
-        roi_mask = roi_mask['roi_loc_mask']
-        df['ROImask'] = np.expand_dims(roi_mask, axis=-1).astype(np.float32)
-
-        # AUX data
-        aux_data = load_data(
-            cell_data['other_recording'].item(),
-            allow_pkls=True,
-            np_type=exp_dict['np_type'])
-
-        pupil_size = get_field(aux_data, 'pupil_size', None)
-        running_speed = get_field(aux_data, 'running_speed', None)
-        eye_locations_spherical = get_field(
-            aux_data,
-            'eye_locations_spherical',
-            None)
-        eye_locations_cartesian = get_field(
-            aux_data,
-            'eye_locations_cartesian',
-            None)
-        if pupil_size is not None:
-            df['pupil_size'] = pupil_size[stim_table_idx]
-        else:
-            df['pupil_size'] = None
-        if running_speed is not None:
-            df['running_speed'] = running_speed.item()['dxcm'][stim_table_idx]
-        else:
-            df['running_speed'] = None
-        if eye_locations_spherical is not None:
-            df['eye_locations_spherical'] = eye_locations_spherical[
-                stim_table_idx, :]
-        else:
-            df['eye_locations_spherical'] = None
-        if eye_locations_cartesian is not None:
-            df['eye_locations_cartesian'] = eye_locations_cartesian[
-                stim_table_idx, :]
-        else:
-            df['eye_locations_cartesian'] = None
-
-        # RF data
-        df['on_center_x'] = d['on_center_x']
-        df['on_center_y'] = d['on_center_y']
-        df['off_center_x'] = d['off_center_x']
-        df['off_center_y'] = d['off_center_y']
-        df['on_height'] = d['on_height']
-        df['on_width'] = d['on_width_x']
-        df['off_height'] = d['off_height']
-        df['off_width'] = d['off_width_x']
-
-        # Rename images/neural traces for contextual_circuit_bp
-        df['image'] = df.pop(stimuli_key.keys()[0])
-        df['label'] = df.pop(neural_key.keys()[0])
-        df['event_index'] = range(len(df['label']))
-
-        # Package data
-        df = {
-            k: v for k, v in df.iteritems()
-            if k in exp_dict['include_targets']
-        }
-        output_data += [df]
-        it_check = [k for k, v in df.iteritems() if v is not None]
-        key_list += [it_check]
     keep_keys = np.unique(key_list)
     remove_keys = list(
         set(exp_dict['include_targets'].keys()) - set(keep_keys))

@@ -6,15 +6,10 @@ import socket
 class Allen_Brain_Observatory_Config():
     """Config for rebuilding Allen data in a database."""
     def get_host_path(self):
-        if socket.gethostname() == 'x7':
-            self.host = 'x7'
-            self.repo_PATH = '/home/pachaya/Allen_Brain_Observatory'
-        elif socket.gethostname() == 'g13':
-            self.host = 'g13'
-            self.repo_PATH = '/home/pachaya/Allen_Brain_Observatory'
-        elif socket.gethostname() == 'x8':
+        if socket.gethostname() == 'x8':
             self.host = 'x8'
-            self.repo_PATH = '/home/pachaya/Allen_Brain_Observatory'
+            self.repo_PATH = '/home/drew/Documents/Allen_Brain_Observatory'
+            self.cc_path = '/home/drew/Documents/contextual_circuit_bp'
         elif socket.gethostname() == 'x9':
             self.host = 'x9'
             self.repo_PATH = '/home/drew/Documents/Allen_Brain_Observatory'

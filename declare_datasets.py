@@ -74,7 +74,8 @@ class declare_allen_datasets():
             'cv_split': {
                 'random_cv_split': 0.9
             },
-            'np_type': np.float32
+            'data_type': np.float16,
+            'image_type': np.uint8,
         }
         # exp_dict['cv_split'] = {
         #     'stimulus_name': 'natural_movie_one'  # Specify train set
@@ -167,17 +168,17 @@ class declare_allen_datasets():
         }
         exp_dict = self.add_globals(exp_dict)
         exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_one'  # Specify train set
+            'split_on_stim': 'natural_movie_three'  # Specify train set
         }
         return self.add_globals(exp_dict)
 
     def ALLEN_selected_cells_103(self):
-        """23 cells from the dense RF region."""
+        """103 cells from the dense RF region."""
         exp_dict = self.ALLEN_all_neurons()
         exp_dict = {
             'experiment_name': 'ALLEN_selected_cells_103',
             'only_process_n': 103,  # Set to None to process all
-            'randomize_selection': True,
+            'randomize_selection': False,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
             'rf_coordinate_range': [{  # Get all cells
@@ -202,14 +203,14 @@ class declare_allen_datasets():
         }
         exp_dict = self.add_globals(exp_dict)
         exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_one'  # Specify train set
+            'split_on_stim': 'natural_movie_three'  # Specify train set
         }
         return self.add_globals(exp_dict)
 
-    def ALLEN_all_neurons_random(self):
+    def ALLEN_random_cells_103(self):
         """103 random cells from across the visual field."""
         exp_dict = {
-            'experiment_name': 'ALLEN_all_neurons',
+            'experiment_name': 'ALLEN_selected_cells_103',
             'only_process_n': 103,  # Set to None to process all
             'randomize_selection': True,
             'reference_image_key': {'proc_stimuli': 'image'},
@@ -236,6 +237,6 @@ class declare_allen_datasets():
         }
         exp_dict = self.add_globals(exp_dict)
         exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_one'  # Specify train set
+            'split_on_stim': 'natural_movie_three'  # Specify train set
         }
         return exp_dict
