@@ -2,6 +2,7 @@
 
 import os
 import gc
+import cv2
 import argparse
 import numpy as np
 import tensorflow as tf
@@ -373,8 +374,15 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
             cells = np.asarray(cell_specimen_ids[stim])
             unique_cells = np.unique(cells)
             cat_cell_specimen_ids[stim] = unique_cells
+
+            # Count the floor number of times each cell was recorded
+            count_cells = cells - cells.min()
+            cell_bins = np.bincount(count_cells)
+            cell_floor = cell_bins[cell_bins > 0].min()
+
+            # Concatenate cells up to cell_floor times
             for cell_count, cell in enumerate(unique_cells):
-                cell_ids = np.where(cells == cell)[0]
+                cell_ids = np.where(cells == cell)[0][:cell_floor]
                 for cell_it, ci in enumerate(cell_ids):
                     if cell_it == 0:
                         cell_labels = labels[stim][ci]
@@ -410,12 +418,30 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
                     cat_events[stim] = cell_events
                     cat_repeats[stim] = cell_repeats
                 else:
+                    # Concatenate cells across dimensions
                     cat_labels[stim] = np.concatenate(
                         (
                             cat_labels[stim],
                             cell_labels
                         ),
                         axis=1)
+
+                    # Masks are inconsistently sized
+                    pad_offset = np.abs(
+                        np.asarray(
+                            cat_ROImasks[stim].shape[1:3]) - np.asarray(
+                            cell_ROImasks.shape[1:3]))
+
+                    if pad_offset:
+                        # Add padding -- This isn't correctly aligning cells.
+                        cell_ROImasks = cv2.copyMakeBorder(
+                            cell_ROImasks.squeeze(),
+                            pad_offset[0],
+                            0,
+                            pad_offset[1],
+                            0,
+                            cv2.BORDER_CONSTANT,
+                            0)[None, :, :, None]
                     cat_ROImasks[stim] = np.concatenate(
                         (
                             cat_ROImasks[stim],
