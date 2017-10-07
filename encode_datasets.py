@@ -6,12 +6,13 @@ import cv2
 import argparse
 import numpy as np
 import tensorflow as tf
-from db import db
-from config import Allen_Brain_Observatory_Config as Config
-from declare_datasets import declare_allen_datasets as dad
-from tqdm import tqdm
 import cPickle as pickle
+from db import db
+from tqdm import tqdm
+from scipy import stats
 from ops import helper_funcs, deconvolve
+from declare_datasets import declare_allen_datasets as dad
+from config import Allen_Brain_Observatory_Config as Config
 # from memory_profiler import profile
 
 
@@ -218,31 +219,35 @@ def load_cell_meta(d):
     return cell_data
 
 
-def preload_raw_stimuli(data_dicts, exp_dict):
-    """Preload all stimuli to save memory."""
+def get_stim_names_and_orders(data_dicts):
+    """Get the order and name of stimuli."""
     stim_names, stim_orders = [], []
     # Get a list of all stimuli
-    for d in data_dicts:
+    for d in tqdm(
+            data_dicts,
+            total=len(data_dicts),
+            desc='Loading stimulus names and orders'):
         cell_data = load_cell_meta(d)
         stim_names += [cell_data['stim_template'].item()]
         stim_table = load_data(
             cell_data['stim_table'].item(),
             allow_pkls=True)
         stim_orders += [stim_table['stim_table'][:, 0]]
+    return stim_orders, stim_names
 
-    # Find unique stimuli
-    unique_stimuli = np.unique(stim_names)
 
-    # Find unique orderings
-    unique_orders = {}
+def preload_raw_stimuli(data_dicts, exp_dict):
+    """Preload all stimuli to save memory."""
+    stim_orders, stim_names = get_stim_names_and_orders(data_dicts)
     np_stim_names = np.asarray(stim_names)
+
+    # Having filtered stimuli by order, slice by the first saved order.
+    unique_stimuli = np.unique(stim_names)
+    unique_orders = {}
     for stim in unique_stimuli:
         stim_idxs = np_stim_names == stim
         it_orders = np.asarray(
             [x for x, check in zip(stim_orders, stim_idxs) if check])
-        order_check = np.var(it_orders, axis=0).sum() == 0
-        if order_check:
-            raise ValueError('Variance detected across stimulus orderings.')
         unique_orders[stim] = it_orders[0]
 
     # Load the stimuli into memory
@@ -289,7 +294,12 @@ def process_cell_data(
     return output_data, key_list
 
 
-def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
+def load_npzs(
+        data_dicts,
+        exp_dict,
+        stimuli_key=None,
+        neural_key=None,
+        check_stimuli=True):
     """Load cell data from an npz."""
 
     # Organize data_dicts by cell
@@ -326,23 +336,35 @@ def load_npzs(data_dicts, exp_dict, stimuli_key=None, neural_key=None):
         data_dicts = [
             d for d in data_dicts if d['cell_specimen_id'] in keep_cells]
 
+    # Main data processing loop
     output_data, key_list = process_cell_data(
         data_dicts,
         exp_dict,
         stimuli_key,
         neural_key)
 
+    if check_stimuli:
+        # Pause to inspect the remaining stimuli
+        stim_check = np.unique([d['stimulus_name'] for d in output_data])
+        print '-' * 20
+        print 'Remaining stimuli are: %s.' % stim_check
+        print '-' * 20
+        choice = raw_input('Would you like to continue? (y/n)')
+        if choice == 'n' or choice == 'N':
+            print 'Exiting...'
+            os._exit(1)
+
     keep_keys = np.unique(key_list)
     remove_keys = list(
         set(exp_dict['include_targets'].keys()) - set(keep_keys))
     if remove_keys is not None:
-        print 'Removing keys which were not populated across cells: %s.' %\
+        print 'Removing keys that were not populated across cells: %s.' %\
             remove_keys
         for idx, d in enumerate(output_data):
             it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
             output_data[idx] = it_d
 
-    # TODO handle NaNs in output_data here.
+    # TODO: handle NaNs in output_data here.
     if exp_dict['cc_repo_vars']['output_size'][0] > 1:
         # Multi neuron target; consolidate event_dict.
         stimuli = [d['stimulus_name'] for d in output_data]
@@ -626,6 +648,8 @@ def prepare_data_for_tf_records(
             output_directory,
             '%s_%s_means' % (set_name, k))
         num_its = float(len(v))
+
+        # WARNING: 
         means = {k: {
             'mean': v / num_its,
             'max': maxs[k]
@@ -693,13 +717,50 @@ def inclusive_cell_filter(data_dicts, sessions):
             for k in np.asarray(sessions)]
         if all(test):
             filtered_data_dicts += [d]
-    print 'Filtered %s/%s exclusive cells.' % (
+    print 'Filtered %s session exclusive cells (%s/%s remaining).' % (
         len(data_dicts) - len(filtered_data_dicts),
+        len(filtered_data_dicts),
         len(data_dicts))
     return filtered_data_dicts
 
 
-def package_dataset(config, dataset_info, output_directory):
+def inclusive_stim_order_filter(data_dicts):
+    """Filter data for cells that have inconsistent stimuli lists."""
+    # Find unique stimuli
+    stim_orders, stim_names = get_stim_names_and_orders(
+        data_dicts)
+
+    # Concatenate orders per stimulus
+    np_stim_names = np.asarray(stim_names)
+    np_stim_orders = np.asarray(stim_orders)
+    unique_stimuli = np.unique(stim_names)
+    filter_list = []
+    for stim in unique_stimuli:
+        # Loop through stimuli
+        stim_idx = np.where(np.asarray(stim) == np_stim_names)[0]
+        it_orders = np_stim_orders[stim_idx]
+        mat_orders = np.asarray([x.tolist() for x in it_orders]).transpose()
+        for order in mat_orders:
+            # Loop through order indices
+            modal = stats.mode(order)[0][0]
+            filter_list += [np.where(order != modal)[0]]
+
+    # Find unique indices
+    filter_ids = np.unique(np.concatenate(filter_list))
+    filtered_data_dicts = [d for idx, d in enumerate(
+        data_dicts) if idx not in filter_ids]
+    print 'Filtered %s bad stimulus order cells (%s/%s remaining).' % (
+        len(data_dicts) - len(filtered_data_dicts),
+        len(filtered_data_dicts),
+        len(data_dicts))
+    return filtered_data_dicts
+    
+
+def package_dataset(
+        config,
+        dataset_info,
+        output_directory,
+        check_stimuli=True):
     """Query and package."""
     dataset_instructions = dataset_info['cross_ref']
     if dataset_instructions == 'rf_coordinate_range':
@@ -717,10 +778,13 @@ def package_dataset(config, dataset_info, output_directory):
     if len(data_dicts) == 0:
         raise RuntimeError('Empty cell query.')
 
-    # Filter cells satisfying only one condition (could be done in a subquery)
+    # Filter cells satisfying only one condition (could be a subquery).
     data_dicts = inclusive_cell_filter(
         data_dicts=data_dicts,
         sessions=dataset_info['sessions'])
+
+    # Filter cells that have odd stimulus orderings.
+    data_dicts = inclusive_stim_order_filter(data_dicts)
 
     # Load data
     data_files = load_npzs(
@@ -757,7 +821,10 @@ def package_dataset(config, dataset_info, output_directory):
         cc_repo=cc_repo)
 
 
-def main(dataset, output_directory=None):
+def main(
+        dataset,
+        output_directory=None,
+        check_stimuli=False):
     """Pull desired experiment cells and encode as tfrecords."""
     assert dataset is not None, 'Name the experiment to process!'
     config = Config()
@@ -770,22 +837,28 @@ def main(dataset, output_directory=None):
     package_dataset(
         config=config,
         dataset_info=da,
-        output_directory=output_directory)
+        output_directory=output_directory,
+        check_stimuli=check_stimuli)
     # TODO: Incorporate logger
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--dataset",
-        dest="dataset",
+        '--dataset',
+        dest='dataset',
         type=str,
         default=None,
         help='Encode an Allen brain institute dataset.')
     parser.add_argument(
-        "--output",
-        dest="output_directory",
+        '--output',
+        dest='output_directory',
         type=str,
         default=None,
         help='Save tfrecords to this directory.')
+    parser.add_argument(
+        '--check',
+        dest='check_stimuli',
+        action='store_true',
+        help='Check remaining stimuli before creating dataset.')
     main(**vars(parser.parse_args()))

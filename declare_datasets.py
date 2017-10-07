@@ -64,22 +64,21 @@ class declare_allen_datasets():
             'stimuli': [
                 'natural_movie_one',
                 'natural_movie_two',
-                # 'natural_movie_three'
+                'natural_movie_three'
             ],
             'sessions': [
                 'three_session_A',
-                'three_session_B',
+                # 'three_session_B',
+                # 'three_session_C'
                 # 'three_session_C2'
             ],
             'cv_split': {
-                'random_cv_split': 0.9
+                'split_on_stim': 'natural_movie_three'  # Specify train set
             },
             'data_type': np.float16,
             'image_type': np.uint8,
         }
-        # exp_dict['cv_split'] = {
-        #     'stimulus_name': 'natural_movie_one'  # Specify train set
-        # }
+
 
     def add_globals(self, exp):
         """Add attributes to this class."""
@@ -100,6 +99,9 @@ class declare_allen_datasets():
         ]
         exp_dict['experiment_name'] = 'ALLEN_selected_cells_1_extended'
         exp_dict['only_process_n'] = None  # Set to None to process all
+        exp_dict['cv_split'] = {
+            'random_cv_split': 0.9  # Specify train set
+        }
         return self.add_globals(exp_dict)
 
     def ALLEN_all_neurons(self):
@@ -131,9 +133,9 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        # exp_dict['cv_split'] = {
-        #     'stimulus_name': 'natural_movie_one'  # Specify train set
-        # }
+        exp_dict['cv_split'] = {
+            'split_on_stim': 'natural_movie_three'  # Specify train set
+        }
         return exp_dict
 
     # 10/5/17 datasets
@@ -167,9 +169,6 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_two'  # Specify train set
-        }
         return self.add_globals(exp_dict)
 
     def ALLEN_selected_cells_103(self):
@@ -202,9 +201,6 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_two'  # Specify train set
-        }
         return self.add_globals(exp_dict)
 
     def ALLEN_random_cells_103(self):
@@ -236,7 +232,4 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_two'  # Specify train set
-        }
         return exp_dict
