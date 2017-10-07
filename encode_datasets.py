@@ -299,7 +299,7 @@ def load_npzs(
         exp_dict,
         stimuli_key=None,
         neural_key=None,
-        check_stimuli=True):
+        check_stimuli=False):
     """Load cell data from an npz."""
 
     # Organize data_dicts by cell
@@ -364,8 +364,8 @@ def load_npzs(
             it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
             output_data[idx] = it_d
 
-    # TODO: handle NaNs in output_data here.
-    if exp_dict['cc_repo_vars']['output_size'][0] > 1:
+    # TODO: handle NaNs in output_data here. Set this as defualt processing method.
+    if exp_dict['cc_repo_vars']['output_size'][0] > 0:  # 1:
         # Multi neuron target; consolidate event_dict.
         stimuli = [d['stimulus_name'] for d in output_data]
         unique_stimuli, ri = np.unique(
@@ -383,13 +383,14 @@ def load_npzs(
             ROImasks[stim] = []
             images[stim] = []
             cell_specimen_ids[stim] = []
-            for d in output_data:
+            for d, rd in zip(output_data, data_dicts):
                 if d['stimulus_name'] == stim:
                     labels[stim] += [d['label'][:, None]]
                     ROImasks[stim] += [np.expand_dims(d['ROImask'], axis=0)]
                     images[stim] += [d['image']]
                     cell_specimen_ids[stim] += [d['cell_specimen_id']]
 
+        # Process dicts for cells
         cat_labels = {}
         cat_ROImasks = {}
         cat_images = {}
@@ -445,7 +446,6 @@ def load_npzs(
                     cat_repeats[stim] = cell_repeats
                 else:
                     # Concatenate cells across dimensions
-                    # TODO: MAKE SURE THE SAME INDEX IS USED ACROSS SESSIONS.
                     cat_labels[stim] = np.concatenate(
                         (
                             cat_labels[stim],
@@ -482,6 +482,16 @@ def load_npzs(
                 for x in cat_cell_specimen_ids.values()],
             axis=-1)
         assert test_cells.var(-1).sum() == 0, 'Cell IDs are not aligned.'
+
+        # Prepare meta rf dict
+        cell_list = test_cells[:, 0]
+        output_rfs = {}
+        for ce in cell_list:
+            dict_list = []
+            for d in data_dicts:
+                if d['cell_specimen_id'] == ce:
+                    dict_list += [d]
+            output_rfs[ce] = dict_list
 
         # Package into a list of dicts.
         output_data = []
@@ -524,7 +534,7 @@ def load_npzs(
                     raise RuntimeError(
                         'Fucked up packing data into list of dicts.')
             event_dict += [it_event]
-    return event_dict
+    return event_dict, output_rfs, cell_list
 
 
 def create_example(data_dict, feature_types):
@@ -577,6 +587,8 @@ def prepare_tf_dicts(feature_types, d):
 def prepare_data_for_tf_records(
         data_files,
         output_directory,
+        rf_dicts,
+        cell_order,
         set_name,
         cv_split,
         store_means,
@@ -685,7 +697,9 @@ def prepare_data_for_tf_records(
         'im_size': im_size,
         'folds': {k: k for k in cv_data.keys()},
         'tf_dict': tf_load_vars,
-        'tf_reader': tf_reader
+        'tf_reader': tf_reader,
+        'rf_data': rf_dicts,
+        'cell_order': cell_order
     }
     np.save(meta_file, meta)
 
@@ -768,7 +782,7 @@ def package_dataset(
         config,
         dataset_info,
         output_directory,
-        check_stimuli=True):
+        check_stimuli=False):
     """Query and package."""
     dataset_instructions = dataset_info['cross_ref']
     if dataset_instructions == 'rf_coordinate_range':
@@ -795,11 +809,12 @@ def package_dataset(
     data_dicts = inclusive_stim_order_filter(data_dicts)
 
     # Load data
-    data_files = load_npzs(
+    data_files, rf_dicts, cell_order = load_npzs(
         data_dicts,
         dataset_info,
         stimuli_key=dataset_info['reference_image_key'],
         neural_key=dataset_info['reference_label_key'],
+        check_stimuli=check_stimuli
     )
 
     # Prepare meta file to create a dataset specific data loader
@@ -821,6 +836,8 @@ def package_dataset(
     prepare_data_for_tf_records(
         data_files=data_files,
         output_directory=output_directory,
+        rf_dicts=rf_dicts,
+        cell_order=cell_order,
         set_name=dataset_info['experiment_name'],
         cv_split=dataset_info['cv_split'],
         store_means=dataset_info['store_means'],
