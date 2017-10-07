@@ -476,6 +476,13 @@ def load_npzs(
                         ),
                         axis=0)
 
+        # Test for aligned cells across sessions
+        test_cells = np.concatenate(
+            [np.expand_dims(x, axis=-1)
+                for x in cat_cell_specimen_ids.values()],
+            axis=-1)
+        assert test_cells.var(-1).sum() == 0, 'Cell IDs are not aligned.'
+
         # Package into a list of dicts.
         output_data = []
         for (ik, iv), (lk, lv), (rk, rv), (ck, cv), (rk, rv), (ek, ev) in zip(
@@ -671,6 +678,7 @@ def prepare_data_for_tf_records(
             it_shape = []
         else:
             it_shape = iv.shape
+        # TODO: Align this with numpy typing in experiment declaration.
         tf_reader[ik] = {'dtype': tf.float32, 'reshape': it_shape}
     # tf_reader['image']['reshape'] = cc_repo['model_im_size']
     meta = {

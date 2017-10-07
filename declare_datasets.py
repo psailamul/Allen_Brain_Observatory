@@ -75,8 +75,8 @@ class declare_allen_datasets():
             'cv_split': {
                 'split_on_stim': 'natural_movie_three'  # Specify train set
             },
-            'data_type': np.float16,
-            'image_type': np.uint8,
+            'data_type': np.float32,
+            'image_type': np.float32,
         }
 
 
