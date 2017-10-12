@@ -9,10 +9,11 @@ import tensorflow as tf
 import cPickle as pickle
 from db import db
 from tqdm import tqdm
-from scipy import stats
+from scipy import stats, misc
 from ops import helper_funcs, deconvolve
 from declare_datasets import declare_allen_datasets as dad
 from config import Allen_Brain_Observatory_Config as Config
+from allensdk.brain_observatory import stimulus_info
 # from memory_profiler import profile
 
 
@@ -250,10 +251,65 @@ def preload_raw_stimuli(data_dicts, exp_dict):
             [x for x, check in zip(stim_orders, stim_idxs) if check])
         unique_orders[stim] = it_orders[0]
 
+    # Apply warping to stimuli if requested
+    if exp_dict['warp_stimuli']:
+        warpers = {}
+        panel_size = stimulus_info.MONITOR_DIMENSIONS
+        spatial_unit = 'cm'
+        origin = 'upper'
+        for stim in unique_stimuli:
+            if 'movie' in stim:
+                n_pixels_r, n_pixels_c = stimulus_info.NATURAL_MOVIE_PIXELS
+                warpers[stim] = stimulus_info.Monitor(
+                    n_pixels_r=n_pixels_r,
+                    n_pixels_c=n_pixels_c,
+                    panel_size=panel_size,
+                    spatial_unit=spatial_unit).natural_movie_image_to_screen
+            elif 'scene' in stim:
+                n_pixels_r, n_pixels_c = stimulus_info.NATURAL_SCENES_PIXELS
+                warpers[stim] = stimulus_info.Monitor(
+                    n_pixels_r=n_pixels_r,
+                    n_pixels_c=n_pixels_c,
+                    panel_size=panel_size,
+                    spatial_unit=spatial_unit).natural_scene_image_to_screen
+            else:
+                raise RuntimeError('Warping not implemented for this stim.')
+
     # Load the stimuli into memory
     all_stimuli = {}
     for stim in unique_stimuli:
         raw_stimuli = np.load(stim).astype(exp_dict['image_type'])
+        if exp_dict['warp_stimuli']:
+            # Apply warping to stimuli
+            print 'Warping %s...' % stim
+            raw_stimuli = np.asarray([warpers[stim](
+                img=im,
+                origin=origin) for im in raw_stimuli])
+        process = [
+            v for k, v in exp_dict['process_stimuli'].iteritems()
+            if k in stim]
+        if len(process):
+            process_dict = process[0]
+            if 'crop' in process_dict.keys():
+                raise RuntimeError('Cropping not implemented.')
+            if 'pad' in process_dict.keys():
+                pad = process_dict['pad']
+                im_size = raw_stimuli[0].shape[:2]
+                pad_to = np.asarray(pad) - im_size
+                pad_to = pad_to // 2
+                raw_stimuli = [cv2.copyMakeBorder(
+                    im,
+                    top=pad_to[0],
+                    bottom=pad_to[0],
+                    left=pad_to[1],
+                    right=pad_to[1],
+                    borderType=cv2.BORDER_CONSTANT,
+                    value=[0, 0, 0]) for im in raw_stimuli]
+            if 'resize' in process_dict.keys():
+                resize = process_dict['resize']
+                print 'Resizing %s to %s...' % (stim, resize)
+                raw_stimuli = np.asarray(
+                    [misc.imresize(im, resize) for im in raw_stimuli])
         if len(raw_stimuli.shape) < 4:
             # Ensure that stimuli are a 4D tensor.
             raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
@@ -364,7 +420,7 @@ def load_npzs(
             it_d = {k: v for k, v in d.iteritems() if k in keep_keys}
             output_data[idx] = it_d
 
-    # TODO: handle NaNs in output_data here. Set this as defualt processing method.
+    # TODO: handle NaNs in output_data here.
     if exp_dict['cc_repo_vars']['output_size'][0] > 0:  # 1:
         # Multi neuron target; consolidate event_dict.
         stimuli = [d['stimulus_name'] for d in output_data]
@@ -640,6 +696,10 @@ def prepare_data_for_tf_records(
     else:
         raise RuntimeError(
             'Selected crossvalidation %s is not yet implemented.' % cv_split)
+
+    if isinstance(store_means, tuple):
+        print 'Converting tuple store_means to a list.'
+        store_means = store_means[0]
     means = {k: [] for k in store_means}
     maxs = {k: [] for k in store_means}
     for k, v in cv_data.iteritems():
@@ -668,7 +728,7 @@ def prepare_data_for_tf_records(
             '%s_%s_means' % (set_name, k))
         num_its = float(len(v))
 
-        # WARNING: 
+        # WARNING:
         means = {k: {
             'mean': v / num_its,
             'max': maxs[k]
@@ -756,27 +816,38 @@ def inclusive_stim_order_filter(data_dicts):
     np_stim_names = np.asarray(stim_names)
     np_stim_orders = np.asarray(stim_orders)
     unique_stimuli = np.unique(stim_names)
-    filter_list = []
-    for stim in unique_stimuli:
-        # Loop through stimuli
-        stim_idx = np.where(np.asarray(stim) == np_stim_names)[0]
-        it_orders = np_stim_orders[stim_idx]
-        mat_orders = np.asarray([x.tolist() for x in it_orders]).transpose()
-        for order in mat_orders:
-            # Loop through order indices
-            modal = stats.mode(order)[0][0]
-            filter_list += [np.where(order != modal)[0]]
+    if len(unique_stimuli) == 1 and 'scenes' in unique_stimuli[0]:
+        # Handle scenes differently from movies (Find identical orders).
+        dm = np.corrcoef(np_stim_orders)
+        best_order_counts = np.argmax((np.tril(dm, -1) == 1).sum(1))
+        filter_ids = [idx for idx, k in enumerate(
+            np_stim_orders) if not np.all(
+            k == np_stim_orders[best_order_counts])]
+    else:
+        filter_list = []
+        for stim in unique_stimuli:
+            # Loop through stimuli
+            stim_idx = np.where(np.asarray(stim) == np_stim_names)[0]
+            it_orders = np_stim_orders[stim_idx]
+            mat_orders = np.asarray(
+                [x.tolist() for x in it_orders]).transpose()
+            for order in mat_orders:
+                # Loop through order indices
+                modal = stats.mode(order)[0][0]
+                filter_list += [np.where(order != modal)[0]]
+        filter_ids = np.unique(np.concatenate(filter_list))
 
     # Find unique indices
-    filter_ids = np.unique(np.concatenate(filter_list))
     filtered_data_dicts = [d for idx, d in enumerate(
         data_dicts) if idx not in filter_ids]
     print 'Filtered %s bad stimulus order cells (%s/%s remaining).' % (
         len(data_dicts) - len(filtered_data_dicts),
         len(filtered_data_dicts),
         len(data_dicts))
+    assert len(filtered_data_dicts) > 0,\
+        'No data remaining after stimulus order filter.'
     return filtered_data_dicts
-    
+
 
 def package_dataset(
         config,

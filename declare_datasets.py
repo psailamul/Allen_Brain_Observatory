@@ -57,9 +57,25 @@ class declare_allen_datasets():
             },
             'deconv_method': None,
             'randomize_selection': False,
+            'warp_stimuli': False,
+            'process_stimuli': {
+                    'natural_movie_one': {  # 1080, 1920
+                        'resize': [152, 608],  # [270, 480]
+                    },
+                    'natural_movie_two': {
+                        'resize': [152, 608],  # [270, 480]
+                    },
+                    'natural_movie_three': {
+                        'resize': [152, 608],  # [270, 480]
+                    },
+                    'natural_scenes': {
+                        'pad': [1080, 1920],  # Pad to full movie size
+                        'resize': [152, 608],  # [270, 480]
+                    },
+                },
             # natural_movie_one
-            # natural_movie_one
-            # natural_movie_one
+            # natural_movie_two
+            # natural_movie_three
             # natural_scenes
             'stimuli': [
                 'natural_movie_one',
@@ -79,32 +95,7 @@ class declare_allen_datasets():
             'image_type': np.float32,
         }
 
-
-    def add_globals(self, exp):
-        """Add attributes to this class."""
-        for k, v in self.globals().iteritems():
-            exp[k] = v
-        return exp
-
-    def ALLEN_selected_cells_1_extended(self):
-        """An expanded set of cells, similar RF properties ("on" response)."""
-        exp_dict = self.ALLEN_all_neurons()
-        exp_dict['rf_coordinate_range'] = [
-            {
-                'x_min': 20,
-                'x_max': 30,
-                'y_min': 40,
-                'y_max': 50,
-            }
-        ]
-        exp_dict['experiment_name'] = 'ALLEN_selected_cells_1_extended'
-        exp_dict['only_process_n'] = None  # Set to None to process all
-        exp_dict['cv_split'] = {
-            'random_cv_split': 0.9  # Specify train set
-        }
-        return self.add_globals(exp_dict)
-
-    def ALLEN_all_neurons(self):
+    def template_dataset(self):
         """Pull data from all neurons."""
         exp_dict = {
             'experiment_name': 'ALLEN_all_neurons',
@@ -138,14 +129,21 @@ class declare_allen_datasets():
         }
         return exp_dict
 
+    def add_globals(self, exp):
+        """Add attributes to this class."""
+        for k, v in self.globals().iteritems():
+            exp[k] = v
+        return exp
+
     # 10/5/17 datasets
     def ALLEN_selected_cells_1(self):
         """A single cell from the dense RF region."""
-        exp_dict = self.ALLEN_all_neurons()
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
         exp_dict = {
             'experiment_name': 'ALLEN_selected_cells_1',
             'only_process_n': 1,  # Set to None to process all
-            'randomize_selection': True,
+            'randomize_selection': False,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
             'rf_coordinate_range': [{  # Get all cells
@@ -169,67 +167,205 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        return self.add_globals(exp_dict)
+        return exp_dict
+
+    def ALLEN_selected_cells_1_scenes(self):
+        """1 cell from the dense RF region."""
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103_scenes'
+        exp_dict['only_process_n'] = 1
+        exp_dict['randomize_selection'] = False
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+                'x_min': 40,
+                'x_max': 70,
+                'y_min': 20,
+                'y_max': 50,
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [1, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        exp_dict['sessions'] = [
+                'three_session_B',
+            ]
+        exp_dict['stimuli'] = [
+                'natural_scenes'
+            ]
+        exp_dict['cv_split'] = {
+                'split_on_stim': 'natural_scenes'  # Specify train set
+            }
+        return exp_dict
 
     def ALLEN_selected_cells_103(self):
         """103 cells from the dense RF region."""
-        exp_dict = self.ALLEN_all_neurons()
-        exp_dict = {
-            'experiment_name': 'ALLEN_selected_cells_103',
-            'only_process_n': 103,  # Set to None to process all
-            'randomize_selection': True,
-            'reference_image_key': {'proc_stimuli': 'image'},
-            'reference_label_key': {'neural_trace_trimmed': 'label'},
-            'rf_coordinate_range': [{  # Get all cells
-                'x_min': 20,
-                'x_max': 30,
-                'y_min': 40,
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = False
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+                'x_min': 40,
+                'x_max': 70,
+                'y_min': 20,
                 'y_max': 50,
-            }],
-            'cross_ref': 'rf_coordinate_range_and_stimuli',
-            'store_means': [
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
                 'image',
                 'label'
-            ],
-            'cc_repo_vars': {
+            ]
+        exp_dict['cc_repo_vars'] = {
                 'output_size': [103, 1],  # target variable -- neural activity,
                 'model_im_size': [152, 304, 1],
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
-            },
-            # 'deconv_method': 'elephant'
-        }
+            }
+        return exp_dict
+
+    def ALLEN_selected_cells_103_scenes(self):
+        """103 cells from the dense RF region."""
+        exp_dict = self.template_dataset()
         exp_dict = self.add_globals(exp_dict)
-        return self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103_scenes'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = False
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+                'x_min': 40,
+                'x_max': 70,
+                'y_min': 20,
+                'y_max': 50,
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        exp_dict['sessions'] = [
+                'three_session_B',
+            ]
+        exp_dict['stimuli'] = [
+                'natural_scenes'
+            ]
+        exp_dict['cv_split'] = {
+                'split_on_stim': 'natural_scenes'  # Specify train set
+            }
+        return exp_dict
 
     def ALLEN_random_cells_103(self):
         """103 random cells from across the visual field."""
-        exp_dict = {
-            'experiment_name': 'ALLEN_selected_cells_103',
-            'only_process_n': 103,  # Set to None to process all
-            'randomize_selection': True,
-            'reference_image_key': {'proc_stimuli': 'image'},
-            'reference_label_key': {'neural_trace_trimmed': 'label'},
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_random_cells_103'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
                 'x_min': -10000,
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
-            }],
-            'cross_ref': 'rf_coordinate_range_and_stimuli',
-            'store_means': [
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
                 'image',
                 'label'
-            ],
-            'cc_repo_vars': {
+            ]
+        exp_dict['cc_repo_vars'] = {
                 'output_size': [103, 1],  # target variable -- neural activity,
                 'model_im_size': [152, 304, 1],
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
-            },
-            # 'deconv_method': 'elephant'
-        }
+            }
+        return exp_dict
+
+    def ALLEN_all_cells(self):
+        """All cells from across the visual field that pass filters."""
+        exp_dict = self.template_dataset()
         exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_random_cells_103'
+        exp_dict['only_process_n'] = None
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+                'x_min': -10000,
+                'x_max': 10000,
+                'y_min': -10000,
+                'y_max': 10000,
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        return exp_dict
+
+    def ALLEN_random_cells_103_scenes(self):
+        """103 random cells from across the visual field."""
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103_scenes'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+                'x_min': -10000,
+                'x_max': 10000,
+                'y_min': -10000,
+                'y_max': 10000,
+            }]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ],
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        exp_dict['sessions'] = [
+                'three_session_B',
+            ]
+        exp_dict['stimuli'] = [
+                'natural_scenes'
+            ]
+        exp_dict['cv_split'] = {
+                'split_on_stim': 'natural_scenes'  # Specify train set
+            }
         return exp_dict

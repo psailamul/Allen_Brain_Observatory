@@ -21,8 +21,7 @@ class deconvolve(object):
 
     def check_params(self):
         if not hasattr(self, 'deconv_method'):
-            raise RuntimeError(
-                'You must pass a deconv_method.')
+            print 'Skipping deconvolution'
         if not hasattr(self, 'batch_size'):
             raise RuntimeError(
                 'You must pass a batch_size.')
@@ -53,3 +52,5 @@ class deconvolve(object):
             return (
                 elephant_preprocess.preprocess,
                 elephant_deconv.deconv)
+        else:
+            return None
