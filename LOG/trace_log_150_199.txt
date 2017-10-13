@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "save_all_traces.py", line 202, in <module>
+    desc="Organize information from experiment container #%s, idx=%g"%(exp_con_ids[idx],idx),
+NameError: name 'idx' is not defined

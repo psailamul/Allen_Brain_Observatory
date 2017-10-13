@@ -1,0 +1,19 @@
+Data from the experiment:   0%|          | 0/43 [00:00<?, ?it/s]
+Start running experiment container ID #546724786  index = 57 of [57,100)
+Start saving neural traces for cells that presented in all sessions
+Traceback (most recent call last):
+  File "save_all_traces.py", line 234, in <module>
+    save_loc=config.specimen_recording_loc) 
+  File "save_all_traces.py", line 56, in session_specimen_recording
+    mc = data_set.get_motion_correction()
+  File "/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/core/brain_observatory_nwb_data_set.py", line 885, in get_motion_correction
+    motion_correction['timestamp'] = motion_time
+  File "/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/pandas/core/frame.py", line 2419, in __setitem__
+    self._set_item(key, value)
+  File "/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/pandas/core/frame.py", line 2485, in _set_item
+    value = self._sanitize_column(key, value)
+  File "/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/pandas/core/frame.py", line 2656, in _sanitize_column
+    value = _sanitize_index(value, self.index, copy=False)
+  File "/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/pandas/core/series.py", line 2800, in _sanitize_index
+    raise ValueError('Length of values does not match length of ' 'index')
+ValueError: Length of values does not match length of index

@@ -1,0 +1,946 @@
+Download Aug update nwb files:   0%|          | 0/59 [00:00<?, ?it/s]Download Aug update nwb files:   2%|1         | 1/59 [27:10<26:16:15, 1630.62s/it]Download Aug update nwb files:   3%|3         | 2/59 [41:04<22:02:07, 1391.71s/it]Download Aug update nwb files:   5%|5         | 3/59 [59:39<20:21:17, 1308.52s/it]Download Aug update nwb files:   7%|6         | 4/59 [1:11:09<17:09:31, 1123.12s/it]Download Aug update nwb files:   8%|8         | 5/59 [1:27:20<16:09:45, 1077.52s/it]Start ...
+====================================================================
+IDX[341,400) = 341, experiment container ID = 561472631, nwb file ID = 561472633
+-------------------------------------------------------------------
+Download time : 1630.6159389
+-------------------------------------------------------------------
+{'acquisition_age_days': 88,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'280639',
+ 'experiment_container_id': 561472631,
+ 'id': 561472633,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-280639',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 342, experiment container ID = 511510817, nwb file ID = 504115289
+-------------------------------------------------------------------
+Download time : 834.273629904
+-------------------------------------------------------------------
+{'acquisition_age_days': 124,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'222424',
+ 'experiment_container_id': 511510817,
+ 'id': 504115289,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-222424',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 343, experiment container ID = 566759225, nwb file ID = 570305847
+-------------------------------------------------------------------
+Download time : 1114.39284706
+-------------------------------------------------------------------
+{'acquisition_age_days': 140,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'283284',
+ 'experiment_container_id': 566759225,
+ 'id': 570305847,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-283284',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 344, experiment container ID = 526481129, nwb file ID = 526768996
+-------------------------------------------------------------------
+Download time : 690.511621952
+-------------------------------------------------------------------
+{'acquisition_age_days': 102,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'244884',
+ 'experiment_container_id': 526481129,
+ 'id': 526768996,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-244884',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 345, experiment container ID = 561463418, nwb file ID = 564607188
+-------------------------------------------------------------------
+Download time : 971.114795208
+-------------------------------------------------------------------
+{'acquisition_age_days': 143,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'276949',
+ 'experiment_container_id': 561463418,
+ 'id': 564607188,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-276949',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 346, experiment container ID = 511510788, nwb file ID = 509879179
+-------------------------------------------------------------------
+Download time : 1058.14780998
+-------------------------------------------------------------------
+{'acquisition_age_days': 85,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'231584',
+ 'experiment_container_id': 511510788,
+ 'id': 509879179,
+ 'imaging_depth': 175,
+Download Aug update nwb files:  10%|#         | 6/59 [1:44:59<15:46:40, 1071.71s/it]Download Aug update nwb files:  12%|#1        | 7/59 [1:58:28<14:20:38, 993.05s/it] Download Aug update nwb files:  14%|#3        | 8/59 [2:06:42<11:56:50, 843.34s/it]Download Aug update nwb files:  15%|#5        | 9/59 [2:18:52<11:14:21, 809.22s/it]Download Aug update nwb files:  17%|#6        | 10/59 [2:33:22<11:15:49, 827.53s/it]Download Aug update nwb files:  19%|#8        | 11/59 [2:38:28<8:56:50, 671.05s/it]  'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-231584',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 347, experiment container ID = 550127305, nwb file ID = 550851591
+-------------------------------------------------------------------
+Download time : 809.531845093
+-------------------------------------------------------------------
+{'acquisition_age_days': 105,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'265164',
+ 'experiment_container_id': 550127305,
+ 'id': 550851591,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-265164',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 348, experiment container ID = 554014018, nwb file ID = 554014020
+-------------------------------------------------------------------
+Download time : 494.017998934
+-------------------------------------------------------------------
+{'acquisition_age_days': 91,
+ 'cre_line': u'Rbp4-Cre_KL100',
+ 'donor_name': u'271750',
+ 'experiment_container_id': 554014018,
+ 'id': 554014020,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Rbp4-Cre;Camk2a-tTA;Ai93-271750',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 349, experiment container ID = 511510797, nwb file ID = 501889084
+-------------------------------------------------------------------
+Download time : 729.604727983
+-------------------------------------------------------------------
+{'acquisition_age_days': 89,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'225036',
+ 'experiment_container_id': 511510797,
+ 'id': 501889084,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-225036',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 350, experiment container ID = 561312433, nwb file ID = 561994407
+-------------------------------------------------------------------
+Download time : 870.260025024
+-------------------------------------------------------------------
+{'acquisition_age_days': 94,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'280638',
+ 'experiment_container_id': 561312433,
+ 'id': 561994407,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-280638',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 351, experiment container ID = 567919555, nwb file ID = 569719902
+-------------------------------------------------------------------
+Download time : 305.910837889
+-------------------------------------------------------------------
+{'acquisition_age_days': 156,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'279430',
+ 'experiment_container_id': 567919555,
+ 'id': 569719902,
+ 'imaging_depth': 300,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-279430',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 352, experiment container ID = 557986062, nwb file ID = 559394526
+-------------------------------------------------------------------
+Download time : 397.190788031
+----------------Download Aug update nwb files:  20%|##        | 12/59 [2:45:05<7:41:17, 588.89s/it]Download Aug update nwb files:  22%|##2       | 13/59 [3:02:34<9:17:24, 727.05s/it]Download Aug update nwb files:  24%|##3       | 14/59 [3:13:30<8:49:06, 705.49s/it]Download Aug update nwb files:  25%|##5       | 15/59 [3:35:37<10:54:10, 892.05s/it]Download Aug update nwb files:  27%|##7       | 16/59 [3:51:49<10:56:34, 916.15s/it]Download Aug update nwb files:  29%|##8       | 17/59 [4:05:49<10:25:10, 893.11s/it]---------------------------------------------------
+{'acquisition_age_days': 115,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'271727',
+ 'experiment_container_id': 557986062,
+ 'id': 559394526,
+ 'imaging_depth': 335,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-271727',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 353, experiment container ID = 511507144, nwb file ID = 501724959
+-------------------------------------------------------------------
+Download time : 1049.41374397
+-------------------------------------------------------------------
+{'acquisition_age_days': 105,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'222181',
+ 'experiment_container_id': 511507144,
+ 'id': 501724959,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-222181',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 354, experiment container ID = 569645688, nwb file ID = 569722788
+-------------------------------------------------------------------
+Download time : 655.179867029
+-------------------------------------------------------------------
+{'acquisition_age_days': 133,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'283284',
+ 'experiment_container_id': 569645688,
+ 'id': 569722788,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-283284',
+ 'targeted_structure': u'VISrl'}
+====================================================================
+====================================================================
+IDX[341,400) = 355, experiment container ID = 564791547, nwb file ID = 563176332
+-------------------------------------------------------------------
+Download time : 1327.37447309
+-------------------------------------------------------------------
+{'acquisition_age_days': 115,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'280643',
+ 'experiment_container_id': 564791547,
+ 'id': 563176332,
+ 'imaging_depth': 265,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-280643',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 356, experiment container ID = 511510736, nwb file ID = 501704220
+-------------------------------------------------------------------
+Download time : 972.381381989
+-------------------------------------------------------------------
+{'acquisition_age_days': 104,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'222426',
+ 'experiment_container_id': 511510736,
+ 'id': 501704220,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-222426',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 357, experiment container ID = 511856567, nwb file ID = 511976329
+-------------------------------------------------------------------
+Download time : 839.337058783
+-------------------------------------------------------------------
+{'acquisition_age_days': 98,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'231585',
+ 'experiment_container_id': 511856567,
+ 'id': 511976329,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-231585',
+ 'targeted_structure': u'VISal'}
+====================================================================
+==========================================Download Aug update nwb files:  31%|###       | 18/59 [4:11:30<8:17:11, 727.61s/it] Download Aug update nwb files:  32%|###2      | 19/59 [4:18:51<7:07:36, 641.41s/it]Download Aug update nwb files:  34%|###3      | 20/59 [4:40:21<9:03:25, 836.05s/it]Download Aug update nwb files:  36%|###5      | 21/59 [4:56:24<9:13:43, 874.31s/it]Download Aug update nwb files:  37%|###7      | 22/59 [5:04:15<7:44:30, 753.26s/it]==========================
+IDX[341,400) = 358, experiment container ID = 511511001, nwb file ID = 505811062
+-------------------------------------------------------------------
+Download time : 341.440393925
+-------------------------------------------------------------------
+{'acquisition_age_days': 87,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'228786',
+ 'experiment_container_id': 511511001,
+ 'id': 505811062,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-228786',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 359, experiment container ID = 539291370, nwb file ID = 539540432
+-------------------------------------------------------------------
+Download time : 440.284831047
+-------------------------------------------------------------------
+{'acquisition_age_days': 120,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'250606',
+ 'experiment_container_id': 539291370,
+ 'id': 539540432,
+ 'imaging_depth': 335,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-250606',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 360, experiment container ID = 566307034, nwb file ID = 566307038
+-------------------------------------------------------------------
+Download time : 1290.20486307
+-------------------------------------------------------------------
+{'acquisition_age_days': 116,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'282817',
+ 'experiment_container_id': 566307034,
+ 'id': 566307038,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-282817',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 361, experiment container ID = 511510860, nwb file ID = 505314372
+-------------------------------------------------------------------
+Download time : 963.58260107
+-------------------------------------------------------------------
+{'acquisition_age_days': 84,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'228786',
+ 'experiment_container_id': 511510860,
+ 'id': 505314372,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-228786',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 362, experiment container ID = 566458503, nwb file ID = 566719810
+-------------------------------------------------------------------
+Download time : 470.813979864
+-------------------------------------------------------------------
+{'acquisition_age_days': 109,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'284669',
+ 'experiment_container_id': 566458503,
+ 'id': 566719810,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-284669',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 363, experiment container ID = 531134088, nwb file ID = 531134090
+-------------------------------------------------------------------
+Download time : 694.200709105
+-------------------------------------------------------------------
+{'acquisition_age_days': 121,
+ 'cre_line': u'Scnn1a-Tg3-Cre',
+ 'donor_name': u'246775',
+ 'experiment_container_id': 531134088,
+ 'id': 531134090,
+ 'imaging_depth': 335,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_tyDownload Aug update nwb files:  39%|###8      | 23/59 [5:15:49<7:21:19, 735.54s/it]Download Aug update nwb files:  41%|####      | 24/59 [5:24:25<6:30:32, 669.50s/it]Download Aug update nwb files:  42%|####2     | 25/59 [5:34:42<6:10:28, 653.77s/it]Download Aug update nwb files:  44%|####4     | 26/59 [5:51:14<6:55:20, 755.17s/it]Download Aug update nwb files:  46%|####5     | 27/59 [6:02:44<6:32:27, 735.85s/it]Download Aug update nwb files:  47%|####7     | 28/59 [6:12:36<5:57:50, 692.61s/it]pe': u'three_session_A',
+ 'specimen_name': u'Scnn1a-Tg3-Cre;Camk2a-tTA;Ai93-246775',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 364, experiment container ID = 511511083, nwb file ID = 510698988
+-------------------------------------------------------------------
+Download time : 515.413239002
+-------------------------------------------------------------------
+{'acquisition_age_days': 81,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'233215',
+ 'experiment_container_id': 511511083,
+ 'id': 510698988,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-233215',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 365, experiment container ID = 528799602, nwb file ID = 528996585
+-------------------------------------------------------------------
+Download time : 617.049380064
+-------------------------------------------------------------------
+{'acquisition_age_days': 96,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'248895',
+ 'experiment_container_id': 528799602,
+ 'id': 528996585,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-248895',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 366, experiment container ID = 511510776, nwb file ID = 508366303
+-------------------------------------------------------------------
+Download time : 991.775520086
+-------------------------------------------------------------------
+{'acquisition_age_days': 144,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'222424',
+ 'experiment_container_id': 511510776,
+ 'id': 508366303,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-222424',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 367, experiment container ID = 511510733, nwb file ID = 501567645
+-------------------------------------------------------------------
+Download time : 690.768268824
+-------------------------------------------------------------------
+{'acquisition_age_days': 104,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'222181',
+ 'experiment_container_id': 511510733,
+ 'id': 501567645,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-222181',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 368, experiment container ID = 560876149, nwb file ID = 560876151
+-------------------------------------------------------------------
+Download time : 591.711462021
+-------------------------------------------------------------------
+{'acquisition_age_days': 82,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'280643',
+ 'experiment_container_id': 560876149,
+ 'id': 560876151,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-280643',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 369, experiment container ID = 511510715, nwb file ID = 501839084
+-------------------------------------------------------------------
+Download time : 663.002325773
+-----------------------------------------------------------------Download Aug update nwb files:  49%|####9     | 29/59 [6:23:39<5:41:51, 683.73s/it]Download Aug update nwb files:  51%|#####     | 30/59 [6:36:31<5:43:13, 710.11s/it]Download Aug update nwb files:  53%|#####2    | 31/59 [6:50:53<5:52:38, 755.67s/it]Download Aug update nwb files:  54%|#####4    | 32/59 [7:04:43<5:50:05, 777.97s/it]Download Aug update nwb files:  56%|#####5    | 33/59 [7:20:29<5:59:02, 828.55s/it]Download Aug update nwb files:  58%|#####7    | 34/59 [7:26:07<4:43:51, 681.27s/it]--
+{'acquisition_age_days': 108,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'222426',
+ 'experiment_container_id': 511510715,
+ 'id': 501839084,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-222426',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 370, experiment container ID = 555040113, nwb file ID = 559192380
+-------------------------------------------------------------------
+Download time : 771.668429852
+-------------------------------------------------------------------
+{'acquisition_age_days': 119,
+ 'cre_line': u'Rbp4-Cre_KL100',
+ 'donor_name': u'271750',
+ 'experiment_container_id': 555040113,
+ 'id': 559192380,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rbp4-Cre;Camk2a-tTA;Ai93-271750',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 371, experiment container ID = 566458503, nwb file ID = 566458505
+-------------------------------------------------------------------
+Download time : 861.968061924
+-------------------------------------------------------------------
+{'acquisition_age_days': 107,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'284669',
+ 'experiment_container_id': 566458503,
+ 'id': 566458505,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-284669',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 372, experiment container ID = 512124562, nwb file ID = 512270518
+-------------------------------------------------------------------
+Download time : 830.009572029
+-------------------------------------------------------------------
+{'acquisition_age_days': 81,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'234831',
+ 'experiment_container_id': 512124562,
+ 'id': 512270518,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-234831',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 373, experiment container ID = 511510848, nwb file ID = 504809131
+-------------------------------------------------------------------
+Download time : 946.565584898
+-------------------------------------------------------------------
+{'acquisition_age_days': 79,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'229109',
+ 'experiment_container_id': 511510848,
+ 'id': 504809131,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-229109',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 374, experiment container ID = 569611977, nwb file ID = 569790130
+-------------------------------------------------------------------
+Download time : 337.612621069
+-------------------------------------------------------------------
+{'acquisition_age_days': 130,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'284417',
+ 'experiment_container_id': 569611977,
+ 'id': 569790130,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-284417',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 37Download Aug update nwb files:  59%|#####9    | 35/59 [7:47:12<5:42:35, 856.47s/it]Download Aug update nwb files:  61%|######1   | 36/59 [7:58:40<5:08:53, 805.81s/it]Download Aug update nwb files:  63%|######2   | 37/59 [8:11:29<4:51:29, 794.99s/it]Download Aug update nwb files:  64%|######4   | 38/59 [8:22:01<4:21:02, 745.82s/it]Download Aug update nwb files:  66%|######6   | 39/59 [8:29:30<3:38:56, 656.84s/it]5, experiment container ID = 511510860, nwb file ID = 505695962
+-------------------------------------------------------------------
+Download time : 1265.27409387
+-------------------------------------------------------------------
+{'acquisition_age_days': 86,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'228786',
+ 'experiment_container_id': 511510860,
+ 'id': 505695962,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-228786',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 376, experiment container ID = 575771818, nwb file ID = 576001843
+-------------------------------------------------------------------
+Download time : 687.588598967
+-------------------------------------------------------------------
+{'acquisition_age_days': 122,
+ 'cre_line': u'Rbp4-Cre_KL100',
+ 'donor_name': u'292490',
+ 'experiment_container_id': 575771818,
+ 'id': 576001843,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rbp4-Cre_KL100;Camk2a-tTA;Ai93-292490',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 377, experiment container ID = 511510917, nwb file ID = 506520703
+-------------------------------------------------------------------
+Download time : 769.755407095
+-------------------------------------------------------------------
+{'acquisition_age_days': 86,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'229107',
+ 'experiment_container_id': 511510917,
+ 'id': 506520703,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-229107',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 378, experiment container ID = 511510688, nwb file ID = 501800164
+-------------------------------------------------------------------
+Download time : 631.076341152
+-------------------------------------------------------------------
+{'acquisition_age_days': 87,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'225039',
+ 'experiment_container_id': 511510688,
+ 'id': 501800164,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-225039',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 379, experiment container ID = 511499656, nwb file ID = 510656082
+-------------------------------------------------------------------
+Download time : 449.2100389
+-------------------------------------------------------------------
+{'acquisition_age_days': 77,
+ 'cre_line': u'Rbp4-Cre_KL100',
+ 'donor_name': u'233442',
+ 'experiment_container_id': 511499656,
+ 'id': 510656082,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Rbp4-Cre;Camk2a-tTA;Ai93-233442',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 380, experiment container ID = 511510645, nwb file ID = 502666254
+-------------------------------------------------------------------
+Download time : 817.610743999
+-------------------------------------------------------------------
+{'acquisition_age_days': 96,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'225039',
+ 'experiment_container_id': 511510645,
+ 'id': 502666254,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CDownload Aug update nwb files:  68%|######7   | 40/59 [8:43:07<3:43:16, 705.07s/it]Download Aug update nwb files:  69%|######9   | 41/59 [8:51:41<3:14:19, 647.78s/it]Download Aug update nwb files:  71%|#######1  | 42/59 [8:56:51<2:34:46, 546.24s/it]Download Aug update nwb files:  73%|#######2  | 43/59 [9:03:45<2:15:06, 506.64s/it]Download Aug update nwb files:  75%|#######4  | 44/59 [9:11:14<2:02:20, 489.36s/it]Download Aug update nwb files:  76%|#######6  | 45/59 [9:19:25<1:54:16, 489.76s/it]reERT2;Camk2a-tTA;Ai93-225039',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 381, experiment container ID = 554219902, nwb file ID = 555237087
+-------------------------------------------------------------------
+Download time : 514.097431183
+-------------------------------------------------------------------
+{'acquisition_age_days': 93,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'271729',
+ 'experiment_container_id': 554219902,
+ 'id': 555237087,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-271729',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 382, experiment container ID = 569718095, nwb file ID = 569933532
+-------------------------------------------------------------------
+Download time : 309.334398985
+-------------------------------------------------------------------
+{'acquisition_age_days': 131,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'284418',
+ 'experiment_container_id': 569718095,
+ 'id': 569933532,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-284418',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 383, experiment container ID = 556899621, nwb file ID = 557182484
+-------------------------------------------------------------------
+Download time : 414.23449707
+-------------------------------------------------------------------
+{'acquisition_age_days': 115,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'268773',
+ 'experiment_container_id': 556899621,
+ 'id': 557182484,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-268773',
+ 'targeted_structure': u'VISam'}
+====================================================================
+====================================================================
+IDX[341,400) = 384, experiment container ID = 563364151, nwb file ID = 563582972
+-------------------------------------------------------------------
+Download time : 449.044574022
+-------------------------------------------------------------------
+{'acquisition_age_days': 102,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'283147',
+ 'experiment_container_id': 563364151,
+ 'id': 563582972,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-283147',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 385, experiment container ID = 511511083, nwb file ID = 510532780
+-------------------------------------------------------------------
+Download time : 490.69888711
+-------------------------------------------------------------------
+{'acquisition_age_days': 80,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'233215',
+ 'experiment_container_id': 511511083,
+ 'id': 510532780,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-233215',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 386, experiment container ID = 529763300, nwb file ID = 529763302
+-------------------------------------------------------------------
+Download time : 412.250771999
+-------------------------------------------------------------------
+{'acquisition_age_days': 92,
+ 'cre_line': u'Nr5aDownload Aug update nwb files:  78%|#######7  | 46/59 [9:26:17<1:41:04, 466.51s/it]Download Aug update nwb files:  80%|#######9  | 47/59 [9:46:21<2:17:34, 687.85s/it]Download Aug update nwb files:  81%|########1 | 48/59 [10:07:16<2:37:15, 857.81s/it]Download Aug update nwb files:  83%|########3 | 49/59 [10:12:54<1:56:58, 701.89s/it]Download Aug update nwb files:  85%|########4 | 50/59 [10:25:17<1:47:09, 714.42s/it]Download Aug update nwb files:  86%|########6 | 51/59 [10:36:22<1:33:14, 699.31s/it]1-Cre',
+ 'donor_name': u'250605',
+ 'experiment_container_id': 529763300,
+ 'id': 529763302,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-250605',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 387, experiment container ID = 540168835, nwb file ID = 541010698
+-------------------------------------------------------------------
+Download time : 1204.32241011
+-------------------------------------------------------------------
+{'acquisition_age_days': 75,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'261458',
+ 'experiment_container_id': 540168835,
+ 'id': 541010698,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-261458',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 388, experiment container ID = 511510940, nwb file ID = 507691036
+-------------------------------------------------------------------
+Download time : 1254.38509893
+-------------------------------------------------------------------
+{'acquisition_age_days': 90,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'229106',
+ 'experiment_container_id': 511510940,
+ 'id': 507691036,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-229106',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 389, experiment container ID = 553452260, nwb file ID = 554332815
+-------------------------------------------------------------------
+Download time : 338.063479185
+-------------------------------------------------------------------
+{'acquisition_age_days': 136,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'261967',
+ 'experiment_container_id': 553452260,
+ 'id': 554332815,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-261967',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 390, experiment container ID = 511511006, nwb file ID = 510093797
+-------------------------------------------------------------------
+Download time : 743.652729988
+-------------------------------------------------------------------
+{'acquisition_age_days': 73,
+ 'cre_line': u'Rbp4-Cre_KL100',
+ 'donor_name': u'233442',
+ 'experiment_container_id': 511511006,
+ 'id': 510093797,
+ 'imaging_depth': 375,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Rbp4-Cre;Camk2a-tTA;Ai93-233442',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 391, experiment container ID = 573864648, nwb file ID = 573864650
+-------------------------------------------------------------------
+Download time : 664.041739941
+-------------------------------------------------------------------
+{'acquisition_age_days': 89,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'296702',
+ 'experiment_container_id': 573864648,
+ 'id': 573864650,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-296702',
+ 'targeted_structure': u'VISrl'}
+====================================================================
+====================================================================
+IDX[341,400) = 392, experiment container ID = 564791561, nwb file ID = 563335004
+------Download Aug update nwb files:  88%|########8 | 52/59 [10:45:47<1:16:53, 659.14s/it]Download Aug update nwb files:  90%|########9 | 53/59 [11:03:21<1:17:45, 777.66s/it]Download Aug update nwb files:  92%|#########1| 54/59 [11:17:15<1:06:12, 794.50s/it]Download Aug update nwb files:  93%|#########3| 55/59 [11:39:43<1:04:02, 960.68s/it]Download Aug update nwb files:  95%|#########4| 56/59 [11:47:42<40:48, 816.20s/it]  -------------------------------------------------------------
+Download time : 565.410964966
+-------------------------------------------------------------------
+{'acquisition_age_days': 116,
+ 'cre_line': u'Emx1-IRES-Cre',
+ 'donor_name': u'280643',
+ 'experiment_container_id': 564791561,
+ 'id': 563335004,
+ 'imaging_depth': 365,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C2',
+ 'specimen_name': u'Emx1-IRES-Cre;Camk2a-tTA;Ai93-280643',
+ 'targeted_structure': u'VISal'}
+====================================================================
+====================================================================
+IDX[341,400) = 393, experiment container ID = 560782654, nwb file ID = 562222842
+-------------------------------------------------------------------
+Download time : 1054.20296288
+-------------------------------------------------------------------
+{'acquisition_age_days': 144,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'271729',
+ 'experiment_container_id': 560782654,
+ 'id': 562222842,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-271729',
+ 'targeted_structure': u'VISrl'}
+====================================================================
+====================================================================
+IDX[341,400) = 394, experiment container ID = 511510989, nwb file ID = 501788003
+-------------------------------------------------------------------
+Download time : 833.786912918
+-------------------------------------------------------------------
+{'acquisition_age_days': 107,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'222431',
+ 'experiment_container_id': 511510989,
+ 'id': 501788003,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-222431',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 395, experiment container ID = 511510945, nwb file ID = 507990552
+-------------------------------------------------------------------
+Download time : 1348.4267211
+-------------------------------------------------------------------
+{'acquisition_age_days': 91,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'229107',
+ 'experiment_container_id': 511510945,
+ 'id': 507990552,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-229107',
+ 'targeted_structure': u'VISl'}
+====================================================================
+====================================================================
+IDX[341,400) = 396, experiment container ID = 528889127, nwb file ID = 530773844
+-------------------------------------------------------------------
+Download time : 479.080821991
+-------------------------------------------------------------------
+{'acquisition_age_days': 119,
+ 'cre_line': u'Scnn1a-Tg3-Cre',
+ 'donor_name': u'246775',
+ 'experiment_container_id': 528889127,
+ 'id': 530773844,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Scnn1a-Tg3-Cre;Camk2a-tTA;Ai93-246775',
+ 'targeted_structure': u'VISp'}
+====================================================================
+====================================================================
+IDX[341,400) = 397, experiment container ID = 571039045, nwb file ID = 571418966
+-------------------------------------------------------------------
+Download time : 989.78383112
+-------------------------------------------------------------------
+{'acquisition_age_days': 132,
+ 'cre_line': u'Nr5a1-Cre',
+ 'donor_name': u'286360',
+ 'experiment_container_id': 571039045,
+ 'id': 571418966,
+ 'imaging_depth': 350,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_B',
+ 'specimen_name': u'Nr5a1-Cre;Camk2a-tTA;Ai93-286360',
+ 'targeted_structure': u'VISrl'}
+========Download Aug update nwb files:  97%|#########6| 57/59 [12:04:12<28:56, 868.27s/it]Download Aug update nwb files:  98%|#########8| 58/59 [12:10:25<11:59, 719.64s/it]Download Aug update nwb files: 100%|##########| 59/59 [12:34:46<00:00, 941.98s/it]
+============================================================
+====================================================================
+IDX[341,400) = 398, experiment container ID = 511507602, nwb file ID = 501560436
+-------------------------------------------------------------------
+Download time : 372.836256981
+-------------------------------------------------------------------
+{'acquisition_age_days': 104,
+ 'cre_line': u'Rorb-IRES2-Cre',
+ 'donor_name': u'222179',
+ 'experiment_container_id': 511507602,
+ 'id': 501560436,
+ 'imaging_depth': 275,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_C',
+ 'specimen_name': u'Rorb-IRES2-Cre;Camk2a-tTA;Ai93-222179',
+ 'targeted_structure': u'VISpm'}
+====================================================================
+====================================================================
+IDX[341,400) = 399, experiment container ID = 511510670, nwb file ID = 502205092
+-------------------------------------------------------------------
+Download time : 1460.77057099
+-------------------------------------------------------------------
+{'acquisition_age_days': 94,
+ 'cre_line': u'Cux2-CreERT2',
+ 'donor_name': u'225037',
+ 'experiment_container_id': 511510670,
+ 'id': 502205092,
+ 'imaging_depth': 175,
+ 'reporter_line': u'Ai93(TITL-GCaMP6f)',
+ 'session_type': u'three_session_A',
+ 'specimen_name': u'Cux2-CreERT2;Camk2a-tTA;Ai93-225037',
+ 'targeted_structure': u'VISp'}
+====================================================================

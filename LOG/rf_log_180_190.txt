@@ -1,0 +1,1923 @@
+RF data:   0%|          | 0/10 [00:00<?, ?it/s]Get cell RF info
+]0;IPython: pachaya/Allen_Brain_Observatory
+Deriving RFs for three_session_C2:   0%|          | 0/50 [00:00<?, ?it/s][A/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/brain_observatory/receptive_field_analysis/chisquarerf.py:265: RuntimeWarning: invalid value encountered in divide
+  chi = (residual_by_pixel ** 2) / expected_by_pixel
+
+Deriving RFs for three_session_C2:   2%|2         | 1/50 [06:25<5:15:04, 385.80s/it][A
+Deriving RFs for three_session_C2:   4%|4         | 2/50 [12:21<5:01:18, 376.64s/it][A
+Deriving RFs for three_session_C2:   8%|8         | 4/50 [19:09<4:09:02, 324.84s/it][A
+Deriving RFs for three_session_C2:  10%|#         | 5/50 [25:48<4:20:31, 347.36s/it][A
+Deriving RFs for three_session_C2:  14%|#4        | 7/50 [33:37<3:44:38, 313.46s/it][A
+Deriving RFs for three_session_C2:  16%|#6        | 8/50 [41:41<4:15:09, 364.52s/it][A
+Deriving RFs for three_session_C2:  18%|#8        | 9/50 [48:05<4:13:09, 370.49s/it][A
+Deriving RFs for three_session_C2:  20%|##        | 10/50 [54:02<4:04:13, 366.33s/it][A
+Deriving RFs for three_session_C2:  24%|##4       | 12/50 [1:00:24<3:18:44, 313.81s/it][A
+Deriving RFs for three_session_C2:  26%|##6       | 13/50 [1:08:02<3:40:09, 357.01s/it][A
+Deriving RFs for three_session_C2:  30%|###       | 15/50 [1:14:56<3:01:58, 311.97s/it][A
+Deriving RFs for three_session_C2:  32%|###2      | 16/50 [1:21:22<3:09:27, 334.34s/it][A
+Deriving RFs for three_session_C2:  34%|###4      | 17/50 [1:28:00<3:14:19, 353.33s/it][A
+Deriving RFs for three_session_C2:  36%|###6      | 18/50 [1:34:34<3:14:54, 365.45s/it][Acell 566956547 has index 28
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956547_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956547_locally_sparse_noise_8deg.pkl
+cell 566956422 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956422_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956422_locally_sparse_noise_8deg.pkl
+cell 566956177 has index 31
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956177_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956177_locally_sparse_noise_8deg.pkl
+cell 566956179 has index 33
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956179_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956179_locally_sparse_noise_8deg.pkl
+cell 566956056 has index 40
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956056_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956056_locally_sparse_noise_8deg.pkl
+cell 566956058 has index 41
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956058_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956058_locally_sparse_noise_8deg.pkl
+cell 566956189 has index 30
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956189_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956189_locally_sparse_noise_8deg.pkl
+cell 566956063 has index 43
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956063_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956063_locally_sparse_noise_8deg.pkl
+cell 566956325 has index 10
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956325_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956325_locally_sparse_noise_8deg.pkl
+cell 566956199 has index 32
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956199_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956199_locally_sparse_noise_8deg.pkl
+cell 566956073 has index 34
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956073_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956073_locally_sparse_noise_8deg.pkl
+cell 566956078 has index 35
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956078_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956078_locally_sparse_noise_8deg.pkl
+cell 566956208 has index 20
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956208_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956208_locally_sparse_noise_8deg.pkl
+cell 566956617 has index 24
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956617_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956617_locally_sparse_noise_8deg.pkl
+cell 566956088 has index 38
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956088_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956088_lo
+Deriving RFs for three_session_C2:  38%|###8      | 19/50 [1:42:25<3:25:14, 397.26s/it][A
+Deriving RFs for three_session_C2:  40%|####      | 20/50 [1:50:31<3:31:52, 423.74s/it][A
+Deriving RFs for three_session_C2:  42%|####2     | 21/50 [1:57:50<3:27:05, 428.45s/it][A
+Deriving RFs for three_session_C2:  44%|####4     | 22/50 [2:04:29<3:15:44, 419.43s/it][A
+Deriving RFs for three_session_C2:  46%|####6     | 23/50 [2:11:03<3:05:19, 411.85s/it][A
+Deriving RFs for three_session_C2:  50%|#####     | 25/50 [2:17:33<2:24:29, 346.78s/it][A
+Deriving RFs for three_session_C2:  52%|#####2    | 26/50 [2:24:53<2:29:56, 374.87s/it][A/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/brain_observatory/receptive_field_analysis/chisquarerf.py:171: RuntimeWarning: divide by zero encountered in log10
+  return np.where(p_values == 0.0, max_NLL, -np.log10(p_values))
+
+Deriving RFs for three_session_C2:  54%|#####4    | 27/50 [2:32:32<2:33:21, 400.07s/it][A
+Deriving RFs for three_session_C2:  56%|#####6    | 28/50 [2:40:23<2:34:31, 421.42s/it][A
+Deriving RFs for three_session_C2:  62%|######2   | 31/50 [2:48:47<1:49:21, 345.37s/it][A/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/brain_observatory/receptive_field_analysis/utilities.py:133: RuntimeWarning: invalid value encountered in divide
+  shuffle_data[:, ii] = A.dot(b_tmp)/float(size)
+/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/brain_observatory/receptive_field_analysis/receptive_field.py:54: RuntimeWarning: invalid value encountered in divide
+  response_triggered_stimulus_vector = A.dot(event_vector)/number_of_events
+/home/pachaya/miniconda2/envs/tf279/lib/python2.7/site-packages/allensdk/brain_observatory/receptive_field_analysis/receptive_field.py:57: RuntimeWarning: invalid value encountered in less
+  curr_p_value = 1-(shuffle_data[pi, :] < response_triggered_stimulus_vector[pi]).sum()*1./number_of_shuffles
+
+Deriving RFs for three_session_C2:  64%|######4   | 32/50 [2:56:06<1:52:02, 373.49s/it][A
+Deriving RFs for three_session_C2:  66%|######6   | 33/50 [3:02:43<1:47:46, 380.41s/it][A
+Deriving RFs for three_session_C2:  70%|#######   | 35/50 [3:09:01<1:20:46, 323.07s/it][A
+Deriving RFs for three_session_C2:  72%|#######2  | 36/50 [3:15:32<1:20:05, 343.25s/it][A
+Deriving RFs for three_session_C2:  74%|#######4  | 37/50 [3:22:00<1:17:16, 356.67s/it][Acally_sparse_noise_8deg.pkl
+cell 566956090 has index 42
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956090_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956090_locally_sparse_noise_8deg.pkl
+cell 566956349 has index 5
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956349_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956349_locally_sparse_noise_8deg.pkl
+cell 566956095 has index 6
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956095_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956095_locally_sparse_noise_8deg.pkl
+cell 566956353 has index 4
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956353_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956353_locally_sparse_noise_8deg.pkl
+cell 566956357 has index 2
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956357_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956357_locally_sparse_noise_8deg.pkl
+cell 566956614 has index 22
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956614_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956614_locally_sparse_noise_8deg.pkl
+cell 566956108 has index 18
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956108_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956108_locally_sparse_noise_8deg.pkl
+cell 566956620 has index 21
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956620_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956620_locally_sparse_noise_8deg.pkl
+cell 566956623 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956623_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956623_locally_sparse_noise_8deg.pkl
+cell 566956500 has index 45
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956500_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956500_locally_sparse_noise_8deg.pkl
+cell 566956516 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956516_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956516_locally_sparse_noise_8deg.pkl
+cell 566956642 has index 48
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956642_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956642_locally_sparse_noise_8deg.pkl
+cell 566956259 has index 46
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956259_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956259_locally_sparse_noise_8deg.pkl
+cell 566956644 has index 11
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956644_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956644_locally_sparse_noise_8deg.pkl
+cell 566956519 has index 15
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956519_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysi
+Deriving RFs for three_session_C2:  78%|#######8  | 39/50 [3:28:07<55:53, 304.85s/it]  [A
+Deriving RFs for three_session_C2:  80%|########  | 40/50 [3:34:19<54:08, 324.84s/it][A
+Deriving RFs for three_session_C2:  82%|########2 | 41/50 [3:40:35<51:00, 340.08s/it][A
+Deriving RFs for three_session_C2:  86%|########6 | 43/50 [3:48:39<36:14, 310.67s/it][A
+Deriving RFs for three_session_C2:  92%|#########2| 46/50 [3:57:28<18:01, 270.35s/it][A
+Deriving RFs for three_session_C2:  98%|#########8| 49/50 [4:04:02<03:48, 228.74s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 50/50 [4:10:42<00:00, 279.96s/it][A
+[ARF data:  10%|#         | 1/10 [4:10:48<37:37:12, 15048.04s/it]
+Deriving RFs for three_session_C:   0%|          | 0/292 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C:   1%|          | 2/292 [10:32<25:28:19, 316.20s/it][A
+Deriving RFs for three_session_C:   1%|1         | 4/292 [17:55<23:01:17, 287.77s/it][A
+Deriving RFs for three_session_C:   2%|2         | 7/292 [24:52<19:14:48, 243.12s/it][A
+Deriving RFs for three_session_C:   3%|2         | 8/292 [31:01<22:10:07, 281.01s/it][A
+Deriving RFs for three_session_C:   3%|3         | 9/292 [37:26<24:32:57, 312.29s/it][A
+Deriving RFs for three_session_C:   3%|3         | 10/292 [45:10<28:01:08, 357.69s/it][A
+Deriving RFs for three_session_C:   4%|3         | 11/292 [52:51<30:19:51, 388.58s/it][A
+Deriving RFs for three_session_C:   5%|4         | 14/292 [1:00:06<24:21:53, 315.52s/it][A
+Deriving RFs for three_session_C:   6%|5         | 17/292 [1:07:11<20:07:22, 263.43s/it][A
+Deriving RFs for three_session_C:   7%|6         | 19/292 [1:14:08<18:43:36, 246.95s/it][A
+Deriving RFs for three_session_C:   9%|9         | 27/292 [1:21:09<13:53:14, 188.66s/it][A
+Deriving RFs for three_session_C:  10%|9         | 28/292 [1:25:39<15:37:30, 213.07s/it][A
+Deriving RFs for three_session_C:  12%|#1        | 34/292 [1:30:57<11:49:33, 165.01s/it][A
+Deriving RFs for three_session_C:  12%|#2        | 36/292 [1:35:38<11:12:37, 157.65s/it][A
+Deriving RFs for three_session_C:  13%|#3        | 38/292 [1:40:56<11:09:18, 158.11s/it][A
+Deriving RFs for three_session_C:  13%|#3        | 39/292 [1:46:36<14:57:09, 212.76s/it][As/By_cell_ID/566956519_locally_sparse_noise_8deg.pkl
+cell 566956521 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956521_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956521_locally_sparse_noise_8deg.pkl
+cell 566956651 has index 44
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956651_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956651_locally_sparse_noise_8deg.pkl
+cell 566956269 has index 19
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956269_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956269_locally_sparse_noise_8deg.pkl
+cell 566956435 has index 1
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956435_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956435_locally_sparse_noise_8deg.pkl
+cell 566956666 has index 47
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956666_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956666_locally_sparse_noise_8deg.pkl
+cell 566956542 has index 36
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956542_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566956542_locally_sparse_noise_8deg.pkl
+Get cell RF info
+cell 517429250 has index 153
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429250_locally_sparse_noise.pkl
+cell 517431812 has index 132
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431812_locally_sparse_noise.pkl
+cell 517430279 has index 53
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430279_locally_sparse_noise.pkl
+cell 517428652 has index 186
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428652_locally_sparse_noise.pkl
+cell 517429770 has index 85
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429770_locally_sparse_noise.pkl
+cell 517428235 has index 32
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428235_locally_sparse_noise.pkl
+cell 517431821 has index 129
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431821_locally_sparse_noise.pkl
+cell 517429780 has index 2
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429780_locally_sparse_noise.pkl
+cell 517431832 has index 111
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431832_locally_sparse_noise.pkl
+cell 517430300 has index 52
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430300_locally_sparse_noise.pkl
+cell 517429802 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429802_locally_sparse_noise.pkl
+cell 517428743 has index 188
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428743_locally_sparse_noise.pkl
+cell 517430331 has index 17
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430331_locally_sparse_noise.pkl
+cell 517428799 has index 55
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428799_locally_sparse_noise.pkl
+cell 517431875 has index 109
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431875_locally_sparse_noise.pkl
+cell 517430341 has index 15
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430341_locally_sparse_noise.pkl
+cell 517431426 has 
+Deriving RFs for three_session_C:  14%|#3        | 40/292 [1:52:43<18:07:15, 258.87s/it][A
+Deriving RFs for three_session_C:  14%|#4        | 41/292 [1:59:36<21:17:06, 305.29s/it][A
+Deriving RFs for three_session_C:  14%|#4        | 42/292 [2:06:33<23:31:20, 338.72s/it][A
+Deriving RFs for three_session_C:  15%|#5        | 44/292 [2:13:15<20:29:15, 297.40s/it][A
+Deriving RFs for three_session_C:  16%|#6        | 47/292 [2:20:15<17:01:30, 250.17s/it][A
+Deriving RFs for three_session_C:  17%|#7        | 50/292 [2:25:36<13:55:44, 207.21s/it][A
+Deriving RFs for three_session_C:  18%|#8        | 54/292 [2:32:40<11:41:29, 176.85s/it][A
+Deriving RFs for three_session_C:  20%|#9        | 58/292 [2:39:25<10:01:18, 154.18s/it][A
+Deriving RFs for three_session_C:  20%|##        | 59/292 [2:45:36<14:11:43, 219.33s/it][A
+Deriving RFs for three_session_C:  21%|##        | 60/292 [2:52:05<17:24:42, 270.18s/it][A
+Deriving RFs for three_session_C:  21%|##        | 61/292 [2:59:19<20:29:14, 319.28s/it][A
+Deriving RFs for three_session_C:  22%|##1       | 63/292 [3:05:13<17:35:40, 276.59s/it][A
+Deriving RFs for three_session_C:  23%|##3       | 68/292 [3:11:19<13:24:43, 215.55s/it][A
+Deriving RFs for three_session_C:  24%|##3       | 70/292 [3:18:59<13:33:58, 219.99s/it][A
+Deriving RFs for three_session_C:  25%|##4       | 72/292 [3:25:06<12:46:22, 209.01s/it][A
+Deriving RFs for three_session_C:  25%|##5       | 73/292 [3:30:27<14:44:56, 242.45s/it][A
+Deriving RFs for three_session_C:  25%|##5       | 74/292 [3:36:33<16:55:56, 279.61s/it][A
+Deriving RFs for three_session_C:  26%|##5       | 75/292 [3:42:51<18:37:40, 309.04s/it][A
+Deriving RFs for three_session_C:  26%|##6       | 77/292 [3:48:20<15:52:03, 265.69s/it][A
+Deriving RFs for three_session_C:  27%|##7       | 79/292 [3:54:40<14:22:43, 243.02s/it][A
+Deriving RFs for three_session_C:  27%|##7       | 80/292 [4:01:21<17:06:09, 290.42s/it][A
+Deriving RFs for three_session_C:  28%|##7       | 81/292 [4:09:02<20:01:30, 341.66s/it][A
+Deriving RFs for three_session_C:  29%|##9       | 85/292 [4:16:18<15:37:58, 271.87s/it][A
+Deriving RFs for three_session_C:  29%|##9       | 86/292 [4:22:12<16:57:48, 296.45s/it][A
+Deriving RFs for three_session_C:  32%|###1      | 92/292 [4:27:57<12:29:15, 224.78s/it][A
+Deriving RFs for three_session_C:  33%|###2      | 95/292 [4:34:43<10:49:51, 197.92s/it][A
+Deriving RFs for three_session_C:  33%|###2      | 96/292 [4:42:03<14:43:34, 270.48s/it][Aindex 79
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431426_locally_sparse_noise.pkl
+cell 517429832 has index 86
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429832_locally_sparse_noise.pkl
+cell 517428809 has index 33
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428809_locally_sparse_noise.pkl
+cell 517430006 has index 35
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430006_locally_sparse_noise.pkl
+cell 517430352 has index 124
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430352_locally_sparse_noise.pkl
+cell 517428820 has index 172
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428820_locally_sparse_noise.pkl
+cell 517430362 has index 122
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430362_locally_sparse_noise.pkl
+cell 517428835 has index 173
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428835_locally_sparse_noise.pkl
+cell 517430372 has index 19
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430372_locally_sparse_noise.pkl
+cell 517431399 has index 72
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431399_locally_sparse_noise.pkl
+cell 589155434 has index 154
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589155434_locally_sparse_noise.pkl
+cell 517428845 has index 140
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428845_locally_sparse_noise.pkl
+cell 517428852 has index 37
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428852_locally_sparse_noise.pkl
+cell 517429366 has index 75
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429366_locally_sparse_noise.pkl
+cell 517431888 has index 97
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431888_locally_sparse_noise.pkl
+cell 517431828 has index 113
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431828_locally_sparse_noise.pkl
+cell 517431418 has index 134
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431418_locally_sparse_noise.pkl
+cell 517428859 has index 144
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428859_locally_sparse_noise.pkl
+cell 517429376 has index 162
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429376_locally_sparse_noise.pkl
+cell 517428866 has index 156
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428866_locally_sparse_noise.pkl
+cell 517429382 has index 103
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429382_locally_sparse_noise.pkl
+cell 589155463 has index 3
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589155463_locally_sparse_noise.pkl
+cell 517431405 has index 81
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431405_locally_sparse_noise.pkl
+cell 517429393 has index 136
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429393_locally_sparse_noise.pkl
+cell 517431455 has index 25
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431455_locally_sparse_noise.pkl
+cell 517429105 has index 61
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429105_locally_sparse_noise.pkl
+cell 517431465 has index 29
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431465_locally_sparse_noise.pkl
+cell 517429419 has index 141
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429419_locally_spa
+Deriving RFs for three_session_C:  34%|###3      | 98/292 [4:49:29<13:48:20, 256.19s/it][A
+Deriving RFs for three_session_C:  37%|###6      | 107/292 [4:57:20<10:01:22, 195.04s/it][A
+Deriving RFs for three_session_C:  40%|###9      | 116/292 [5:03:57<7:19:17, 149.76s/it] [A
+Deriving RFs for three_session_C:  41%|####1     | 120/292 [5:10:57<6:30:54, 136.37s/it][A
+Deriving RFs for three_session_C:  42%|####2     | 123/292 [5:16:40<6:05:25, 129.74s/it][A
+Deriving RFs for three_session_C:  43%|####2     | 125/292 [5:23:15<6:57:31, 150.01s/it][A
+Deriving RFs for three_session_C:  43%|####3     | 126/292 [5:30:23<10:46:12, 233.57s/it][A
+Deriving RFs for three_session_C:  44%|####3     | 128/292 [5:37:35<10:23:57, 228.28s/it][A
+Deriving RFs for three_session_C:  44%|####4     | 129/292 [5:44:53<13:10:35, 291.01s/it][A
+Deriving RFs for three_session_C:  45%|####4     | 131/292 [5:52:29<12:10:27, 272.22s/it][A
+Deriving RFs for three_session_C:  45%|####5     | 132/292 [5:59:05<13:44:55, 309.35s/it][A
+Deriving RFs for three_session_C:  46%|####5     | 133/292 [6:06:12<15:13:11, 344.60s/it][A
+Deriving RFs for three_session_C:  46%|####5     | 134/292 [6:11:51<15:02:36, 342.76s/it][A
+Deriving RFs for three_session_C:  47%|####6     | 136/292 [6:17:46<12:42:20, 293.21s/it][A
+Deriving RFs for three_session_C:  48%|####7     | 139/292 [6:23:19<10:08:25, 238.60s/it][A
+Deriving RFs for three_session_C:  48%|####8     | 141/292 [6:30:16<9:37:43, 229.56s/it] [A
+Deriving RFs for three_session_C:  50%|####9     | 145/292 [6:35:55<7:35:56, 186.10s/it][A
+Deriving RFs for three_session_C:  50%|#####     | 146/292 [6:41:37<9:26:40, 232.88s/it][A
+Deriving RFs for three_session_C:  50%|#####     | 147/292 [6:47:46<11:01:24, 273.69s/it][A
+Deriving RFs for three_session_C:  51%|#####     | 148/292 [6:54:17<12:21:07, 308.80s/it][A
+Deriving RFs for three_session_C:  51%|#####1    | 149/292 [7:01:25<13:41:20, 344.62s/it][A
+Deriving RFs for three_session_C:  51%|#####1    | 150/292 [7:07:47<14:02:20, 355.92s/it][A
+Deriving RFs for three_session_C:  52%|#####2    | 152/292 [7:14:59<12:12:22, 313.87s/it][A
+Deriving RFs for three_session_C:  52%|#####2    | 153/292 [7:20:53<12:35:05, 325.94s/it][A
+Deriving RFs for three_session_C:  54%|#####3    | 157/292 [7:26:55<9:34:26, 255.31s/it] [A
+Deriving RFs for three_session_C:  54%|#####4    | 158/292 [7:32:24<10:19:42, 277.48s/it][A
+Deriving RFs for three_session_C:  54%|#####4    | 159/292 [7:38:42<11:22:10, 307.75s/it][A
+Deriving RFs for three_session_C:  58%|#####8    | 170/292 [7:45:51<7:41:46, 227.10s/it] [Arse_noise.pkl
+cell 517429949 has index 203
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429949_locally_sparse_noise.pkl
+cell 589156268 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156268_locally_sparse_noise.pkl
+cell 517429811 has index 90
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429811_locally_sparse_noise.pkl
+cell 517429973 has index 152
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429973_locally_sparse_noise.pkl
+cell 517429981 has index 159
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429981_locally_sparse_noise.pkl
+cell 517428958 has index 39
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428958_locally_sparse_noise.pkl
+cell 517428963 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428963_locally_sparse_noise.pkl
+cell 517429989 has index 48
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429989_locally_sparse_noise.pkl
+cell 517428971 has index 23
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428971_locally_sparse_noise.pkl
+cell 517429997 has index 47
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429997_locally_sparse_noise.pkl
+cell 517431534 has index 139
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431534_locally_sparse_noise.pkl
+cell 517428976 has index 41
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428976_locally_sparse_noise.pkl
+cell 517428981 has index 10
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428981_locally_sparse_noise.pkl
+cell 517430664 has index 126
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430664_locally_sparse_noise.pkl
+cell 517430014 has index 34
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430014_locally_sparse_noise.pkl
+cell 517428997 has index 204
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428997_locally_sparse_noise.pkl
+cell 517428462 has index 146
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428462_locally_sparse_noise.pkl
+cell 517430025 has index 36
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430025_locally_sparse_noise.pkl
+cell 517431052 has index 54
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431052_locally_sparse_noise.pkl
+cell 589155714 has index 31
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589155714_locally_sparse_noise.pkl
+cell 589156112 has index 179
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156112_locally_sparse_noise.pkl
+cell 517429525 has index 1
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429525_locally_sparse_noise.pkl
+cell 517430038 has index 22
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430038_locally_sparse_noise.pkl
+cell 517430045 has index 176
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430045_locally_sparse_noise.pkl
+cell 517429535 has index 83
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429535_locally_sparse_noise.pkl
+cell 589156128 has index 74
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156128_locally_sparse_noise.pkl
+cell 517429371 has index 163
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429371_locally_sparse_noise.pkl
+cell 517430582 has index 76
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_
+Deriving RFs for three_session_C:  59%|#####8    | 172/292 [7:53:51<7:41:59, 231.00s/it][A
+Deriving RFs for three_session_C:  60%|#####9    | 175/292 [8:01:12<6:41:21, 205.82s/it][A
+Deriving RFs for three_session_C:  60%|######    | 176/292 [8:08:04<8:37:15, 267.55s/it][A
+Deriving RFs for three_session_C:  61%|######    | 177/292 [8:14:40<9:46:45, 306.13s/it][A
+Deriving RFs for three_session_C:  61%|######    | 178/292 [8:21:13<10:31:10, 332.20s/it][A
+Deriving RFs for three_session_C:  62%|######1   | 180/292 [8:29:00<9:24:44, 302.54s/it] [A
+Deriving RFs for three_session_C:  62%|######1   | 181/292 [8:35:39<10:13:40, 331.71s/it][A
+Deriving RFs for three_session_C:  63%|######2   | 183/292 [8:42:41<8:56:44, 295.46s/it] [A
+Deriving RFs for three_session_C:  63%|######3   | 184/292 [8:49:30<9:53:07, 329.52s/it][A
+Deriving RFs for three_session_C:  64%|######3   | 186/292 [8:55:17<8:19:25, 282.69s/it][A
+Deriving RFs for three_session_C:  64%|######4   | 187/292 [9:01:21<8:57:14, 307.00s/it][A
+Deriving RFs for three_session_C:  65%|######4   | 189/292 [9:07:55<7:50:25, 274.04s/it][A
+Deriving RFs for three_session_C:  65%|######5   | 190/292 [9:14:18<8:41:32, 306.78s/it][A
+Deriving RFs for three_session_C:  65%|######5   | 191/292 [9:20:06<8:57:06, 319.07s/it][A
+Deriving RFs for three_session_C:  66%|######5   | 192/292 [9:25:40<8:59:17, 323.57s/it][A
+Deriving RFs for three_session_C:  66%|######6   | 193/292 [9:30:44<8:44:11, 317.70s/it][A
+Deriving RFs for three_session_C:  66%|######6   | 194/292 [9:35:23<8:20:01, 306.14s/it][A
+Deriving RFs for three_session_C:  67%|######6   | 195/292 [9:39:46<7:54:08, 293.28s/it][A
+Deriving RFs for three_session_C:  67%|######7   | 197/292 [9:43:56<6:24:15, 242.69s/it][A
+Deriving RFs for three_session_C:  68%|######7   | 198/292 [9:47:52<6:17:03, 240.67s/it][A
+Deriving RFs for three_session_C:  68%|######8   | 200/292 [9:52:07<5:17:08, 206.84s/it][A
+Deriving RFs for three_session_C:  69%|######9   | 202/292 [9:56:18<4:33:40, 182.45s/it][A
+Deriving RFs for three_session_C:  70%|######9   | 204/292 [10:00:30<4:02:44, 165.50s/it][A
+Deriving RFs for three_session_C:  71%|#######   | 206/292 [10:05:25<3:49:28, 160.09s/it][A
+Deriving RFs for three_session_C:  71%|#######   | 207/292 [10:09:29<4:22:13, 185.09s/it][A
+Deriving RFs for three_session_C:  71%|#######1  | 208/292 [10:13:42<4:47:32, 205.39s/it][A
+Deriving RFs for three_session_C:  72%|#######1  | 209/292 [10:18:34<5:20:05, 231.39s/it][A
+Deriving RFs for three_session_C:  72%|#######1  | 210/292 [10:22:42<5:23:04, 236.39s/it][Acell_ID/517430582_locally_sparse_noise.pkl
+cell 517431542 has index 69
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431542_locally_sparse_noise.pkl
+cell 517430592 has index 77
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430592_locally_sparse_noise.pkl
+cell 517431435 has index 46
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431435_locally_sparse_noise.pkl
+cell 517428548 has index 102
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428548_locally_sparse_noise.pkl
+cell 517429578 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429578_locally_sparse_noise.pkl
+cell 517430603 has index 131
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430603_locally_sparse_noise.pkl
+cell 517429071 has index 62
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429071_locally_sparse_noise.pkl
+cell 517429586 has index 207
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429586_locally_sparse_noise.pkl
+cell 517430613 has index 78
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430613_locally_sparse_noise.pkl
+cell 517428568 has index 178
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428568_locally_sparse_noise.pkl
+cell 589155163 has index 149
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589155163_locally_sparse_noise.pkl
+cell 517431866 has index 99
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431866_locally_sparse_noise.pkl
+cell 517429086 has index 118
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429086_locally_sparse_noise.pkl
+cell 517428575 has index 135
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428575_locally_sparse_noise.pkl
+cell 517429090 has index 191
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429090_locally_sparse_noise.pkl
+cell 517430630 has index 114
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430630_locally_sparse_noise.pkl
+cell 517428583 has index 145
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428583_locally_sparse_noise.pkl
+cell 517430638 has index 130
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430638_locally_sparse_noise.pkl
+cell 517428592 has index 104
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428592_locally_sparse_noise.pkl
+cell 517429109 has index 66
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429109_locally_sparse_noise.pkl
+cell 517428601 has index 147
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428601_locally_sparse_noise.pkl
+cell 517429115 has index 125
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429115_locally_sparse_noise.pkl
+cell 589156275 has index 181
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156275_locally_sparse_noise.pkl
+cell 517430655 has index 108
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430655_locally_sparse_noise.pkl
+cell 517429121 has index 117
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429121_locally_sparse_noise.pkl
+cell 517428098 has index 64
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428098_locally_sparse_noise.pkl
+cell 517429124 has index 120
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429124_locally_sparse_noise.pkl
+cell 517428614 has index 105
+
+Saved : /media/data_cifs/AllenData/Da
+Deriving RFs for three_session_C:  73%|#######2  | 212/292 [10:28:08<4:45:58, 214.48s/it][A
+Deriving RFs for three_session_C:  73%|#######3  | 214/292 [10:31:15<3:51:30, 178.08s/it][A
+Deriving RFs for three_session_C:  74%|#######3  | 215/292 [10:35:07<4:09:31, 194.44s/it][A
+Deriving RFs for three_session_C:  74%|#######3  | 216/292 [10:39:17<4:27:16, 211.01s/it][A
+Deriving RFs for three_session_C:  74%|#######4  | 217/292 [10:43:12<4:32:48, 218.25s/it][A
+Deriving RFs for three_session_C:  75%|#######4  | 218/292 [10:47:19<4:39:38, 226.74s/it][A
+Deriving RFs for three_session_C:  76%|#######6  | 223/292 [10:51:36<3:20:15, 174.14s/it][A
+Deriving RFs for three_session_C:  77%|#######7  | 226/292 [10:55:13<2:38:00, 143.64s/it][A
+Deriving RFs for three_session_C:  80%|########  | 234/292 [10:59:24<1:46:16, 109.95s/it][A
+Deriving RFs for three_session_C:  80%|########  | 235/292 [11:03:29<2:23:02, 150.56s/it][A
+Deriving RFs for three_session_C:  83%|########2 | 241/292 [11:08:44<1:42:57, 121.12s/it][A
+Deriving RFs for three_session_C:  84%|########3 | 244/292 [11:14:13<1:34:08, 117.68s/it][A
+Deriving RFs for three_session_C:  84%|########3 | 245/292 [11:19:38<2:21:03, 180.08s/it][A
+Deriving RFs for three_session_C:  85%|########4 | 248/292 [11:24:29<1:53:45, 155.12s/it][A
+Deriving RFs for three_session_C:  85%|########5 | 249/292 [11:30:22<2:33:46, 214.56s/it][A
+Deriving RFs for three_session_C:  88%|########7 | 256/292 [11:36:17<1:39:14, 165.41s/it][A
+Deriving RFs for three_session_C:  88%|########8 | 258/292 [11:41:28<1:31:59, 162.35s/it][A
+Deriving RFs for three_session_C:  90%|########9 | 262/292 [11:46:03<1:07:09, 134.32s/it][A
+Deriving RFs for three_session_C:  90%|######### | 263/292 [11:50:34<1:24:39, 175.15s/it][A
+Deriving RFs for three_session_C:  91%|#########1| 267/292 [11:55:32<1:00:24, 145.00s/it][A
+Deriving RFs for three_session_C:  92%|#########1| 268/292 [12:00:20<1:15:07, 187.80s/it][A
+Deriving RFs for three_session_C:  92%|#########2| 269/292 [12:06:12<1:30:54, 237.16s/it][A
+Deriving RFs for three_session_C:  92%|#########2| 270/292 [12:11:03<1:32:48, 253.12s/it][A
+Deriving RFs for three_session_C:  93%|#########3| 272/292 [12:16:10<1:14:26, 223.31s/it][A
+Deriving RFs for three_session_C:  93%|#########3| 273/292 [12:20:49<1:15:56, 239.84s/it][A
+Deriving RFs for three_session_C:  94%|#########3| 274/292 [12:26:36<1:21:38, 272.14s/it][A
+Deriving RFs for three_session_C:  96%|#########5| 279/292 [12:32:42<46:01, 212.43s/it]  [A
+Deriving RFs for three_session_C:  96%|#########5| 280/292 [12:38:53<52:01, 260.12s/it][AtaForTrain/Allen_stimulus_analysis/By_cell_ID/517428614_locally_sparse_noise.pkl
+cell 517428104 has index 59
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428104_locally_sparse_noise.pkl
+cell 589156233 has index 9
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156233_locally_sparse_noise.pkl
+cell 517429130 has index 84
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429130_locally_sparse_noise.pkl
+cell 517428619 has index 70
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428619_locally_sparse_noise.pkl
+cell 517429133 has index 89
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429133_locally_sparse_noise.pkl
+cell 517429139 has index 167
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429139_locally_sparse_noise.pkl
+cell 517429657 has index 174
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429657_locally_sparse_noise.pkl
+cell 517428646 has index 190
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428646_locally_sparse_noise.pkl
+cell 517428727 has index 171
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428727_locally_sparse_noise.pkl
+cell 517431836 has index 115
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431836_locally_sparse_noise.pkl
+cell 517429406 has index 101
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429406_locally_sparse_noise.pkl
+cell 517428557 has index 38
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428557_locally_sparse_noise.pkl
+cell 589156282 has index 43
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156282_locally_sparse_noise.pkl
+cell 517428830 has index 175
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428830_locally_sparse_noise.pkl
+cell 589156296 has index 189
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156296_locally_sparse_noise.pkl
+cell 517430775 has index 49
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430775_locally_sparse_noise.pkl
+cell 517428692 has index 60
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428692_locally_sparse_noise.pkl
+cell 517430741 has index 95
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430741_locally_sparse_noise.pkl
+cell 517428700 has index 168
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428700_locally_sparse_noise.pkl
+cell 589156261 has index 42
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589156261_locally_sparse_noise.pkl
+cell 517430753 has index 93
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430753_locally_sparse_noise.pkl
+cell 517429218 has index 148
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429218_locally_sparse_noise.pkl
+cell 517428709 has index 58
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428709_locally_sparse_noise.pkl
+cell 517429222 has index 177
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429222_locally_sparse_noise.pkl
+cell 517430759 has index 150
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430759_locally_sparse_noise.pkl
+cell 517429230 has index 202
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429230_locally_sparse_noise.pkl
+cell 517428719 has index 169
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517428719_locally_sparse_noise.pkl
+cell 517430768 has index 30
+
+Save
+Deriving RFs for three_session_C:  96%|#########6| 281/292 [12:43:53<49:52, 272.07s/it][A
+Deriving RFs for three_session_C:  98%|#########7| 285/292 [12:50:09<25:30, 218.67s/it][A
+Deriving RFs for three_session_C:  98%|#########7| 286/292 [12:55:40<25:13, 252.30s/it][A
+Deriving RFs for three_session_C:  99%|#########8| 289/292 [13:00:36<10:18, 206.23s/it][A
+Deriving RFs for three_session_C:  99%|#########9| 290/292 [13:05:46<07:54, 237.26s/it][A
+Deriving RFs for three_session_C: 100%|#########9| 291/292 [13:10:53<04:18, 258.14s/it][A
+Deriving RFs for three_session_C: 100%|##########| 292/292 [13:16:57<00:00, 289.90s/it][A
+[ARF data:  20%|##        | 2/10 [17:27:58<55:17:42, 24882.77s/it]
+Deriving RFs for three_session_C2:   0%|          | 0/53 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:  26%|##6       | 14/53 [10:05<28:06, 43.24s/it][A
+Deriving RFs for three_session_C2:  40%|###9      | 21/53 [16:37<25:06, 47.09s/it][A
+Deriving RFs for three_session_C2:  47%|####7     | 25/53 [22:27<27:37, 59.20s/it][A
+Deriving RFs for three_session_C2:  58%|#####8    | 31/53 [29:07<22:31, 61.45s/it][A
+Deriving RFs for three_session_C2:  62%|######2   | 33/53 [36:10<35:29, 106.48s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 53/53 [36:10<00:00, 40.96s/it] [ARF data:  30%|###       | 3/10 [18:04:25<35:08:38, 18074.11s/it]
+Deriving RFs for three_session_C2:   0%|          | 0/43 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:   2%|2         | 1/43 [09:39<6:45:30, 579.31s/it][A
+Deriving RFs for three_session_C2:   7%|6         | 3/43 [16:43<5:12:45, 469.13s/it][A
+Deriving RFs for three_session_C2:  12%|#1        | 5/43 [22:34<4:01:19, 381.05s/it][A
+Deriving RFs for three_session_C2:  14%|#3        | 6/43 [28:57<3:55:21, 381.66s/it][A
+Deriving RFs for three_session_C2:  21%|##        | 9/43 [35:20<2:53:06, 305.48s/it][A
+Deriving RFs for three_session_C2:  28%|##7       | 12/43 [41:53<2:10:45, 253.07s/it][Ad : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517430768_locally_sparse_noise.pkl
+cell 517429749 has index 50
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429749_locally_sparse_noise.pkl
+cell 517429238 has index 198
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429238_locally_sparse_noise.pkl
+cell 517429242 has index 142
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429242_locally_sparse_noise.pkl
+cell 517431804 has index 80
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517431804_locally_sparse_noise.pkl
+cell 517429246 has index 155
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429246_locally_sparse_noise.pkl
+cell 517429759 has index 87
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/517429759_locally_sparse_noise.pkl
+Get cell RF info
+cell 583677445 has index 23
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583677445_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583677445_locally_sparse_noise_8deg.pkl
+cell 583678127 has index 25
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678127_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678127_locally_sparse_noise_8deg.pkl
+cell 583678365 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678365_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678365_locally_sparse_noise_8deg.pkl
+cell 583678157 has index 28
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678157_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583678157_locally_sparse_noise_8deg.pkl
+cell 583677775 has index 16
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583677775_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583677775_locally_sparse_noise_8deg.pkl
+Get cell RF info
+cell 569672065 has index 10
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672065_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672065_locally_sparse_noise_8deg.pkl
+cell 569672070 has index 16
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672070_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672070_locally_sparse_noise_8deg.pkl
+cell 569672328 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672328_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672328_locally_sparse_noise_8deg.pkl
+cell 569672075 has index 20
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672075_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672075_locally_sparse_noise_8deg.pkl
+cell 569672340 has index 2
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672340_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672340_locally_sparse_noise_8deg.pkl
+cell 569672095 has index 6
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672095_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672095_locally_sparse_noise_8deg.pkl
+cell 569672352 has index 14
+
+Saved : /med
+Deriving RFs for three_session_C2:  30%|###       | 13/43 [47:59<2:23:29, 286.97s/it][A
+Deriving RFs for three_session_C2:  33%|###2      | 14/43 [55:04<2:38:48, 328.58s/it][A
+Deriving RFs for three_session_C2:  35%|###4      | 15/43 [1:01:34<2:41:51, 346.85s/it][A
+Deriving RFs for three_session_C2:  40%|###9      | 17/43 [1:07:50<2:09:39, 299.20s/it][A
+Deriving RFs for three_session_C2:  42%|####1     | 18/43 [1:14:17<2:15:38, 325.55s/it][A
+Deriving RFs for three_session_C2:  47%|####6     | 20/43 [1:20:57<1:50:23, 287.97s/it][A
+Deriving RFs for three_session_C2:  51%|#####1    | 22/43 [1:28:06<1:33:03, 265.90s/it][A
+Deriving RFs for three_session_C2:  60%|######    | 26/43 [1:33:27<59:33, 210.21s/it]  [A
+Deriving RFs for three_session_C2:  67%|######7   | 29/43 [1:39:11<42:21, 181.53s/it][A
+Deriving RFs for three_session_C2:  72%|#######2  | 31/43 [1:45:02<35:56, 179.71s/it][A
+Deriving RFs for three_session_C2:  74%|#######4  | 32/43 [1:50:46<41:59, 229.01s/it][A
+Deriving RFs for three_session_C2:  79%|#######9  | 34/43 [1:56:37<31:57, 213.01s/it][A
+Deriving RFs for three_session_C2:  81%|########1 | 35/43 [2:02:48<34:43, 260.39s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 43/43 [2:02:48<00:00, 171.37s/it][ARF data:  40%|####      | 4/10 [20:07:28<24:46:40, 14866.67s/it]
+Deriving RFs for three_session_C2:   0%|          | 0/154 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:   5%|5         | 8/154 [09:14<2:48:34, 69.28s/it][Aia/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672352_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672352_locally_sparse_noise_8deg.pkl
+cell 569672227 has index 7
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672227_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672227_locally_sparse_noise_8deg.pkl
+cell 569672229 has index 3
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672229_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672229_locally_sparse_noise_8deg.pkl
+cell 569672108 has index 4
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672108_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672108_locally_sparse_noise_8deg.pkl
+cell 569671986 has index 29
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569671986_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569671986_locally_sparse_noise_8deg.pkl
+cell 569671991 has index 23
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569671991_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569671991_locally_sparse_noise_8deg.pkl
+cell 569672252 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672252_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672252_locally_sparse_noise_8deg.pkl
+cell 569672004 has index 17
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672004_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672004_locally_sparse_noise_8deg.pkl
+cell 569672055 has index 12
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672055_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672055_locally_sparse_noise_8deg.pkl
+cell 569672014 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672014_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672014_locally_sparse_noise_8deg.pkl
+cell 569672019 has index 0
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672019_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672019_locally_sparse_noise_8deg.pkl
+cell 569672281 has index 19
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672281_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672281_locally_sparse_noise_8deg.pkl
+cell 569672284 has index 18
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672284_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/569672284_locally_sparse_noise_8deg.pkl
+Get cell RF info
+cell 576370759 has index 103
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370759_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370759_locally_sparse_noise_8deg.pkl
+cell 589201457 has index 109
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201457_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201457_locally_sparse_noise_8deg.p
+Deriving RFs for three_session_C2:   6%|6         | 10/154 [15:36<4:13:55, 105.80s/it][A
+Deriving RFs for three_session_C2:   7%|7         | 11/154 [21:43<7:19:00, 184.20s/it][A
+Deriving RFs for three_session_C2:   8%|7         | 12/154 [27:52<9:27:07, 239.63s/it][A
+Deriving RFs for three_session_C2:   8%|8         | 13/154 [33:27<10:30:35, 268.33s/it][A
+Deriving RFs for three_session_C2:   9%|9         | 14/154 [37:48<10:21:00, 266.15s/it][A
+Deriving RFs for three_session_C2:  10%|9         | 15/154 [43:31<11:10:03, 289.23s/it][A
+Deriving RFs for three_session_C2:  11%|#1        | 17/154 [48:52<9:32:04, 250.55s/it] [A
+Deriving RFs for three_session_C2:  12%|#1        | 18/154 [54:05<10:10:36, 269.39s/it][A
+Deriving RFs for three_session_C2:  12%|#2        | 19/154 [59:03<10:25:20, 277.93s/it][A
+Deriving RFs for three_session_C2:  13%|#2        | 20/154 [1:04:40<11:00:11, 295.61s/it][A
+Deriving RFs for three_session_C2:  14%|#3        | 21/154 [1:10:21<11:25:16, 309.15s/it][A
+Deriving RFs for three_session_C2:  14%|#4        | 22/154 [1:16:09<11:45:52, 320.85s/it][A
+Deriving RFs for three_session_C2:  15%|#4        | 23/154 [1:21:28<11:39:30, 320.38s/it][A
+Deriving RFs for three_session_C2:  16%|#5        | 24/154 [1:27:38<12:06:36, 335.36s/it][A
+Deriving RFs for three_session_C2:  16%|#6        | 25/154 [1:33:27<12:09:36, 339.35s/it][Akl
+cell 576370744 has index 96
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370744_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370744_locally_sparse_noise_8deg.pkl
+cell 576371260 has index 31
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371260_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371260_locally_sparse_noise_8deg.pkl
+cell 576370749 has index 95
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370749_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370749_locally_sparse_noise_8deg.pkl
+cell 576371266 has index 36
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371266_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371266_locally_sparse_noise_8deg.pkl
+cell 576371270 has index 35
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371270_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371270_locally_sparse_noise_8deg.pkl
+cell 576371275 has index 52
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371275_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371275_locally_sparse_noise_8deg.pkl
+cell 576370764 has index 92
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370764_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370764_locally_sparse_noise_8deg.pkl
+cell 576371278 has index 113
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371278_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371278_locally_sparse_noise_8deg.pkl
+cell 576370769 has index 93
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370769_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370769_locally_sparse_noise_8deg.pkl
+cell 576371284 has index 17
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371284_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371284_locally_sparse_noise_8deg.pkl
+cell 576370774 has index 94
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370774_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370774_locally_sparse_noise_8deg.pkl
+cell 576370779 has index 0
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370779_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370779_locally_sparse_noise_8deg.pkl
+cell 589201501 has index 102
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201501_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201501_locally_sparse_noise_8deg.pkl
+cell 576371296 has index 114
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371296_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371296_locally_sparse_noise_8deg.pkl
+cell 576371301 has index 112
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371301_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/57637
+Deriving RFs for three_session_C2:  18%|#7        | 27/154 [1:39:25<10:16:35, 291.30s/it][A
+Deriving RFs for three_session_C2:  18%|#8        | 28/154 [1:45:06<10:42:29, 305.95s/it][A
+Deriving RFs for three_session_C2:  21%|##        | 32/154 [1:51:15<8:11:45, 241.84s/it] [A
+Deriving RFs for three_session_C2:  23%|##2       | 35/154 [1:56:52<6:42:37, 203.00s/it][A
+Deriving RFs for three_session_C2:  27%|##6       | 41/154 [2:02:49<5:01:18, 159.98s/it][A
+Deriving RFs for three_session_C2:  32%|###2      | 50/154 [2:08:43<3:34:31, 123.77s/it][A
+Deriving RFs for three_session_C2:  41%|####      | 63/154 [2:14:21<2:23:13, 94.44s/it] [A
+Deriving RFs for three_session_C2:  42%|####1     | 64/154 [2:20:16<4:19:07, 172.75s/it][A
+Deriving RFs for three_session_C2:  42%|####2     | 65/154 [2:25:33<5:20:09, 215.84s/it][A
+Deriving RFs for three_session_C2:  43%|####2     | 66/154 [2:31:05<6:07:49, 250.79s/it][A
+Deriving RFs for three_session_C2:  44%|####3     | 67/154 [2:37:11<6:53:54, 285.45s/it][A
+Deriving RFs for three_session_C2:  44%|####4     | 68/154 [2:43:21<7:25:30, 310.82s/it][A
+Deriving RFs for three_session_C2:  46%|####6     | 71/154 [2:50:21<5:59:04, 259.57s/it][A
+Deriving RFs for three_session_C2:  47%|####6     | 72/154 [2:58:19<7:24:02, 324.91s/it][A
+Deriving RFs for three_session_C2:  47%|####7     | 73/154 [3:04:41<7:41:49, 342.09s/it][A1301_locally_sparse_noise_8deg.pkl
+cell 576370792 has index 100
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370792_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370792_locally_sparse_noise_8deg.pkl
+cell 576370795 has index 106
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370795_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370795_locally_sparse_noise_8deg.pkl
+cell 576371581 has index 57
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371581_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371581_locally_sparse_noise_8deg.pkl
+cell 576371352 has index 43
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371352_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371352_locally_sparse_noise_8deg.pkl
+cell 589199531 has index 80
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199531_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199531_locally_sparse_noise_8deg.pkl
+cell 576370906 has index 48
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370906_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370906_locally_sparse_noise_8deg.pkl
+cell 576371419 has index 71
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371419_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371419_locally_sparse_noise_8deg.pkl
+cell 576370910 has index 75
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370910_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370910_locally_sparse_noise_8deg.pkl
+cell 576371424 has index 61
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371424_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371424_locally_sparse_noise_8deg.pkl
+cell 576370914 has index 47
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370914_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370914_locally_sparse_noise_8deg.pkl
+cell 576371429 has index 27
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371429_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371429_locally_sparse_noise_8deg.pkl
+cell 576370924 has index 76
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370924_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370924_locally_sparse_noise_8deg.pkl
+cell 576371154 has index 12
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371154_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371154_locally_sparse_noise_8deg.pkl
+cell 576371439 has index 85
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371439_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371439_locally_sparse_noise_8deg.pkl
+cell 576370928 has index 58
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370928_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_sti
+Deriving RFs for three_session_C2:  48%|####8     | 74/154 [3:10:24<7:36:22, 342.28s/it][A
+Deriving RFs for three_session_C2:  49%|####9     | 76/154 [3:15:51<6:15:14, 288.65s/it][A
+Deriving RFs for three_session_C2:  50%|#####     | 77/154 [3:21:38<6:33:07, 306.33s/it][A
+Deriving RFs for three_session_C2:  51%|#####     | 78/154 [3:27:29<6:45:00, 319.75s/it][A
+Deriving RFs for three_session_C2:  51%|#####1    | 79/154 [3:33:18<6:50:43, 328.58s/it][A
+Deriving RFs for three_session_C2:  53%|#####2    | 81/154 [3:38:34<5:37:30, 277.40s/it][A
+Deriving RFs for three_session_C2:  54%|#####3    | 83/154 [3:44:24<4:51:51, 246.64s/it][A
+Deriving RFs for three_session_C2:  55%|#####4    | 84/154 [3:50:26<5:28:01, 281.16s/it][A
+Deriving RFs for three_session_C2:  55%|#####5    | 85/154 [3:55:35<5:33:02, 289.60s/it][A
+Deriving RFs for three_session_C2:  57%|#####7    | 88/154 [4:01:40<4:23:08, 239.21s/it][A
+Deriving RFs for three_session_C2:  58%|#####8    | 90/154 [4:07:19<3:52:51, 218.31s/it][A
+Deriving RFs for three_session_C2:  60%|#####9    | 92/154 [4:12:04<3:22:04, 195.56s/it][A
+Deriving RFs for three_session_C2:  63%|######2   | 97/154 [4:16:39<2:25:42, 153.38s/it][A
+Deriving RFs for three_session_C2:  64%|######4   | 99/154 [4:21:01<2:14:32, 146.77s/it][A
+Deriving RFs for three_session_C2:  65%|######4   | 100/154 [4:25:26<2:43:48, 182.00s/it][Amulus_analysis/By_cell_ID/576370928_locally_sparse_noise_8deg.pkl
+cell 576371443 has index 98
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371443_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371443_locally_sparse_noise_8deg.pkl
+cell 576371447 has index 49
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371447_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371447_locally_sparse_noise_8deg.pkl
+cell 576370937 has index 55
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370937_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370937_locally_sparse_noise_8deg.pkl
+cell 576371450 has index 50
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371450_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371450_locally_sparse_noise_8deg.pkl
+cell 576371456 has index 63
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371456_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371456_locally_sparse_noise_8deg.pkl
+cell 576371462 has index 68
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371462_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371462_locally_sparse_noise_8deg.pkl
+cell 576371465 has index 83
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371465_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371465_locally_sparse_noise_8deg.pkl
+cell 576371468 has index 82
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371468_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371468_locally_sparse_noise_8deg.pkl
+cell 589199152 has index 25
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199152_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199152_locally_sparse_noise_8deg.pkl
+cell 589199494 has index 78
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199494_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589199494_locally_sparse_noise_8deg.pkl
+cell 589198126 has index 111
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589198126_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589198126_locally_sparse_noise_8deg.pkl
+cell 589201221 has index 91
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201221_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589201221_locally_sparse_noise_8deg.pkl
+cell 576371017 has index 101
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371017_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371017_locally_sparse_noise_8deg.pkl
+cell 576371022 has index 105
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371022_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371022_locally_sparse_noise_8deg.pkl
+cell 576371026 has index 20
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371026_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/
+Deriving RFs for three_session_C2:  66%|######5   | 101/154 [4:30:45<3:17:05, 223.12s/it][A
+Deriving RFs for three_session_C2:  67%|######6   | 103/154 [4:36:14<2:54:47, 205.64s/it][A
+Deriving RFs for three_session_C2:  68%|######7   | 104/154 [4:41:53<3:24:38, 245.57s/it][A
+Deriving RFs for three_session_C2:  68%|######8   | 105/154 [4:47:07<3:37:22, 266.18s/it][A
+Deriving RFs for three_session_C2:  72%|#######2  | 111/154 [4:53:06<2:26:22, 204.24s/it][A
+Deriving RFs for three_session_C2:  73%|#######3  | 113/154 [5:00:07<2:20:50, 206.11s/it][A
+Deriving RFs for three_session_C2:  74%|#######4  | 114/154 [5:06:24<2:51:34, 257.36s/it][A
+Deriving RFs for three_session_C2:  75%|#######5  | 116/154 [5:14:02<2:37:36, 248.86s/it][A
+Deriving RFs for three_session_C2:  76%|#######5  | 117/154 [5:20:22<2:57:49, 288.37s/it][A
+Deriving RFs for three_session_C2:  77%|#######7  | 119/154 [5:25:56<2:26:54, 251.86s/it][A
+Deriving RFs for three_session_C2:  79%|#######8  | 121/154 [5:32:12<2:07:59, 232.71s/it][A
+Deriving RFs for three_session_C2:  84%|########3 | 129/154 [5:38:24<1:13:41, 176.87s/it][A
+Deriving RFs for three_session_C2:  85%|########5 | 131/154 [5:43:46<1:05:56, 172.04s/it][A
+Deriving RFs for three_session_C2:  86%|########6 | 133/154 [5:49:48<1:01:10, 174.79s/it][A
+Deriving RFs for three_session_C2:  88%|########8 | 136/154 [5:55:32<47:01, 156.73s/it]  [AAllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371026_locally_sparse_noise_8deg.pkl
+cell 576371030 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371030_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371030_locally_sparse_noise_8deg.pkl
+cell 576371001 has index 45
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371001_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371001_locally_sparse_noise_8deg.pkl
+cell 576371035 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371035_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371035_locally_sparse_noise_8deg.pkl
+cell 576371576 has index 59
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371576_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371576_locally_sparse_noise_8deg.pkl
+cell 576371069 has index 44
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371069_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371069_locally_sparse_noise_8deg.pkl
+cell 576371584 has index 56
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371584_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371584_locally_sparse_noise_8deg.pkl
+cell 576370754 has index 89
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370754_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576370754_locally_sparse_noise_8deg.pkl
+cell 576371590 has index 60
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371590_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371590_locally_sparse_noise_8deg.pkl
+cell 576371593 has index 22
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371593_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371593_locally_sparse_noise_8deg.pkl
+cell 576371597 has index 15
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371597_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371597_locally_sparse_noise_8deg.pkl
+cell 589196206 has index 21
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589196206_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/589196206_locally_sparse_noise_8deg.pkl
+cell 576371632 has index 33
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371632_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371632_locally_sparse_noise_8deg.pkl
+cell 576371124 has index 18
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371124_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371124_locally_sparse_noise_8deg.pkl
+cell 576371652 has index 38
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371652_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371652_locally_sparse_noise_8deg.pkl
+cell 576371158 has index 99
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371158_locally_sparse_noise_4deg.
+Deriving RFs for three_session_C2:  90%|######### | 139/154 [6:01:35<36:30, 146.05s/it][A
+Deriving RFs for three_session_C2:  92%|#########2| 142/154 [6:07:22<27:22, 136.86s/it][A
+Deriving RFs for three_session_C2:  94%|#########3| 144/154 [6:13:17<24:51, 149.16s/it][A
+Deriving RFs for three_session_C2:  94%|#########4| 145/154 [6:19:28<32:21, 215.73s/it][A
+Deriving RFs for three_session_C2:  95%|#########5| 147/154 [6:25:53<24:20, 208.64s/it][A
+Deriving RFs for three_session_C2:  97%|#########7| 150/154 [6:32:26<12:21, 185.39s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 154/154 [6:32:26<00:00, 152.90s/it][ARF data:  50%|#####     | 5/10 [26:40:39<24:16:59, 17483.87s/it]
+Deriving RFs for three_session_C2:   0%|          | 0/44 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:   2%|2         | 1/44 [08:56<6:24:13, 536.14s/it][A
+Deriving RFs for three_session_C2:   9%|9         | 4/44 [15:30<4:36:28, 414.72s/it][A
+Deriving RFs for three_session_C2:  11%|#1        | 5/44 [21:38<4:20:24, 400.63s/it][A
+Deriving RFs for three_session_C2:  14%|#3        | 6/44 [27:41<4:06:41, 389.51s/it][A
+Deriving RFs for three_session_C2:  16%|#5        | 7/44 [33:26<3:51:53, 376.04s/it][A
+Deriving RFs for three_session_C2:  25%|##5       | 11/44 [39:23<2:39:30, 290.00s/it][A
+Deriving RFs for three_session_C2:  27%|##7       | 12/44 [45:16<2:44:44, 308.90s/it][A
+Deriving RFs for three_session_C2:  30%|##9       | 13/44 [50:37<2:41:33, 312.69s/it][A
+Deriving RFs for three_session_C2:  34%|###4      | 15/44 [56:47<2:12:34, 274.28s/it][Apkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371158_locally_sparse_noise_8deg.pkl
+cell 576371677 has index 67
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371677_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371677_locally_sparse_noise_8deg.pkl
+cell 576371681 has index 41
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371681_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371681_locally_sparse_noise_8deg.pkl
+cell 576371171 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371171_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371171_locally_sparse_noise_8deg.pkl
+cell 576371690 has index 115
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371690_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371690_locally_sparse_noise_8deg.pkl
+cell 576371701 has index 90
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371701_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/576371701_locally_sparse_noise_8deg.pkl
+Get cell RF info
+cell 583824773 has index 27
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824773_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824773_locally_sparse_noise_8deg.pkl
+cell 583824922 has index 43
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824922_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824922_locally_sparse_noise_8deg.pkl
+cell 583824795 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824795_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824795_locally_sparse_noise_8deg.pkl
+cell 583824420 has index 18
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824420_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824420_locally_sparse_noise_8deg.pkl
+cell 583824936 has index 15
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824936_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824936_locally_sparse_noise_8deg.pkl
+cell 583824306 has index 44
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824306_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824306_locally_sparse_noise_8deg.pkl
+cell 583824437 has index 19
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824437_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824437_locally_sparse_noise_8deg.pkl
+cell 583824950 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824950_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824950_locally_sparse_noise_8deg.pkl
+cell 583824700 has index 3
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824700_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824700_locally_sparse_noise_8deg.pkl
+cell 583824448 has index 20
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By
+Deriving RFs for three_session_C2:  41%|####      | 18/44 [1:02:43<1:38:39, 227.66s/it][A
+Deriving RFs for three_session_C2:  43%|####3     | 19/44 [1:08:38<1:50:43, 265.73s/it][A
+Deriving RFs for three_session_C2:  48%|####7     | 21/44 [1:14:58<1:33:08, 242.96s/it][A
+Deriving RFs for three_session_C2:  52%|#####2    | 23/44 [1:21:13<1:19:14, 226.43s/it][A
+Deriving RFs for three_session_C2:  55%|#####4    | 24/44 [1:27:04<1:27:51, 263.60s/it][A
+Deriving RFs for three_session_C2:  57%|#####6    | 25/44 [1:33:25<1:34:40, 298.96s/it][A
+Deriving RFs for three_session_C2:  59%|#####9    | 26/44 [1:39:17<1:34:29, 314.97s/it][A
+Deriving RFs for three_session_C2:  61%|######1   | 27/44 [1:45:55<1:36:15, 339.74s/it][A
+Deriving RFs for three_session_C2:  68%|######8   | 30/44 [1:52:01<1:04:02, 274.44s/it][A
+Deriving RFs for three_session_C2:  70%|#######   | 31/44 [1:58:12<1:05:44, 303.45s/it][A
+Deriving RFs for three_session_C2:  73%|#######2  | 32/44 [2:04:13<1:04:09, 320.76s/it][A
+Deriving RFs for three_session_C2:  77%|#######7  | 34/44 [2:10:43<47:09, 282.95s/it]  [A
+Deriving RFs for three_session_C2:  80%|#######9  | 35/44 [2:16:53<46:23, 309.24s/it][A
+Deriving RFs for three_session_C2:  84%|########4 | 37/44 [2:21:34<30:09, 258.49s/it][A
+Deriving RFs for three_session_C2:  86%|########6 | 38/44 [2:26:26<26:51, 268.53s/it][A_cell_ID/583824448_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824448_locally_sparse_noise_8deg.pkl
+cell 583824608 has index 33
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824608_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824608_locally_sparse_noise_8deg.pkl
+cell 583824580 has index 40
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824580_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824580_locally_sparse_noise_8deg.pkl
+cell 583824971 has index 10
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824971_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824971_locally_sparse_noise_8deg.pkl
+cell 583824721 has index 1
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824721_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824721_locally_sparse_noise_8deg.pkl
+cell 583824594 has index 36
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824594_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824594_locally_sparse_noise_8deg.pkl
+cell 583824856 has index 7
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824856_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824856_locally_sparse_noise_8deg.pkl
+cell 583824601 has index 34
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824601_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824601_locally_sparse_noise_8deg.pkl
+cell 583824226 has index 25
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824226_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824226_locally_sparse_noise_8deg.pkl
+cell 583824870 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824870_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824870_locally_sparse_noise_8deg.pkl
+cell 583824998 has index 16
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824998_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824998_locally_sparse_noise_8deg.pkl
+cell 583824233 has index 29
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824233_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824233_locally_sparse_noise_8deg.pkl
+cell 583824877 has index 9
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824877_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824877_locally_sparse_noise_8deg.pkl
+cell 583824957 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824957_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824957_locally_sparse_noise_8deg.pkl
+cell 583824752 has index 21
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824752_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824752_locally_sparse_noise_8deg.pkl
+cell 583824628 has index 37
+
+Saved : /media/data_cifs/AllenData/DataForTrain/A
+Deriving RFs for three_session_C2:  91%|######### | 40/44 [2:31:41<15:41, 235.30s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 44/44 [2:36:52<00:00, 188.03s/it][A
+[ARF data:  60%|######    | 6/10 [29:17:47<16:44:28, 15067.18s/it]
+Deriving RFs for three_session_C2:   0%|          | 0/46 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:   4%|4         | 2/46 [08:23<3:04:40, 251.82s/it][A
+Deriving RFs for three_session_C2:  13%|#3        | 6/46 [13:17<2:12:12, 198.30s/it][A
+Deriving RFs for three_session_C2:  15%|#5        | 7/46 [17:53<2:24:04, 221.66s/it][A
+Deriving RFs for three_session_C2:  22%|##1       | 10/46 [22:57<1:51:20, 185.57s/it][A
+Deriving RFs for three_session_C2:  24%|##3       | 11/46 [27:52<2:07:21, 218.32s/it][A
+Deriving RFs for three_session_C2:  26%|##6       | 12/46 [32:55<2:18:08, 243.78s/it][A
+Deriving RFs for three_session_C2:  28%|##8       | 13/46 [38:38<2:30:29, 273.61s/it][A
+Deriving RFs for three_session_C2:  30%|###       | 14/46 [43:05<2:24:52, 271.64s/it][A
+Deriving RFs for three_session_C2:  33%|###2      | 15/46 [47:43<2:21:13, 273.33s/it][A
+Deriving RFs for three_session_C2:  35%|###4      | 16/46 [52:57<2:22:51, 285.72s/it][A
+Deriving RFs for three_session_C2:  37%|###6      | 17/46 [58:14<2:22:32, 294.93s/it][A
+Deriving RFs for three_session_C2:  41%|####1     | 19/46 [1:03:05<1:52:34, 250.16s/it][A
+Deriving RFs for three_session_C2:  46%|####5     | 21/46 [1:07:38<1:30:02, 216.11s/it][Allen_stimulus_analysis/By_cell_ID/583824628_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824628_locally_sparse_noise_8deg.pkl
+cell 583824745 has index 22
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824745_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583824745_locally_sparse_noise_8deg.pkl
+Get cell RF info
+cell 566955138 has index 17
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955138_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955138_locally_sparse_noise_8deg.pkl
+cell 566955148 has index 22
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955148_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955148_locally_sparse_noise_8deg.pkl
+cell 566955277 has index 14
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955277_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955277_locally_sparse_noise_8deg.pkl
+cell 566955281 has index 20
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955281_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955281_locally_sparse_noise_8deg.pkl
+cell 566955155 has index 19
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955155_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955155_locally_sparse_noise_8deg.pkl
+cell 566955286 has index 13
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955286_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955286_locally_sparse_noise_8deg.pkl
+cell 566955160 has index 27
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955160_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955160_locally_sparse_noise_8deg.pkl
+cell 566955291 has index 12
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955291_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955291_locally_sparse_noise_8deg.pkl
+cell 566955405 has index 38
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955405_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955405_locally_sparse_noise_8deg.pkl
+cell 566955165 has index 23
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955165_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955165_locally_sparse_noise_8deg.pkl
+cell 566955422 has index 36
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955422_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955422_locally_sparse_noise_8deg.pkl
+cell 566955296 has index 11
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955296_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955296_locally_sparse_noise_8deg.pkl
+cell 566955428 has index 1
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955428_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955428_locally_sparse_noise_8deg.pkl
+cell 566955301 has index 9
+
+Saved
+Deriving RFs for three_session_C2:  48%|####7     | 22/46 [1:11:25<1:27:43, 219.31s/it][A
+Deriving RFs for three_session_C2:  50%|#####     | 23/46 [1:17:05<1:37:55, 255.45s/it][A
+Deriving RFs for three_session_C2:  52%|#####2    | 24/46 [1:22:26<1:40:55, 275.25s/it][A
+Deriving RFs for three_session_C2:  59%|#####8    | 27/46 [1:27:02<1:09:44, 220.22s/it][A
+Deriving RFs for three_session_C2:  61%|######    | 28/46 [1:32:02<1:13:15, 244.20s/it][A
+Deriving RFs for three_session_C2:  63%|######3   | 29/46 [1:36:26<1:10:52, 250.12s/it][A
+Deriving RFs for three_session_C2:  65%|######5   | 30/46 [1:41:03<1:08:50, 258.15s/it][A
+Deriving RFs for three_session_C2:  72%|#######1  | 33/46 [1:46:31<46:15, 213.54s/it]  [A
+Deriving RFs for three_session_C2:  74%|#######3  | 34/46 [1:52:36<51:48, 259.07s/it][A
+Deriving RFs for three_session_C2:  76%|#######6  | 35/46 [1:58:04<51:15, 279.59s/it][A
+Deriving RFs for three_session_C2:  78%|#######8  | 36/46 [2:03:39<49:23, 296.40s/it][A
+Deriving RFs for three_session_C2:  80%|########  | 37/46 [2:09:13<46:07, 307.50s/it][A
+Deriving RFs for three_session_C2:  83%|########2 | 38/46 [2:14:37<41:40, 312.53s/it][A
+Deriving RFs for three_session_C2:  85%|########4 | 39/46 [2:19:36<35:58, 308.30s/it][A
+Deriving RFs for three_session_C2:  89%|########9 | 41/46 [2:24:33<21:42, 260.45s/it][A : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955301_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955301_locally_sparse_noise_8deg.pkl
+cell 566955175 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955175_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955175_locally_sparse_noise_8deg.pkl
+cell 566955306 has index 15
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955306_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955306_locally_sparse_noise_8deg.pkl
+cell 566955316 has index 6
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955316_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955316_locally_sparse_noise_8deg.pkl
+cell 566955446 has index 3
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955446_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955446_locally_sparse_noise_8deg.pkl
+cell 566955576 has index 18
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955576_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955576_locally_sparse_noise_8deg.pkl
+cell 566955321 has index 5
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955321_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955321_locally_sparse_noise_8deg.pkl
+cell 566955467 has index 32
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955467_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955467_locally_sparse_noise_8deg.pkl
+cell 566955215 has index 31
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955215_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955215_locally_sparse_noise_8deg.pkl
+cell 566955219 has index 21
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955219_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955219_locally_sparse_noise_8deg.pkl
+cell 566955479 has index 2
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955479_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955479_locally_sparse_noise_8deg.pkl
+cell 566955229 has index 10
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955229_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955229_locally_sparse_noise_8deg.pkl
+cell 566955487 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955487_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955487_locally_sparse_noise_8deg.pkl
+cell 566955234 has index 4
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955234_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955234_locally_sparse_noise_8deg.pkl
+cell 566955183 has index 39
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955183_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955183_locally_sparse_noise_8deg.pkl
+cell 566955
+Deriving RFs for three_session_C2:  91%|#########1| 42/46 [2:29:41<18:19, 274.76s/it][A
+Deriving RFs for three_session_C2:  93%|#########3| 43/46 [2:34:31<13:57, 279.17s/it][A
+Deriving RFs for three_session_C2:  96%|#########5| 44/46 [2:39:02<09:13, 276.69s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 46/46 [2:39:02<00:00, 207.44s/it][ARF data:  70%|#######   | 7/10 [31:57:12<11:10:49, 13416.54s/it]RF data:  80%|########  | 8/10 [31:57:16<5:13:05, 9392.87s/it]  
+Deriving RFs for three_session_C2:   0%|          | 0/168 [00:00<?, ?it/s][A
+Deriving RFs for three_session_C2:   1%|1         | 2/168 [07:19<10:07:34, 219.60s/it][A
+Deriving RFs for three_session_C2:   2%|2         | 4/168 [11:59<8:55:04, 195.76s/it] [A
+Deriving RFs for three_session_C2:   4%|3         | 6/168 [16:02<7:48:35, 173.55s/it][A
+Deriving RFs for three_session_C2:   5%|4         | 8/168 [20:42<7:15:49, 163.43s/it][A
+Deriving RFs for three_session_C2:   8%|7         | 13/168 [25:29<5:40:03, 131.64s/it][A
+Deriving RFs for three_session_C2:  12%|#1        | 20/168 [30:32<4:19:14, 105.10s/it][A
+Deriving RFs for three_session_C2:  14%|#3        | 23/168 [35:49<4:14:33, 105.34s/it][A
+Deriving RFs for three_session_C2:  15%|#5        | 26/168 [41:18<4:12:19, 106.61s/it][A
+Deriving RFs for three_session_C2:  16%|#6        | 27/168 [46:21<6:29:10, 165.60s/it][A
+Deriving RFs for three_session_C2:  17%|#6        | 28/168 [51:02<7:46:47, 200.06s/it][A
+Deriving RFs for three_session_C2:  24%|##3       | 40/168 [55:59<5:14:36, 147.48s/it][A250 has index 37
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955250_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955250_locally_sparse_noise_8deg.pkl
+cell 566955603 has index 29
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955603_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955603_locally_sparse_noise_8deg.pkl
+cell 566955255 has index 30
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955255_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/566955255_locally_sparse_noise_8deg.pkl
+Get cell RF info
+Get cell RF info
+cell 583570437 has index 166
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570437_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570437_locally_sparse_noise_8deg.pkl
+cell 583569930 has index 51
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569930_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569930_locally_sparse_noise_8deg.pkl
+cell 583570965 has index 117
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570965_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570965_locally_sparse_noise_8deg.pkl
+cell 583570465 has index 187
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570465_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570465_locally_sparse_noise_8deg.pkl
+cell 583572009 has index 95
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572009_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572009_locally_sparse_noise_8deg.pkl
+cell 583571127 has index 139
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571127_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571127_locally_sparse_noise_8deg.pkl
+cell 583571384 has index 104
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571384_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571384_locally_sparse_noise_8deg.pkl
+cell 583570293 has index 167
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570293_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570293_locally_sparse_noise_8deg.pkl
+cell 583570941 has index 119
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570941_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570941_locally_sparse_noise_8deg.pkl
+cell 583570362 has index 157
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570362_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570362_locally_sparse_noise_8deg.pkl
+cell 583570054 has index 152
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570054_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570054_locally_sparse_noise_8deg.pkl
+cell 583571597 has index 199
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571597_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulu
+Deriving RFs for three_session_C2:  25%|##5       | 42/168 [1:01:03<5:12:28, 148.79s/it][A
+Deriving RFs for three_session_C2:  26%|##5       | 43/168 [1:06:09<6:48:34, 196.12s/it][A
+Deriving RFs for three_session_C2:  27%|##6       | 45/168 [1:09:59<5:52:06, 171.76s/it][A
+Deriving RFs for three_session_C2:  27%|##7       | 46/168 [1:13:48<6:24:16, 188.99s/it][A
+Deriving RFs for three_session_C2:  28%|##7       | 47/168 [1:18:01<6:59:41, 208.11s/it][A
+Deriving RFs for three_session_C2:  29%|##8       | 48/168 [1:21:58<7:13:13, 216.61s/it][A
+Deriving RFs for three_session_C2:  29%|##9       | 49/168 [1:25:12<6:56:26, 209.97s/it][A
+Deriving RFs for three_session_C2:  30%|##9       | 50/168 [1:29:07<7:07:21, 217.30s/it][A
+Deriving RFs for three_session_C2:  32%|###2      | 54/168 [1:33:28<5:26:19, 171.75s/it][A
+Deriving RFs for three_session_C2:  33%|###2      | 55/168 [1:37:57<6:18:03, 200.74s/it][A
+Deriving RFs for three_session_C2:  33%|###3      | 56/168 [1:42:01<6:39:14, 213.88s/it][A
+Deriving RFs for three_session_C2:  34%|###3      | 57/168 [1:46:36<7:09:14, 232.03s/it][A
+Deriving RFs for three_session_C2:  35%|###5      | 59/168 [1:50:08<5:52:50, 194.23s/it][A
+Deriving RFs for three_session_C2:  36%|###5      | 60/168 [1:54:04<6:12:27, 206.92s/it][A
+Deriving RFs for three_session_C2:  37%|###6      | 62/168 [1:58:12<5:21:24, 181.93s/it][As_analysis/By_cell_ID/583571597_locally_sparse_noise_8deg.pkl
+cell 583569550 has index 67
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569550_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569550_locally_sparse_noise_8deg.pkl
+cell 583572626 has index 115
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572626_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572626_locally_sparse_noise_8deg.pkl
+cell 583571604 has index 200
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571604_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571604_locally_sparse_noise_8deg.pkl
+cell 583570070 has index 148
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570070_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570070_locally_sparse_noise_8deg.pkl
+cell 583571611 has index 198
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571611_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571611_locally_sparse_noise_8deg.pkl
+cell 583570078 has index 75
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570078_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570078_locally_sparse_noise_8deg.pkl
+cell 583571619 has index 147
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571619_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571619_locally_sparse_noise_8deg.pkl
+cell 583571112 has index 44
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571112_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571112_locally_sparse_noise_8deg.pkl
+cell 583572651 has index 116
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572651_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572651_locally_sparse_noise_8deg.pkl
+cell 583570608 has index 134
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570608_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570608_locally_sparse_noise_8deg.pkl
+cell 583571637 has index 151
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571637_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571637_locally_sparse_noise_8deg.pkl
+cell 583570615 has index 24
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570615_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570615_locally_sparse_noise_8deg.pkl
+cell 583570106 has index 42
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570106_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570106_locally_sparse_noise_8deg.pkl
+cell 583570622 has index 146
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570622_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570622_locally_sparse_noise_8deg.pkl
+cell 583572341 has index 35
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572341_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cif
+Deriving RFs for three_session_C2:  38%|###7      | 63/168 [2:02:42<6:04:48, 208.46s/it][A
+Deriving RFs for three_session_C2:  39%|###8      | 65/168 [2:06:26<5:08:19, 179.61s/it][A
+Deriving RFs for three_session_C2:  39%|###9      | 66/168 [2:09:59<5:22:02, 189.43s/it][A
+Deriving RFs for three_session_C2:  40%|###9      | 67/168 [2:13:24<5:26:41, 194.07s/it][A
+Deriving RFs for three_session_C2:  42%|####1     | 70/168 [2:16:44<4:14:40, 155.92s/it][A
+Deriving RFs for three_session_C2:  42%|####2     | 71/168 [2:20:16<4:39:09, 172.68s/it][A
+Deriving RFs for three_session_C2:  43%|####2     | 72/168 [2:24:13<5:06:50, 191.78s/it][A
+Deriving RFs for three_session_C2:  43%|####3     | 73/168 [2:27:43<5:12:42, 197.50s/it][A
+Deriving RFs for three_session_C2:  44%|####4     | 74/168 [2:31:28<5:21:59, 205.52s/it][A
+Deriving RFs for three_session_C2:  45%|####4     | 75/168 [2:35:06<5:24:42, 209.49s/it][A
+Deriving RFs for three_session_C2:  45%|####5     | 76/168 [2:38:21<5:14:20, 205.00s/it][A
+Deriving RFs for three_session_C2:  46%|####5     | 77/168 [2:41:58<5:16:32, 208.71s/it][A
+Deriving RFs for three_session_C2:  47%|####7     | 79/168 [2:45:35<4:24:52, 178.56s/it][A
+Deriving RFs for three_session_C2:  48%|####7     | 80/168 [2:49:51<4:56:11, 201.95s/it][A
+Deriving RFs for three_session_C2:  51%|#####     | 85/168 [2:53:21<3:32:56, 153.93s/it][As/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572341_locally_sparse_noise_8deg.pkl
+cell 583570629 has index 45
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570629_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570629_locally_sparse_noise_8deg.pkl
+cell 583571142 has index 138
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571142_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571142_locally_sparse_noise_8deg.pkl
+cell 583569610 has index 6
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569610_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569610_locally_sparse_noise_8deg.pkl
+cell 583572689 has index 84
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572689_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572689_locally_sparse_noise_8deg.pkl
+cell 583571155 has index 168
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571155_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571155_locally_sparse_noise_8deg.pkl
+cell 583569622 has index 5
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569622_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569622_locally_sparse_noise_8deg.pkl
+cell 583571673 has index 141
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571673_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571673_locally_sparse_noise_8deg.pkl
+cell 583569630 has index 64
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569630_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569630_locally_sparse_noise_8deg.pkl
+cell 583571168 has index 169
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571168_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571168_locally_sparse_noise_8deg.pkl
+cell 583572710 has index 83
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572710_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572710_locally_sparse_noise_8deg.pkl
+cell 583571175 has index 171
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571175_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571175_locally_sparse_noise_8deg.pkl
+cell 583569650 has index 16
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569650_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569650_locally_sparse_noise_8deg.pkl
+cell 583571189 has index 143
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571189_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571189_locally_sparse_noise_8deg.pkl
+cell 583569667 has index 27
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569667_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569667_locally_sparse_noise_8deg.pkl
+cell 583572244 has index 56
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572244_locally_sparse_noise
+Deriving RFs for three_session_C2:  54%|#####4    | 91/168 [2:56:42<2:31:11, 117.81s/it][A
+Deriving RFs for three_session_C2:  57%|#####6    | 95/168 [2:59:59<1:58:18, 97.24s/it] [A
+Deriving RFs for three_session_C2:  57%|#####7    | 96/168 [3:03:53<2:46:03, 138.38s/it][A
+Deriving RFs for three_session_C2:  58%|#####7    | 97/168 [3:07:05<3:02:39, 154.36s/it][A
+Deriving RFs for three_session_C2:  58%|#####8    | 98/168 [3:10:28<3:17:19, 169.13s/it][A
+Deriving RFs for three_session_C2:  60%|#####9    | 100/168 [3:13:38<2:46:22, 146.80s/it][A
+Deriving RFs for three_session_C2:  61%|######    | 102/168 [3:17:20<2:29:38, 136.04s/it][A
+Deriving RFs for three_session_C2:  62%|######1   | 104/168 [3:20:56<2:16:11, 127.68s/it][A
+Deriving RFs for three_session_C2:  63%|######3   | 106/168 [3:24:41<2:07:16, 123.17s/it][A
+Deriving RFs for three_session_C2:  64%|######4   | 108/168 [3:28:14<1:58:07, 118.13s/it][A
+Deriving RFs for three_session_C2:  65%|######4   | 109/168 [3:31:10<2:13:04, 135.33s/it][A
+Deriving RFs for three_session_C2:  65%|######5   | 110/168 [3:34:27<2:28:48, 153.94s/it][A
+Deriving RFs for three_session_C2:  67%|######7   | 113/168 [3:37:37<1:56:13, 126.80s/it][A
+Deriving RFs for three_session_C2:  68%|######7   | 114/168 [3:41:22<2:20:24, 156.01s/it][A
+Deriving RFs for three_session_C2:  69%|######9   | 116/168 [3:45:07<2:03:57, 143.03s/it][A_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572244_locally_sparse_noise_8deg.pkl
+cell 583572258 has index 33
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572258_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572258_locally_sparse_noise_8deg.pkl
+cell 583570641 has index 108
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570641_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570641_locally_sparse_noise_8deg.pkl
+cell 583569885 has index 81
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569885_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569885_locally_sparse_noise_8deg.pkl
+cell 583572272 has index 145
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572272_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572272_locally_sparse_noise_8deg.pkl
+cell 583572279 has index 37
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572279_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572279_locally_sparse_noise_8deg.pkl
+cell 583572286 has index 34
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572286_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572286_locally_sparse_noise_8deg.pkl
+cell 583571680 has index 170
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571680_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571680_locally_sparse_noise_8deg.pkl
+cell 583570245 has index 158
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570245_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570245_locally_sparse_noise_8deg.pkl
+cell 583569740 has index 12
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569740_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569740_locally_sparse_noise_8deg.pkl
+cell 583570256 has index 106
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570256_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570256_locally_sparse_noise_8deg.pkl
+cell 583572817 has index 61
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572817_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572817_locally_sparse_noise_8deg.pkl
+cell 583569754 has index 11
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569754_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569754_locally_sparse_noise_8deg.pkl
+cell 583570267 has index 74
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570267_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570267_locally_sparse_noise_8deg.pkl
+cell 583572322 has index 31
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572322_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572322_locally_sparse_noise_8deg.pkl
+cell 583570278 has index 78
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell
+Deriving RFs for three_session_C2:  70%|#######   | 118/168 [3:48:56<1:52:06, 134.53s/it][A
+Deriving RFs for three_session_C2:  71%|#######1  | 120/168 [3:52:34<1:41:27, 126.83s/it][A
+Deriving RFs for three_session_C2:  74%|#######3  | 124/168 [3:55:51<1:15:54, 103.51s/it][A
+Deriving RFs for three_session_C2:  75%|#######5  | 126/168 [3:59:43<1:15:08, 107.34s/it][A
+Deriving RFs for three_session_C2:  76%|#######6  | 128/168 [4:03:15<1:11:14, 106.87s/it][A
+Deriving RFs for three_session_C2:  77%|#######6  | 129/168 [4:07:15<1:35:32, 146.99s/it][A
+Deriving RFs for three_session_C2:  77%|#######7  | 130/168 [4:11:20<1:51:38, 176.27s/it][A
+Deriving RFs for three_session_C2:  78%|#######7  | 131/168 [4:15:09<1:58:34, 192.28s/it][A
+Deriving RFs for three_session_C2:  79%|#######8  | 132/168 [4:18:55<2:01:20, 202.23s/it][A
+Deriving RFs for three_session_C2:  80%|#######9  | 134/168 [4:22:10<1:36:47, 170.82s/it][A
+Deriving RFs for three_session_C2:  81%|########  | 136/168 [4:25:22<1:19:06, 148.33s/it][A
+Deriving RFs for three_session_C2:  82%|########1 | 137/168 [4:28:44<1:25:02, 164.61s/it][A
+Deriving RFs for three_session_C2:  83%|########3 | 140/168 [4:32:42<1:04:52, 139.01s/it][A
+Deriving RFs for three_session_C2:  85%|########4 | 142/168 [4:36:18<56:12, 129.72s/it]  [A
+Deriving RFs for three_session_C2:  86%|########6 | 145/168 [4:39:57<43:11, 112.69s/it][A_ID/583570278_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570278_locally_sparse_noise_8deg.pkl
+cell 583569768 has index 180
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569768_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569768_locally_sparse_noise_8deg.pkl
+cell 583569786 has index 26
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569786_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569786_locally_sparse_noise_8deg.pkl
+cell 583570304 has index 161
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570304_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570304_locally_sparse_noise_8deg.pkl
+cell 583572356 has index 50
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572356_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572356_locally_sparse_noise_8deg.pkl
+cell 583571333 has index 69
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571333_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571333_locally_sparse_noise_8deg.pkl
+cell 583572363 has index 130
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572363_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572363_locally_sparse_noise_8deg.pkl
+cell 583569804 has index 8
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569804_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569804_locally_sparse_noise_8deg.pkl
+cell 583572370 has index 133
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572370_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572370_locally_sparse_noise_8deg.pkl
+cell 583571439 has index 179
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571439_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571439_locally_sparse_noise_8deg.pkl
+cell 583572384 has index 71
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572384_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572384_locally_sparse_noise_8deg.pkl
+cell 583571099 has index 142
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571099_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571099_locally_sparse_noise_8deg.pkl
+cell 583571371 has index 126
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571371_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571371_locally_sparse_noise_8deg.pkl
+cell 583570355 has index 156
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570355_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570355_locally_sparse_noise_8deg.pkl
+cell 583572408 has index 48
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572408_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572408_locally_sparse_noise_8deg.pkl
+cell 583571391 has index 105
+
+Saved : /media/data_cifs/AllenData/DataFor
+Deriving RFs for three_session_C2:  88%|########7 | 147/168 [4:43:37<39:09, 111.89s/it][A
+Deriving RFs for three_session_C2:  88%|########8 | 148/168 [4:46:49<45:15, 135.79s/it][A
+Deriving RFs for three_session_C2:  89%|########8 | 149/168 [4:50:18<50:01, 157.96s/it][A
+Deriving RFs for three_session_C2:  89%|########9 | 150/168 [4:54:23<55:12, 184.03s/it][A
+Deriving RFs for three_session_C2:  90%|########9 | 151/168 [4:58:16<56:17, 198.67s/it][A
+Deriving RFs for three_session_C2:  90%|######### | 152/168 [5:01:00<50:10, 188.16s/it][A
+Deriving RFs for three_session_C2:  92%|#########1| 154/168 [5:03:59<37:00, 158.60s/it][A
+Deriving RFs for three_session_C2:  92%|#########2| 155/168 [5:07:04<36:03, 166.46s/it][A
+Deriving RFs for three_session_C2:  93%|#########2| 156/168 [5:10:13<34:40, 173.34s/it][A
+Deriving RFs for three_session_C2:  93%|#########3| 157/168 [5:12:52<30:57, 168.87s/it][A
+Deriving RFs for three_session_C2:  94%|#########4| 158/168 [5:16:08<29:32, 177.28s/it][A
+Deriving RFs for three_session_C2:  95%|#########4| 159/168 [5:19:20<27:12, 181.43s/it][A
+Deriving RFs for three_session_C2:  96%|#########5| 161/168 [5:22:20<17:58, 154.04s/it][A
+Deriving RFs for three_session_C2:  97%|#########7| 163/168 [5:25:13<11:08, 133.80s/it][A
+Deriving RFs for three_session_C2:  98%|#########8| 165/168 [5:28:13<06:01, 120.64s/it][A
+Deriving RFs for three_session_C2: 100%|##########| 168/168 [5:28:13<00:00, 117.22s/it][ARF data:  90%|######### | 9/10 [37:26:59<3:28:29, 12509.80s/it]RF data: 100%|##########| 10/10 [37:27:04<00:00, 8758.42s/it]  
+Train/Allen_stimulus_analysis/By_cell_ID/583571391_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571391_locally_sparse_noise_8deg.pkl
+cell 583570369 has index 185
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570369_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570369_locally_sparse_noise_8deg.pkl
+cell 583571398 has index 99
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571398_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571398_locally_sparse_noise_8deg.pkl
+cell 583570376 has index 184
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570376_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570376_locally_sparse_noise_8deg.pkl
+cell 583572426 has index 127
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572426_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572426_locally_sparse_noise_8deg.pkl
+cell 583571405 has index 101
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571405_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571405_locally_sparse_noise_8deg.pkl
+cell 583571412 has index 102
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571412_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571412_locally_sparse_noise_8deg.pkl
+cell 583569878 has index 176
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569878_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569878_locally_sparse_noise_8deg.pkl
+cell 583570392 has index 163
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570392_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570392_locally_sparse_noise_8deg.pkl
+cell 583570906 has index 122
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570906_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570906_locally_sparse_noise_8deg.pkl
+cell 583572445 has index 128
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572445_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583572445_locally_sparse_noise_8deg.pkl
+cell 583571426 has index 182
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571426_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583571426_locally_sparse_noise_8deg.pkl
+cell 583570920 has index 124
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570920_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570920_locally_sparse_noise_8deg.pkl
+cell 583569899 has index 177
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569899_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583569899_locally_sparse_noise_8deg.pkl
+cell 583570927 has index 125
+
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570927_locally_sparse_noise_4deg.pkl
+Saved : /media/data_cifs/AllenData/DataForTrain/Allen_stimulus_analysis/By_cell_ID/583570927_locally_sparse_noise_8deg.pkl
+Get cell RF info

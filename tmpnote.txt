@@ -1,0 +1,54 @@
+for exps in exp_con_ids:
+    exp_session = boc.get_ophys_experiments(experiment_container_ids=[exps])
+    cells_ID_list={}
+    data_set={}
+    import ipdb; ipdb.set_trace()
+
+    for sess in exp_session:
+        sess_code = get_sess_key(sess['session_type'])
+        if sess_code =='C2':
+            sess_code='C'
+        tmp=boc.get_ophys_experiment_data(sess['id'])
+        data_set[sess_code]=tmp
+        cells_ID_list[sess['session_type']]=tmp.get_cell_specimen_ids()
+    common_cells = session_filters(config,cells_ID_list)
+
+    """Load Precal"""
+    download_time = time.time()
+    NM1_precal={}
+    sess_ID= [k:v.get_metadata()['ophys_experiment_id'] for k,v in data_set.iteritems()]
+
+    # exp session A : NM1, NM3
+    fname = "%s%s_%s_precal_response.pkl"%(config.Response_loc,'NM1',sess_ID['A'])
+    NM1_precal['A']=load_object(filename=fname) 
+    fname = "%s%s_%s_precal_response.pkl"%(config.Response_loc,'NM3',sess_ID['A'])
+    NM3_precal = load_object(filename=fname)
+
+    # exp session B : NM1, NS
+    data_set_B =data_set_list[config.session['B']
+    sess_info = data_set_B.get_metadata()
+    fname = "%s%s_%s_precal_response.pkl"%(config.Response_loc,'NM1',sess_ID['B'])
+    NM1_precal['B']=load_object(filename=fname) 
+
+    # exp session C : NM1, NM2
+    data_set_C =data_set_list[sess_C]
+    sess_info = data_set_C.get_metadata()
+    fname = "%s%s_%s_precal_response.pkl"%(config.Response_loc,'NM1',sess_ID['C'])
+    NM1_precal['C']=load_object(filename=fname) 
+    fname = "%s%s_%s_precal_response.pkl"%(config.Response_loc,'NM2',sess_ID['C'])
+    NM2_precal = load_object(filename=fname) 
+    print("Total time downloading pre_cal NM responses : %s"%(time.time() - download_time))
+
+    for ck,cv in common_cells.iteritems():
+        if cv:
+            neural_responses ={}
+            cell_id = ck
+            cell_index=[k:str(v.get_cell_specimen_indices([cell_id])[0]) for k,v in data_set.iteritems()]
+
+            neural_responses['NM1_A'] = np.vstack(np.asarray(NM1_precal['A'][cell_index_A])) #[10 trials x num frames]
+            neural_responses['NM1_B'] = np.vstack(np.asarray(NM1_precal['B'][cell_index_B]))
+            neural_responses['NM1_C'] = np.vstack(np.asarray(NM1_precal['C'][cell_index_A]))
+
+np.vstack(np.asarray(tmpres))
+
+NM1_precal['A'][cell_index_A]
