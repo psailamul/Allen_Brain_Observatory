@@ -294,6 +294,7 @@ def preload_raw_stimuli(data_dicts, exp_dict):
                 raise RuntimeError('Cropping not implemented.')
             if 'pad' in process_dict.keys():
                 pad = process_dict['pad']
+                print 'Padding %s to %s...' % (stim, pad)
                 im_size = raw_stimuli[0].shape[:2]
                 pad_to = np.asarray(pad) - im_size
                 pad_to = pad_to // 2
@@ -707,6 +708,7 @@ def prepare_data_for_tf_records(
             output_directory,
             '%s_%s.%s' % (set_name, k, ext))
         idx = 0
+        assert len(v) > 0, 'Empty validation set found.'
         with tf.python_io.TFRecordWriter(it_name) as tfrecord_writer:
             for idx, d in tqdm(
                     enumerate(v),

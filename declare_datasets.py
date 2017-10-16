@@ -59,18 +59,18 @@ class declare_allen_datasets():
             'randomize_selection': False,
             'warp_stimuli': False,
             'process_stimuli': {
-                    'natural_movie_one': {  # 1080, 1920
-                        'resize': [152, 608],  # [270, 480]
-                    },
-                    'natural_movie_two': {
-                        'resize': [152, 608],  # [270, 480]
-                    },
-                    'natural_movie_three': {
-                        'resize': [152, 608],  # [270, 480]
-                    },
+                    # 'natural_movie_one': {  # 1080, 1920
+                    #     'resize': [304, 608],  # [270, 480]
+                    #  },
+                    # 'natural_movie_two': {
+                    #     'resize': [304, 608],  # [270, 480]
+                    # },
+                    # 'natural_movie_three': {
+                    #     'resize': [304, 608],  # [270, 480]
+                    # },
                     'natural_scenes': {
                         'pad': [1080, 1920],  # Pad to full movie size
-                        'resize': [152, 608],  # [270, 480]
+                        'resize': [304, 608],  # [270, 480]
                     },
                 },
             # natural_movie_one
@@ -267,7 +267,8 @@ class declare_allen_datasets():
                 'three_session_B',
             ]
         exp_dict['stimuli'] = [
-                'natural_scenes'
+                'natural_scenes',
+                'natural_movie_one'
             ]
         exp_dict['cv_split'] = {
                 'split_on_stim': 'natural_scenes'  # Specify train set
@@ -363,7 +364,8 @@ class declare_allen_datasets():
                 'three_session_B',
             ]
         exp_dict['stimuli'] = [
-                'natural_scenes'
+                'natural_scenes',
+                'natural_movie_one'
             ]
         exp_dict['cv_split'] = {
                 'split_on_stim': 'natural_scenes'  # Specify train set
