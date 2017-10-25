@@ -8,6 +8,7 @@ import numpy as np
 import tensorflow as tf
 import cPickle as pickle
 from db import db
+from glob import glob
 from tqdm import tqdm
 from scipy import stats, misc
 from ops import helper_funcs, deconvolve
@@ -34,6 +35,41 @@ def create_data_loader_class(template_file, meta_dict, output_file):
             text[idx] = t.replace(k, str(v))
     with open(output_file, 'w') as f:
         f.writelines(text)
+
+
+def create_model_files(
+        output_size,
+        set_name,
+        rf_info,
+        template_directory,
+        model_dir):
+    """Generate CC_BP model files for this dataset."""
+    model_files = glob(
+        os.path.join(
+            template_directory,
+            '*.py'))
+    h = rf_info['h']
+    w = rf_info['w']
+    k = rf_info['k']
+    output_directory = os.path.join(
+        model_dir,
+        set_name)
+    helper_funcs.make_dir(output_directory)
+    for mf in model_files:
+        with open(mf) as f:
+            tf = f.readlines()
+        import ipdb;ipdb.set_trace()
+        for idx, l in enumerate(tf):
+            tf[idx] = l.replace('OUTPUT_SIZE', output_size)
+            tf[idx] = l.replace('H_PIX', h)
+            tf[idx] = l.replace('W_PIX', w)
+            tf[idx] = l.replace('SIGMA', k)
+        output_file = os.path.join(
+            output_directory,
+            mf.split('/')[-1])
+        with open(output_file, 'w') as f:
+            f.writelines(tf)
+        print 'Created model file: %s' % output_file
 
 
 def fixed_len_feature(length=[], dtype='int64'):
@@ -652,7 +688,8 @@ def prepare_data_for_tf_records(
         feature_types,
         cc_repo=None,
         stimuli_key=None,
-        ext='tfrecords'):
+        ext='tfrecords',
+        config=None):
     """Package dict into tfrecords."""
     if cv_split.keys()[0] == 'random_cv_split':
         cv_inds = np.random.permutation(len(data_files))
@@ -780,8 +817,48 @@ def prepare_data_for_tf_records(
             'SCORE_METRIC': cc_repo['score_metric'],
             'PREPROCESS': cc_repo['preprocess'],
         }
+
+        # Create data loader for contextual circuit BP
         create_data_loader_class(
             cc_repo['template_file'], loader_meta, dl_file)
+
+        # Create models for contextual circuit BP
+        summarized_rfs = summarize_rfs(rf_dicts)
+        create_model_files(
+            output_size=cc_repo['output_size'],
+            set_name=set_name,
+            rf_info=summarized_rfs,
+            template_directory=config.model_template_dir,
+            model_dir=config.model_struct_dir)
+
+
+def summarize_rfs(
+        rf_dicts,
+        x_key='on_center_x',
+        y_key='on_center_y',
+        k_key='on_width_x'):
+    """Return the averages of RF centroids and extents."""
+    xs, ys, ks = [], [], []
+    for k, v in rf_dicts.iteritems():
+        v = v[0]
+        if v[x_key] is not None:
+            xs += [v[x_key]]
+        if v[y_key] is not None:
+            ys += [v[y_key]]
+        if v[k_key] is not None:
+            ks += [v[k_key]]
+    h = np.nanmean(ys)
+    w = np.nanmean(xs)
+    k = np.nanmean(ks)
+    assert h != 0, 'No RF height found.'
+    assert w != 0, 'No RF width found.'
+    assert k != 0, 'No RF kernel found.'
+    return {
+        'h': h,
+        'w': w,
+        'k': k
+
+    }
 
 
 def inclusive_cell_filter(data_dicts, sessions):
@@ -916,7 +993,8 @@ def package_dataset(
         store_means=dataset_info['store_means'],
         stimuli_key=dataset_info['reference_image_key'],
         feature_types=dataset_info['tf_types'],
-        cc_repo=cc_repo)
+        cc_repo=cc_repo,
+        config=config)
 
 
 def main(

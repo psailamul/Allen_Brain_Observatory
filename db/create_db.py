@@ -150,6 +150,11 @@ def process_cell(
             flag_on=cell_rf_dict['found_on'],
             flag_off=cell_rf_dict['found_off'])
         cell_rf_dict = filter_dict(cell_rf_dict)
+        # Find appropriate session info and add to cell_rf_dict
+        cell_rf_dict['cre_line'] = exp_session[0]['cre_line'] 
+        cell_rf_dict['structure'] = exp_session[0]['targeted_structure']
+        cell_rf_dict['age'] = exp_session[0]['acquisition_age_days']
+        cell_rf_dict['imaging_depth'] = exp_session[0]['imaging_depth']
         list_of_cell_stim_dicts = []
         for session in exp_session:
             data_set = boc.get_ophys_experiment_data(session['id'])
@@ -220,7 +225,7 @@ def populate_db(config, boc, log, timestamp, start_exp=None, end_exp=None):
     rfs_info = helper_funcs.load_object(
         os.path.join(
             config.RF_info_loc,
-            "all_cells_RF_info_08_30_17.pkl"))
+            config.cells_pkl))
     recorded_cells_list = {}
     log.info('Updating DB with experiment containers.')
     for idx in tqdm(

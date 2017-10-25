@@ -22,18 +22,32 @@ class Allen_Brain_Observatory_Config():
         self._id = ''
         """ Directories"""
         self.get_host_path()
-
-        # TODO: Document these parameters
-        self.data_loc = '/media/data_cifs/AllenData'
-        self.tf_record_output = '/media/data_cifs/contextual_circuit/tf_records'
-        self.deconv_model_dir = os.path.join(
-            self.data_loc,
-            'deconv_models')
         self.log_dir = 'logs'
         self.DB_loc = 'DataForTrain'
         self.cc_template = 'template_cc_model.txt'
         self.tmp_pachaya_folder = 'pachaya_scripts'  # Holding old files here
+        self.data_loc = os.path.join(
+            '/media',
+            'data_cifs',
+            'AllenData')
+        self.tf_record_output = os.path.join(
+            '/media',
+            'data_cifs',
+            'contextual_circuit',
+            'tf_records')
+        self.deconv_model_dir = os.path.join(
+            self.data_loc,
+            'deconv_models')
+        self.model_struct_dir = os.path.join(
+            self.cc_path,
+            'models',
+            'structs')
+        self.model_template_dir = os.path.join(
+            self.model_struct_dir,
+            'template_ALLEN')
+        self.model_prefix = 'auto_generated_'
 
+        # TODO: Document these parameters
         # Parameters
         self.rf_shuffles = 5000
         self.alpha = 0.5
@@ -42,6 +56,7 @@ class Allen_Brain_Observatory_Config():
             self.repo_PATH,
             'filters_VISp_175_sigNS_nonzeroNM_reliableRF.pkl')
         self.data_set_code = 'Area-VISp_Depth-175um_NS-sig_NMall-nonzero_LSN-rfChi2-0.05_allStim-true'
+        self.cells_pkl = 'all_cells_RF_info_08_30_17.pkl'
 
         # Order for Name Code
         # Area / depth / Stimuli - SG, DG, NS, NM, LSN / aShow only

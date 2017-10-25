@@ -165,7 +165,11 @@ class db(object):
             off_center_y,
             off_width_x,
             off_width_y,
-            off_rotation
+            off_rotation,
+            cre_line,
+            structure,
+            age,
+            imaging_depth
             )
             VALUES
             (
@@ -193,7 +197,11 @@ class db(object):
             %(off_center_y)s,
             %(off_width_x)s,
             %(off_width_y)s,
-            %(off_rotation)s
+            %(off_rotation)s,
+            %(cre_line)s,
+            %(structure)s,
+            %(age)s,
+            %(imaging_depth)s
             )
             """,
             namedict)
@@ -228,6 +236,14 @@ class db(object):
         """
         Select cells by rf coordinates.
         """
+        eq = ''
+        if 'cre_line' in namedict:
+            eq += ' and lower(cre_line) LIKE "\%%s\%"'  % namedict['cre_line'].lower()
+        if 'structure' in namedict:
+            eq += ' and lower(structure) LIKE "\%%s\%"' % namedict['structure'].lower()
+        if 'imaging_depth' in namedict: 
+            eq += ' and imaging_depth=%s' % namedict['imaging_depth']
+
         self.cur.execute(
             """
             SELECT * FROM rf
@@ -237,13 +253,15 @@ class db(object):
             on_center_x < %s and
             on_center_y >= %s and
             on_center_y < %s
+            %s
             """
             %
             (
                 namedict['x_min'],
                 namedict['x_max'],
                 namedict['y_min'],
-                namedict['y_max'])
+                namedict['y_max'],
+                eq)
             )
         if self.status_message:
             self.return_status('INSERT')
@@ -273,6 +291,14 @@ class db(object):
         """
         Select cells by rf coordinates.
         """
+        eq = ''
+        if 'cre_line' in namedict:
+            eq += ' and lower(cre_line) LIKE "\%%s\%"'  % namedict['cre_line'].lower()
+        if 'structure' in namedict: 
+            eq += ' and lower(structure) LIKE "\%%s\%"' % namedict['structure'].lower()
+        if 'imaging_depth' in namedict:
+            eq += ' and imaging_depth=%s' % namedict['imaging_depth']
+
         # Create stimulus filter
         stim_string = ''
         if stimuli_filter is not None:
@@ -311,6 +337,7 @@ class db(object):
             on_center_y >= %s and
             on_center_y < %s
             %s
+            %s
             """
             %
             (
@@ -318,6 +345,7 @@ class db(object):
                 rf_dict['x_max'],
                 rf_dict['y_min'],
                 rf_dict['y_max'],
+                eq,
                 stim_string)
             )
         if self.status_message:
