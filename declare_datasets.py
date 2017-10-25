@@ -151,12 +151,12 @@ class declare_allen_datasets():
             'randomize_selection': False,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
-            'rf_query': [
+            'rf_query': [{
                 'rf_coordinate_range': {  # Get all cells
                     'x_min': 40,
                     'x_max': 70,
                     'y_min': 20,
-                    'y_max': 50,
+                    'y_max': 50}
             }],
             'cross_ref': 'rf_coordinate_range_and_stimuli',
             'store_means': [
@@ -190,7 +190,10 @@ class declare_allen_datasets():
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
-            }]
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -229,7 +232,7 @@ class declare_allen_datasets():
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
-            }]
+            }}],
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -259,7 +262,7 @@ class declare_allen_datasets():
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
-            }]
+            }}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -299,7 +302,7 @@ class declare_allen_datasets():
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
-            }]
+            }}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -329,7 +332,7 @@ class declare_allen_datasets():
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
-            }]
+            }}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -359,7 +362,7 @@ class declare_allen_datasets():
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
-            }]
+            }}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -383,3 +386,4 @@ class declare_allen_datasets():
                 'split_on_stim': 'natural_scenes'  # Specify train set
             }
         return exp_dict
+

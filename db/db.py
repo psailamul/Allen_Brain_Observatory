@@ -236,13 +236,12 @@ class db(object):
         """
         Select cells by rf coordinates.
         """
-        eq = ''
         if 'cre_line' in namedict:
-            eq += ' and lower(cre_line) LIKE "\%%s\%"'  % namedict['cre_line'].lower()
+            eq += " and lower(cre_line) LIKE '%%%s%%'"  % namedict['cre_line'].lower()
         if 'structure' in namedict:
-            eq += ' and lower(structure) LIKE "\%%s\%"' % namedict['structure'].lower()
-        if 'imaging_depth' in namedict: 
-            eq += ' and imaging_depth=%s' % namedict['imaging_depth']
+            eq += " and lower(structure)='%s'" % namedict['structure'].lower()
+        if 'imaging_depth' in namedict:
+            eq += " and imaging_depth=%s" % namedict['imaging_depth']
 
         self.cur.execute(
             """
@@ -285,7 +284,7 @@ class db(object):
 
     def gather_data_by_rf_coor_and_stim(
             self,
-            rf_dict,
+            namedict,
             stimuli_filter=None,
             session_filter=None):
         """
@@ -293,11 +292,11 @@ class db(object):
         """
         eq = ''
         if 'cre_line' in namedict:
-            eq += ' and lower(cre_line) LIKE "\%%s\%"'  % namedict['cre_line'].lower()
+            eq += " and lower(cre_line) LIKE '%%%s%%'"  % namedict['cre_line'].lower()
         if 'structure' in namedict: 
-            eq += ' and lower(structure) LIKE "\%%s\%"' % namedict['structure'].lower()
+            eq += " and lower(structure)='%s'" % namedict['structure'].lower()
         if 'imaging_depth' in namedict:
-            eq += ' and imaging_depth=%s' % namedict['imaging_depth']
+            eq += " and imaging_depth=%s" % namedict['imaging_depth']
 
         # Create stimulus filter
         stim_string = ''
