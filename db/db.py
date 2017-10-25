@@ -257,10 +257,10 @@ class db(object):
             """
             %
             (
-                namedict['x_min'],
-                namedict['x_max'],
-                namedict['y_min'],
-                namedict['y_max'],
+                namedict['rf_coordinate_range']['x_min'],
+                namedict['rf_coordinate_range']['x_max'],
+                namedict['rf_coordinate_range']['y_min'],
+                namedict['rf_coordinate_range']['y_max'],
                 eq)
             )
         if self.status_message:
@@ -341,10 +341,10 @@ class db(object):
             """
             %
             (
-                rf_dict['x_min'],
-                rf_dict['x_max'],
-                rf_dict['y_min'],
-                rf_dict['y_max'],
+                namedict['rf_coordinate_range']['x_min'],
+                namedict['rf_coordinate_range']['x_max'],
+                namedict['rf_coordinate_range']['y_min'],
+                namedict['rf_coordinate_range']['y_max'],
                 eq,
                 stim_string)
             )

@@ -103,17 +103,17 @@ class declare_allen_datasets():
             'randomize_selection': True,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
-            'rf_query': {
-                'rf_coordinate_range': [{  # Get all cells
+            'rf_query': [{
+                'rf_coordinate_range': {  # Get all cells
                     'x_min': 40,
                     'x_max': 70,
                     'y_min': 20,
                     'y_max': 50,
-                }],
-                'cre_line': ['Cux2'],
-                'structure': ['VISp'],
-                'imaging_depth': [175],
-            },
+                },
+                'cre_line': 'Cux2',
+                'structure': 'VISp',
+                'imaging_depth': 175}
+            ],
             'cross_ref': 'rf_coordinate_range_and_stimuli',
             'store_means': [
                 'image',
@@ -151,14 +151,13 @@ class declare_allen_datasets():
             'randomize_selection': False,
             'reference_image_key': {'proc_stimuli': 'image'},
             'reference_label_key': {'neural_trace_trimmed': 'label'},
-            'rf_query': {
-                'rf_coordinate_range': [{  # Get all cells
+            'rf_query': [
+                'rf_coordinate_range': {  # Get all cells
                     'x_min': 40,
                     'x_max': 70,
                     'y_min': 20,
                     'y_max': 50,
-                }]
-            },
+            }],
             'cross_ref': 'rf_coordinate_range_and_stimuli',
             'store_means': [
                 'image',
@@ -185,14 +184,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = False
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': 40,
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
             }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -225,14 +223,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = False
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': 40,
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
             }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -256,20 +253,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = False
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_coordinate_range'] = [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': 40,
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
             }]
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
-                'x_min': 40,
-                'x_max': 70,
-                'y_min': 20,
-                'y_max': 50,
-            }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -303,14 +293,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = True
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': -10000,
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
             }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -334,14 +323,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = True
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': -10000,
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
             }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -365,14 +353,13 @@ class declare_allen_datasets():
         exp_dict['randomize_selection'] = True
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
-        exp_dict['rf_query'] = {
-            'rf_coordinate_range': [{  # Get all cells
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
                 'x_min': -10000,
                 'x_max': 10000,
                 'y_min': -10000,
                 'y_max': 10000,
             }]
-        }
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',

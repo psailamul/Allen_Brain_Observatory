@@ -938,10 +938,10 @@ def package_dataset(
     if dataset_instructions == 'rf_coordinate_range':
         # TODO fix this API so it doesn't rely on conditionals.
         data_dicts = db.get_cells_all_data_by_rf(
-            dataset_info['rf_coordinate_range'])[0]
+            dataset_info['rf_query'])[0]
     elif dataset_instructions == 'rf_coordinate_range_and_stimuli':
         data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
-            rfs=dataset_info['rf_coordinate_range'],
+            rfs=dataset_info['rf_query'],
             stimuli=dataset_info['stimuli'],
             sessions=dataset_info['sessions'])[0]
     else:
