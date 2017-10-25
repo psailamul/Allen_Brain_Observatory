@@ -42,7 +42,7 @@ class Allen_Brain_Observatory_Config():
         self.imaging_response_loc= self.data_loc+self.DB_loc+'all_imaging_responses/'
         self.fluorescence_traces_loc= self.imaging_response_loc +'fluorescence_traces/'
         self.dff_traces_loc = self.imaging_response_loc+'dff_traces_loc/'
-	self.ROIs_mask_loc= self.imaging_response_loc +'ROIs_mask/'
+        self.ROIs_mask_loc= self.imaging_response_loc +'ROIs_mask/'
         self.stim_table_loc= self.imaging_response_loc +'stim_tables/'
         self.specimen_recording_loc= self.imaging_response_loc +'specimen_recording/'
         
