@@ -262,7 +262,10 @@ class declare_allen_datasets():
                 'x_max': 70,
                 'y_min': 20,
                 'y_max': 50,
-            }}]
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
         exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
         exp_dict['store_means'] = [
                 'image',
@@ -386,4 +389,38 @@ class declare_allen_datasets():
                 'split_on_stim': 'natural_scenes'  # Specify train set
             }
         return exp_dict
+
+    def ALLEN_ss_cells_1_movies(self):
+        """1 cell from across the visual field."""
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103_scenes'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
+                'x_min': 20,
+                'x_max': 30,
+                'y_min': 50,
+                'y_max': 60,
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [354, 608, 1],  # [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        return exp_dict
+
 

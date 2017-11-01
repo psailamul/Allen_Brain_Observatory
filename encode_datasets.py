@@ -458,6 +458,7 @@ def load_npzs(
             output_data[idx] = it_d
 
     # TODO: handle NaNs in output_data here.
+    import ipdb;ipdb.set_trace()
     if exp_dict['cc_repo_vars']['output_size'][0] > 0:  # 1:
         # Multi neuron target; consolidate event_dict.
         stimuli = [d['stimulus_name'] for d in output_data]
@@ -570,6 +571,7 @@ def load_npzs(
                         axis=0)
 
         # Test for aligned cells across sessions
+        import ipdb;ipdb.set_trace()
         test_cells = np.concatenate(
             [np.expand_dims(x, axis=-1)
                 for x in cat_cell_specimen_ids.values()],

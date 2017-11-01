@@ -37,12 +37,16 @@ def queries_list():
         #     'y_min': 20,
         #     'y_max': 50,
         # },
-        {  # Get all
-            'x_min': -10000,
-            'x_max': 10000,
-            'y_min': -10000,
-            'y_max': 10000,
-        },
+        [{
+            'rf_coordinate_range': {  # Get all cells
+                'x_min': 20,
+                'x_max': 30,
+                'y_min': 50,
+                'y_max': 60,
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
     ]
     query_labels = [
         # 'center x in (9,50), y in (9,20)',
@@ -70,8 +74,8 @@ def main(
         all_data_dicts = []
         for q in queries:
             all_data_dicts += [db.get_cells_all_data_by_rf_and_stimuli(
-                [q],
-                filter_by_stim)]
+                rfs=q,
+                stimuli=filter_by_stim)]
     else:
         print 'Pulling cells by their RFs.'
         all_data_dicts = db.get_cells_all_data_by_rf(queries)

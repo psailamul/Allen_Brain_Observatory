@@ -245,7 +245,7 @@ class db(object):
 
         self.cur.execute(
             """
-            SELECT * FROM rf
+            SELECT DISTINCT ON (cells.cell_specimen_id) * FROM rf
             INNER JOIN cells on cells.cell_specimen_id=rf.cell_specimen_id
             WHERE
             on_center_x >= %s and
@@ -325,7 +325,7 @@ class db(object):
         else:
             stim_string = ' and (%s)' % stim_string.split('and ')[-1]
 
-        # Query DB
+        # Query DB -- Note the distinct flag on inner join!
         self.cur.execute(
             """
             SELECT * FROM rf
