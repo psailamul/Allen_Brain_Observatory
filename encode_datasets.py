@@ -58,12 +58,11 @@ def create_model_files(
     for mf in model_files:
         with open(mf) as f:
             tf = f.readlines()
-        import ipdb;ipdb.set_trace()
         for idx, l in enumerate(tf):
-            tf[idx] = l.replace('OUTPUT_SIZE', output_size)
-            tf[idx] = l.replace('H_PIX', h)
-            tf[idx] = l.replace('W_PIX', w)
-            tf[idx] = l.replace('SIGMA', k)
+            tf[idx] = l.replace('OUTPUT_SIZE', str(output_size))
+            tf[idx] = l.replace('H_PIX', str(h))
+            tf[idx] = l.replace('W_PIX', str(w))
+            tf[idx] = l.replace('SIGMA', str(k))
         output_file = os.path.join(
             output_directory,
             mf.split('/')[-1])
@@ -175,6 +174,7 @@ def process_body(
         neural_data = deconv.deconvolve(
             neural_data).astype(exp_dict['data_type'])
 
+    # Delay data with 'neural_delay'
     stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
     neural_data_trimmed = neural_data[stim_table_idx]
     df['neural_trace_trimmed'] = neural_data_trimmed
@@ -458,7 +458,6 @@ def load_npzs(
             output_data[idx] = it_d
 
     # TODO: handle NaNs in output_data here.
-    import ipdb;ipdb.set_trace()
     if exp_dict['cc_repo_vars']['output_size'][0] > 0:  # 1:
         # Multi neuron target; consolidate event_dict.
         stimuli = [d['stimulus_name'] for d in output_data]
@@ -571,7 +570,7 @@ def load_npzs(
                         axis=0)
 
         # Test for aligned cells across sessions
-        import ipdb;ipdb.set_trace()
+        # import ipdb;ipdb.set_trace()  TODO: FIX THIS FOR SCENES
         test_cells = np.concatenate(
             [np.expand_dims(x, axis=-1)
                 for x in cat_cell_specimen_ids.values()],
@@ -590,21 +589,27 @@ def load_npzs(
 
         # Package into a list of dicts.
         output_data = []
-        for (ik, iv), (lk, lv), (rk, rv), (ck, cv), (rk, rv), (ek, ev) in zip(
+        for (ik, iv), (lk, lv), (rk, rv), (ck, cv), (pk, pv), (ek, ev) in zip(
                 cat_images.iteritems(),
                 cat_labels.iteritems(),
                 cat_ROImasks.iteritems(),
                 cat_cell_specimen_ids.iteritems(),
                 cat_repeats.iteritems(),
                 cat_events.iteritems()):
-            assert ik == lk == rk == ck == ek, 'Issue with keys.'
+            assert ik == lk == rk == ck == pk == ek, 'Issue with keys.'
+            if exp_dict['slice_frames'] is not None:
+                iv = iv[range(0, len(iv), exp_dict['slice_frames'])]
+                lv = lv[range(0, len(lv), exp_dict['slice_frames'])]
+                rv = rv[range(0, len(rv), exp_dict['slice_frames'])]
+                pv = pv[range(0, len(pv), exp_dict['slice_frames'])]
+                ev = ev[range(0, len(ev), exp_dict['slice_frames'])]
             output_data += [{
                 'image': iv,
                 'cell_specimen_id': cv,
                 'ROImask': rv,
                 'label': lv,
                 'stimulus_name': ik,
-                'stimulus_iterations': rv,
+                'stimulus_iterations': pv,
                 'event_index': ev,
             }]
 
@@ -704,7 +709,7 @@ def prepare_data_for_tf_records(
             'val': np.asarray(data_files)[val_ind]
         }
     elif cv_split.keys()[0] == 'cv_split':
-        cv_inds = np.arannge(len(data_files))
+        cv_inds = np.arange(len(data_files))
         val_len = np.round(
             len(data_files) * cv_split.values()[0]).astype(int)
         val_ind = cv_inds[val_len:]
@@ -1006,7 +1011,10 @@ def main(
     """Pull desired experiment cells and encode as tfrecords."""
     assert dataset is not None, 'Name the experiment to process!'
     config = Config()
-    da = dad()[dataset]()
+    if isinstance(dataset, basestring):
+        da = dad()[dataset]()
+    else:
+        da = dataset
     if output_directory is None:
         output_directory = os.path.join(
             config.tf_record_output)

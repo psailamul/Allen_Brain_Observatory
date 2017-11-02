@@ -16,7 +16,7 @@ class declare_allen_datasets():
     def globals(self):
         """Global variables for all datasets."""
         return {
-            'neural_delay': 150,  # MS delay for trimming neural data
+            'neural_delay': 5,  # MS delay * 30fps for neural data
             'tf_types': {  # How to store each in tfrecords
                 'neural_trace_trimmed': 'float',
                 'proc_stimuli': 'string',
@@ -58,6 +58,7 @@ class declare_allen_datasets():
             'deconv_method': None,
             'randomize_selection': False,
             'warp_stimuli': False,
+            'slice_frames': 15,  # Sample every N frames
             'process_stimuli': {
                     # 'natural_movie_one': {  # 1080, 1920
                     #     'resize': [304, 608],  # [270, 480]
@@ -394,8 +395,42 @@ class declare_allen_datasets():
         """1 cell from across the visual field."""
         exp_dict = self.template_dataset()
         exp_dict = self.add_globals(exp_dict)
-        exp_dict['experiment_name'] = 'ALLEN_selected_cells_103_scenes'
-        exp_dict['only_process_n'] = 103
+        exp_dict['experiment_name'] = 'ALLEN_ss_cells_1_movies'
+        exp_dict['only_process_n'] = 1
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
+                'x_min': 20,
+                'x_max': 30,
+                'y_min': 50,
+                'y_max': 60,
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['deconv_method'] = 'c2s'
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [354, 608, 1],  # [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        return exp_dict
+
+    def ALLEN_ss_cells_max_movies(self):
+        """Max cells from a RF location."""
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_ss_cells_max_movies'
+        exp_dict['only_process_n'] = None
         exp_dict['randomize_selection'] = True
         exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
         exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
@@ -423,4 +458,38 @@ class declare_allen_datasets():
             }
         return exp_dict
 
-
+    def ALLEN_ns_cells_max_movies(self):
+        """103 cells from across the visual field."""
+        exp_dict = self.template_dataset()
+        exp_dict = self.add_globals(exp_dict)
+        exp_dict['experiment_name'] = 'ALLEN_ns_cells_max_movies'
+        exp_dict['only_process_n'] = 103
+        exp_dict['randomize_selection'] = True
+        exp_dict['reference_image_key'] = {'proc_stimuli': 'image'}
+        exp_dict['reference_label_key'] = {'neural_trace_trimmed': 'label'}
+        exp_dict['rf_query'] = [{
+            'rf_coordinate_range': {  # Get all cells
+                'x_min': -1000,
+                'x_max': 1000,
+                'y_min': -1000,
+                'y_max': 1000,
+            },
+            'cre_line': 'Cux2',
+            'structure': 'VISp',
+            'imaging_depth': 175}]
+        exp_dict['cross_ref'] = 'rf_coordinate_range_and_stimuli'
+        exp_dict['store_means'] = [
+                'image',
+                'label'
+            ]
+        exp_dict['cc_repo_vars'] = {
+                'output_size': [103, 1],  # target variable -- neural activity,
+                'model_im_size': [354, 608, 1],  # [152, 304, 1],
+                'loss_function': 'pearson',
+                'score_metric': 'pearson',
+                'preprocess': 'resize'
+            }
+        exp_dict['cv_split'] = {
+                'cv_split': 0.9  # Specify train set
+            }
+        return exp_dict

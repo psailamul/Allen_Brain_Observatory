@@ -1,4 +1,8 @@
 from deconv_methods import elephant_preprocess, elephant_deconv
+# import rpy2.robjects.packages
+# from c2s import c2s
+# from cmt.models import MCGSM
+# from c2s import robust_linear_regression
 
 
 class deconvolve(object):
@@ -40,11 +44,12 @@ class deconvolve(object):
 
     def deconvolve(self, neural_data):
         """Wrapper for deconvolution operations."""
+        import ipdb;ipdb.set_trace()
         preproc_op, deconv_op = self.interpret_deconv(self.deconv_method)
         print 'Preprocessing neural data.'
-        preproc_data = preproc_op(neural_data, self)
+        preproc_data = preproc_op(neural_data)
         print 'Deconvolving neural data.'
-        return deconv_op(neural_data, preproc_data, self)
+        return deconv_op(preproc_data)
 
     def interpret_deconv(self, method):
         """Wrapper for returning the preprocessing and main operations."""
@@ -52,5 +57,19 @@ class deconvolve(object):
             return (
                 elephant_preprocess.preprocess,
                 elephant_deconv.deconv)
+        elif method == 'lzerospikeinference':
+            lzsi = rpy2.robjects.packages.importr("LZeroSpikeInference")
+            preprocess = lambda x: x.tolist()
+            method = lambda x: lzsi.estimateSpikes(x, **{'gam': 0.998, 'lambda': 8, 'type': "ar1"})
+            return (preprocess, method)
+        elif method == 'c2s':
+            def preprocess(x, fps=30.):
+                d = []
+                for ce in x:
+                    d += [{'calcium': ce, 'fps': fps}]
+                import ipdb; ipdb.set_trace()
+                return c2s.preprocess(d, fps=fps)
+            method = lambda x: c2s.predict(x)
+            return (preprocess, method)
         else:
             return None
