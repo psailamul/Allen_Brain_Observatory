@@ -5,8 +5,11 @@ import sys
 import shutil
 import encode_datasets
 import json
+import string
 import sshtunnel
 import argparse
+import random
+import string
 import psycopg2
 import psycopg2.extras
 import psycopg2.extensions
@@ -18,6 +21,37 @@ from glob import glob
 from ops import helper_funcs
 from datetime import datetime
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
+
+
+def flatten_list(l):
+    """Flatten list of lists."""
+    return [item for sublist in l for item in sublist]
+
+
+def tweak_params(it_exp):
+    """Tweak paramaters to the CC-BP repo."""
+    proc_it_exp = {}
+    for k, v in it_exp.iteritems():
+        if not isinstance(v, list):
+            v = [v]
+        elif any(isinstance(el, list) for el in v):
+            v = flatten_list(v)
+        proc_it_exp[k] = v
+    return proc_it_exp
+
+
+def add_experiment(experiment_file, exp_method_template, experiment):
+    """Add experiment method to the CC-BP repo."""
+    with open(exp_method_template, 'r') as f:
+        exp_text = f.readlines()
+    for idx, l in enumerate(exp_text):
+        exp_text[idx] = exp_text[idx].replace('EDIT', experiment)
+        exp_text[idx] = exp_text[idx].replace('RANDALPHA', experiment)
+    with open(experiment_file, 'r') as f:
+        text = f.readlines()
+    text += exp_text
+    with open(experiment_file, 'w') as f:
+        f.writelines(text)
 
 
 def get_dt_stamp():
@@ -632,7 +666,8 @@ class declare_allen_datasets():
 def build_multiple_datasets(
         template_dataset='ALLEN_ss_cells_1_movies',
         template_experiment='ALLEN_selected_cells_1',
-        model_structs='ALLEN_selected_cells_1'):
+        model_structs='ALLEN_selected_cells_1',
+        N=16):
     """Dictionary with all cell queries to run."""
     main_config = Allen_Brain_Observatory_Config()
 
@@ -678,6 +713,7 @@ def build_multiple_datasets(
             model_directory,
             model_structs,
             '*.py'))
+    experiment_file = os.path.join(main_config.cc_path, 'experiments.py')
 
     # Loop through each query and build all possible datasets with template
     da = declare_allen_datasets()
@@ -713,7 +749,13 @@ def build_multiple_datasets(
                 int(rf_query['rf_coordinate_range']['y_min']*100),
                 idx)
             print 'Creating dataset %s.' % dataset_name
-            dataset_method['experiment_name'] = dataset_name
+            method_name = ''.join(
+                random.choice(
+                    string.ascii_uppercase + string.ascii_lowercase)
+                for _ in range(N))
+            method_name = 'MULTIALLEN_' + method_name
+            dataset_method['experiment_name'] = method_name
+            dataset_method['dataset_name'] = dataset_name
 
             # 2. Encode dataset
             encode_datasets.main(dataset_method)
@@ -721,7 +763,7 @@ def build_multiple_datasets(
             # 3. Prepare models in CC-BP
             new_model_dir = os.path.join(
                 model_directory,
-                dataset_name)
+                method_name)
             helper_funcs.make_dir(new_model_dir)
             for f in model_templates:
                 dest = os.path.join(
@@ -731,10 +773,20 @@ def build_multiple_datasets(
 
             # 4. Add dataset to CC-BP database
             it_exp = exps[template_experiment]()
-            it_exp['experiment_name'] = dataset_name
-            it_exp['dataset'] = dataset_name
-            np.save(os.path.join(meta_dir, dataset_name), it_exp)
+            it_exp['experiment_name'] = [method_name]  # [dataset_name]
+            it_exp['dataset'] = [method_name]  # [dataset_name]
+            it_exp = tweak_params(it_exp)
+            np.savez(
+                os.path.join(meta_dir, dataset_name),
+                it_exp=it_exp,
+                dataset_method=dataset_method)
             prep_exp(it_exp, db_config)
+
+            # 5. Add the experiment method
+            add_experiment(
+                experiment_file,
+                main_config.exp_method_template,
+                method_name)
 
 
 if __name__ == '__main__':
