@@ -540,7 +540,7 @@ class declare_allen_datasets():
                 # 'on_width_x': 'repeat',
                 # 'off_width_y': 'repeat'
             },
-            'detrend': True,
+            'detrend': False,
             'deconv_method': None,
             'randomize_selection': False,
             'warp_stimuli': False,
@@ -567,13 +567,13 @@ class declare_allen_datasets():
             'stimuli': [
                 'natural_movie_one',
                 'natural_movie_two',
-                'natural_movie_three'
+                # 'natural_movie_three'
             ],
             'sessions': [
-                'three_session_A',
+                # 'three_session_A',
                 # 'three_session_B',
-                # 'three_session_C'
-                # 'three_session_C2'
+                'three_session_C',
+                'three_session_C2'
             ],
             'data_type': np.float32,
             'image_type': np.float32,
@@ -653,12 +653,15 @@ class declare_allen_datasets():
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
             }
+        # exp_dict['cv_split'] = {
+        #     'cv_split_single_stim': {
+        #         'target': 0,
+        #         'split': 0.9
+        #     }
+        # }
         exp_dict['cv_split'] = {
-            'cv_split_single_stim': {
-                'target': 0,
-                'split': 0.9
+                'split_on_stim': 'natural_movie_two'  # Specify train set
             }
-        }
         return exp_dict
 
 
@@ -692,15 +695,20 @@ def build_multiple_datasets(
     ]
 
     filter_by_stim = [
-                'natural_movie_one',
-                'natural_movie_two',
-                'natural_movie_three']
+        'natural_movie_one',
+        'natural_movie_two'
+        ]
+    sessions = [
+        'three_session_C',
+        'three_session_C2'
+    ]
     print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
     all_data_dicts = []
     for q in queries:
         all_data_dicts += [data_db.get_cells_all_data_by_rf_and_stimuli(
             rfs=q,
-            stimuli=filter_by_stim)]
+            stimuli=filter_by_stim,
+            sessions=sessions)]
 
     # Prepare directories
     model_directory = os.path.join(
@@ -722,6 +730,12 @@ def build_multiple_datasets(
             '%s_cells_%s' % (len(q[0]), get_dt_stamp()))
         helper_funcs.make_dir(meta_dir)
         for idx, d in enumerate(q[0]):
+            print 'Preparing dataset %s/%s in package %s/%s.' % (
+                idx,
+                len(q[0]),
+                len(q),
+                len(all_data_dicts))
+
             # 1. Prepare dataset
             dataset_method = da[template_dataset]()
             rf_query = dataset_method['rf_query'][0]
@@ -755,6 +769,7 @@ def build_multiple_datasets(
             method_name = 'MULTIALLEN_' + method_name
             dataset_method['experiment_name'] = method_name
             dataset_method['dataset_name'] = dataset_name
+            dataset_method['cell_specimen_id'] = d['cell_specimen_id']
 
             # 2. Encode dataset
             encode_datasets.main(dataset_method)

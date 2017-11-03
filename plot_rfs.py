@@ -39,10 +39,10 @@ def queries_list():
         # },
         [{
             'rf_coordinate_range': {  # Get all cells
-                'x_min': 20,
-                'x_max': 30,
-                'y_min': 50,
-                'y_max': 60,
+                'x_min': -10000,
+                'x_max': 10000,
+                'y_min': -10000,
+                'y_max': 10000,
             },
             'cre_line': 'Cux2',
             'structure': 'VISp',
@@ -59,10 +59,14 @@ def queries_list():
 
 def main(
         filter_by_stim=[
-                'natural_movie_one',
-                'natural_movie_two',
-                'natural_movie_three'
-            ],
+            'natural_movie_one',
+            'natural_movie_two',
+            # 'natural_movie_three'
+        ],
+        sessions=[
+            'three_session_C',
+            'three_session_C2'
+        ],
         plot_heatmap=False,
         color='b',
         kernel=(5, 5)):
@@ -75,10 +79,13 @@ def main(
         for q in queries:
             all_data_dicts += [data_db.get_cells_all_data_by_rf_and_stimuli(
                 rfs=q,
-                stimuli=filter_by_stim)]
+                stimuli=filter_by_stim,
+                sessions=sessions)]
     else:
         print 'Pulling cells by their RFs.'
         all_data_dicts = data_db.get_cells_all_data_by_rf(queries)
+
+    # Make sure there are no null RFs
     visual_space_h = np.floor(main_config.LSN_size_in_deg['height'])
     visual_space_w = np.floor(main_config.LSN_size_in_deg['width'])
     if plot_heatmap:
@@ -97,7 +104,7 @@ def main(
                     import ipdb;ipdb.set_trace()
             canvas = cv2.GaussianBlur(canvas, kernel, 0)
             f = plt.figure()
-            plt.title(label)
+            plt.title('%s %s cells' % (label, len(data_dicts[0])))
             plt.imshow(canvas)
             plt.show()
             plt.close(f)
@@ -113,7 +120,7 @@ def main(
             plt.scatter(dat['on_center_y'], dat['on_center_x'])
         plt.xlim(0, visual_space_w)
         plt.ylim(0, visual_space_h)
-        plt.title(label)
+        plt.title('%s %s cells' % (label, len(data_dicts[0])))
         plt.show()
 
     for data_dicts, label in tqdm(

@@ -319,9 +319,10 @@ class data_db(object):
                     sub_query=stim_string,
                     column='session')
             if len(session_string) > 0:
-                session_string = ' and ' + session_string
+                session_string = ' and (' + session_string
                 print 'Querying session by: %s.' % session_string
                 stim_string = session_string
+                stim_string += ')'
         else:
             stim_string = ' and (%s)' % stim_string.split('and ')[-1]
 

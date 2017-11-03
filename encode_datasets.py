@@ -937,6 +937,7 @@ def inclusive_cell_filter(data_dicts, sessions):
         else:
             cell_info[cell_name] += [cell_session]
     filtered_data_dicts = []
+    import ipdb;ipdb.set_trace()
     for idx, d in enumerate(data_dicts):
         test = [
             k in cell_info[d['cell_specimen_id']]
@@ -1015,10 +1016,10 @@ def package_dataset(
     if len(data_dicts) == 0:
         raise RuntimeError('Empty cell query.')
 
-    # Filter cells satisfying only one condition (could be a subquery).
-    data_dicts = inclusive_cell_filter(
-        data_dicts=data_dicts,
-        sessions=dataset_info['sessions'])
+    # # Filter cells satisfying only one condition (could be a subquery).
+    # data_dicts = inclusive_cell_filter(
+    #     data_dicts=data_dicts,
+    #     sessions=dataset_info['sessions'])
 
     # Filter cells that have odd stimulus orderings.
     data_dicts = inclusive_stim_order_filter(data_dicts)
