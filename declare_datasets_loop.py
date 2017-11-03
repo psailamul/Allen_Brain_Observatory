@@ -7,14 +7,13 @@ import encode_datasets
 import json
 import string
 import sshtunnel
-import argparse
 import random
-import string
 import psycopg2
 import psycopg2.extras
 import psycopg2.extensions
 import numpy as np
 import itertools as it
+import pandas as pd
 from allen_config import Allen_Brain_Observatory_Config
 from data_db import data_db
 from glob import glob
@@ -106,7 +105,7 @@ def package_parameters(parameter_dict):
     keys_sorted = sorted(parameter_dict)
     values = list(it.product(*(parameter_dict[key] for key in keys_sorted)))
     combos = tuple({k: v for k, v in zip(keys_sorted, row)} for row in values)
-    return list(combos)    
+    return list(combos)
 
 
 def postgresql_credentials():
@@ -166,7 +165,6 @@ class db(object):
         self.conn.commit()
         self.cur.close()
         self.conn.close()
-
 
     def experiment_fields(self):
         """Dict of fields in exp & hp_combo_history tables. DEPRECIATED."""
@@ -503,7 +501,7 @@ class declare_allen_datasets():
     def globals(self):
         """Global variables for all datasets."""
         return {
-            'neural_delay': 5,  # MS delay * 30fps for neural data
+            'neural_delay': [3, 5],  # MS delay * 30fps for neural data
             'tf_types': {  # How to store each in tfrecords
                 'neural_trace_trimmed': 'float',
                 'proc_stimuli': 'string',
@@ -542,10 +540,11 @@ class declare_allen_datasets():
                 # 'on_width_x': 'repeat',
                 # 'off_width_y': 'repeat'
             },
+            'detrend': True,
             'deconv_method': None,
             'randomize_selection': False,
             'warp_stimuli': False,
-            'slice_frames': 15,  # Sample every N frames
+            'slice_frames': None,  # Sample every N frames
             'process_stimuli': {
                     # 'natural_movie_one': {  # 1080, 1920
                     #     'resize': [304, 608],  # [270, 480]
@@ -576,9 +575,6 @@ class declare_allen_datasets():
                 # 'three_session_C'
                 # 'three_session_C2'
             ],
-            'cv_split': {
-                'split_on_stim': 'natural_movie_three'  # Specify train set
-            },
             'data_type': np.float32,
             'image_type': np.float32,
         }
@@ -617,9 +613,6 @@ class declare_allen_datasets():
             # 'deconv_method': 'elephant'
         }
         exp_dict = self.add_globals(exp_dict)
-        exp_dict['cv_split'] = {
-            'split_on_stim': 'natural_movie_three'  # Specify train set
-        }
         return exp_dict
 
     def add_globals(self, exp):
@@ -660,6 +653,12 @@ class declare_allen_datasets():
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
             }
+        exp_dict['cv_split'] = {
+            'cv_split_single_stim': {
+                'target': 0,
+                'split': 0.9
+            }
+        }
         return exp_dict
 
 

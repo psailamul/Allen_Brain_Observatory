@@ -11,6 +11,7 @@ from data_db import data_db
 from glob import glob
 from tqdm import tqdm
 from scipy import stats, misc
+from sklearn import linear_model
 from ops import helper_funcs, deconvolve
 from declare_datasets import declare_allen_datasets as dad
 from allen_config import Allen_Brain_Observatory_Config as Config
@@ -149,9 +150,9 @@ def process_body(
     stim_table = stim_table['stim_table']
 
     # Stimuli
-    raw_stimuli = all_stimuli[cell_data['stim_template'].item()]['raw']
+    # raw_stimuli = all_stimuli[cell_data['stim_template'].item()]['raw']
     df['stimulus_name'] = cell_data['stim_template'].item()
-    df['raw_stimuli'] = raw_stimuli
+    # df['raw_stimuli'] = raw_stimuli
     proc_stimuli = all_stimuli[cell_data['stim_template'].item()]['processed']
     df['proc_stimuli'] = proc_stimuli
 
@@ -175,8 +176,35 @@ def process_body(
             neural_data).astype(exp_dict['data_type'])
 
     # Delay data with 'neural_delay'
-    stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
-    neural_data_trimmed = neural_data[stim_table_idx]
+    if isinstance(exp_dict['neural_delay'], list):
+        # Average events
+        slice_inds = range(
+            exp_dict['neural_delay'][0],
+            exp_dict['neural_delay'][1])
+        neural_data_trimmed = np.zeros((
+            len(slice_inds),
+            len(stim_table[:, 1])))
+        print 'Averaging signal with %s events.' % len(slice_inds)
+        for idx in range(len(slice_inds)):
+            it_stim_table_idx = stim_table[:, 1] + slice_inds[idx]
+            neural_data_trimmed[idx] = neural_data[it_stim_table_idx]
+        # Use the first event in stim_table as the triggering event
+        stim_table_idx = stim_table[:, 1] + slice_inds[0]
+        neural_data_trimmed = neural_data_trimmed.mean(0)
+    else:
+        # Constant offset
+        print 'Using constant offset of %s events.' % exp_dict['neural_delay']
+        stim_table_idx = stim_table[:, 1] + exp_dict['neural_delay']
+        neural_data_trimmed = neural_data[stim_table_idx]
+    if exp_dict['detrend']:
+        regr = linear_model.LinearRegression()
+        model = regr.fit(
+            np.arange(len(neural_data_trimmed)).reshape(-1, 1),
+            neural_data_trimmed)
+        neural_data_trimmed = neural_data_trimmed.reshape(
+            -1) - model.predict(
+                neural_data_trimmed.reshape(-1, 1)).reshape(-1)
+        neural_data_trimmed = neural_data_trimmed.reshape(-1)
     df['neural_trace_trimmed'] = neural_data_trimmed
 
     # ROI mask
@@ -289,6 +317,7 @@ def preload_raw_stimuli(data_dicts, exp_dict):
 
     # Apply warping to stimuli if requested
     if exp_dict['warp_stimuli']:
+        print 'Warping stimuli.'
         warpers = {}
         panel_size = stimulus_info.MONITOR_DIMENSIONS
         spatial_unit = 'cm'
@@ -313,7 +342,10 @@ def preload_raw_stimuli(data_dicts, exp_dict):
 
     # Load the stimuli into memory
     all_stimuli = {}
-    for stim in unique_stimuli:
+    for stim in tqdm(
+            unique_stimuli,
+            total=len(unique_stimuli),
+            desc='Loading stimuli into memory'):
         raw_stimuli = np.load(stim).astype(exp_dict['image_type'])
         if exp_dict['warp_stimuli']:
             # Apply warping to stimuli
@@ -351,7 +383,7 @@ def preload_raw_stimuli(data_dicts, exp_dict):
             # Ensure that stimuli are a 4D tensor.
             raw_stimuli = np.expand_dims(raw_stimuli, axis=-1)
         all_stimuli[stim] = {
-            'raw': raw_stimuli,
+            # 'raw': raw_stimuli,
             'processed': raw_stimuli[unique_orders[stim]]
         }
     return all_stimuli
@@ -698,6 +730,7 @@ def prepare_data_for_tf_records(
         ext='tfrecords',
         config=None):
     """Package dict into tfrecords."""
+    # TODO: MOVE SLICEING HERE
     if cv_split.keys()[0] == 'random_cv_split':
         cv_inds = np.random.permutation(len(data_files))
         val_len = np.round(
@@ -714,6 +747,31 @@ def prepare_data_for_tf_records(
             len(data_files) * cv_split.values()[0]).astype(int)
         val_ind = cv_inds[val_len:]
         train_ind = cv_inds[:val_len]
+        cv_data = {
+            'train': np.asarray(data_files)[train_ind],
+            'val': np.asarray(data_files)[val_ind]
+        }
+    elif cv_split.keys()[0] == 'cv_split_single_stim':
+        target_stim = cv_split['cv_split_single_stim']['target']
+        split = cv_split['cv_split_single_stim']['split']
+        unique_stims = np.unique([d['stimulus_name'] for d in data_files])
+        if isinstance(target_stim, int):
+            # Take the first stimulus
+            selection_ind = np.asarray(
+                [True if unique_stims[target_stim] in d['stimulus_name']
+                    else False for d in data_files])
+            trains = np.where(selection_ind)[0]
+            train_split = np.floor(len(trains) * split).astype(int)
+            train_ind = trains[:train_split]
+            val_ind = trains[train_split:]
+        else:
+            selection_ind = np.asarray(
+                [True if target_stim in d['stimulus_name'] else False
+                    for d in data_files])
+            train_ind = np.asarray(
+                [True if target_stim in d['stimulus_name'] else False
+                    for d in data_files])
+            val_ind = train_ind == False
         cv_data = {
             'train': np.asarray(data_files)[train_ind],
             'val': np.asarray(data_files)[val_ind]

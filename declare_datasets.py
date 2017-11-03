@@ -16,7 +16,7 @@ class declare_allen_datasets():
     def globals(self):
         """Global variables for all datasets."""
         return {
-            'neural_delay': 5,  # MS delay * 30fps for neural data
+            'neural_delay': [3, 5],  # MS delay * 30fps for neural data
             'tf_types': {  # How to store each in tfrecords
                 'neural_trace_trimmed': 'float',
                 'proc_stimuli': 'string',
@@ -55,6 +55,7 @@ class declare_allen_datasets():
                 # 'on_width_x': 'repeat',
                 # 'off_width_y': 'repeat'
             },
+            'detrend': True,
             'deconv_method': None,
             'randomize_selection': False,
             'warp_stimuli': False,
