@@ -7,13 +7,13 @@ import argparse
 import numpy as np
 import tensorflow as tf
 import cPickle as pickle
-from db import db
+from data_db import data_db
 from glob import glob
 from tqdm import tqdm
 from scipy import stats, misc
 from ops import helper_funcs, deconvolve
 from declare_datasets import declare_allen_datasets as dad
-from config import Allen_Brain_Observatory_Config as Config
+from allen_config import Allen_Brain_Observatory_Config as Config
 from allensdk.brain_observatory import stimulus_info
 # from memory_profiler import profile
 
@@ -830,13 +830,13 @@ def prepare_data_for_tf_records(
             cc_repo['template_file'], loader_meta, dl_file)
 
         # Create models for contextual circuit BP
-        summarized_rfs = summarize_rfs(rf_dicts)
-        create_model_files(
-            output_size=cc_repo['output_size'],
-            set_name=set_name,
-            rf_info=summarized_rfs,
-            template_directory=config.model_template_dir,
-            model_dir=config.model_struct_dir)
+        # summarized_rfs = summarize_rfs(rf_dicts)
+        # create_model_files(
+        #     output_size=cc_repo['output_size'],
+        #     set_name=set_name,
+        #     rf_info=summarized_rfs,
+        #     template_directory=config.model_template_dir,
+        #     model_dir=config.model_struct_dir)
 
 
 def summarize_rfs(
@@ -944,10 +944,10 @@ def package_dataset(
     dataset_instructions = dataset_info['cross_ref']
     if dataset_instructions == 'rf_coordinate_range':
         # TODO fix this API so it doesn't rely on conditionals.
-        data_dicts = db.get_cells_all_data_by_rf(
+        data_dicts = data_db.get_cells_all_data_by_rf(
             dataset_info['rf_query'])[0]
     elif dataset_instructions == 'rf_coordinate_range_and_stimuli':
-        data_dicts = db.get_cells_all_data_by_rf_and_stimuli(
+        data_dicts = data_db.get_cells_all_data_by_rf_and_stimuli(
             rfs=dataset_info['rf_query'],
             stimuli=dataset_info['stimuli'],
             sessions=dataset_info['sessions'])[0]

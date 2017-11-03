@@ -415,10 +415,10 @@ class declare_allen_datasets():
                 'image',
                 'label'
             ]
-        exp_dict['deconv_method'] = 'c2s'
+        # exp_dict['deconv_method'] = 'c2s'
         exp_dict['cc_repo_vars'] = {
-                'output_size': [103, 1],  # target variable -- neural activity,
-                'model_im_size': [354, 608, 1],  # [152, 304, 1],
+                'output_size': [1, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],  # ,
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
                 'preprocess': 'resize'

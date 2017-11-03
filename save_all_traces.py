@@ -7,7 +7,7 @@ from ops import helper_funcs
 from tqdm import tqdm
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 from allensdk.brain_observatory.brain_observatory_exceptions import NoEyeTrackingException
-from config import Allen_Brain_Observatory_Config
+from allen_config import Allen_Brain_Observatory_Config
 
 
 config = Allen_Brain_Observatory_Config()

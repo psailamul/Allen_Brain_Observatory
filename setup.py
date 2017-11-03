@@ -1,6 +1,6 @@
 import os
 from setuptools import setup, find_packages
-from db import credentials, createdb
+from data_db import credentials, createdb
 
 """python setup.py install"""
 

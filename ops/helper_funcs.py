@@ -1,7 +1,7 @@
 """Helper functions for handling Allen brain data."""
 import os
 import cPickle as pickle
-from config import Allen_Brain_Observatory_Config
+from allen_config import Allen_Brain_Observatory_Config
 
 
 def save_object(obj, filename):

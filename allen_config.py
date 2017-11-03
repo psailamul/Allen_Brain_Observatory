@@ -68,6 +68,7 @@ class Allen_Brain_Observatory_Config():
         self.db_ssh_forward = False
 
         # Template for cc_bp repo data loading
+        self.multi_exps = 'multi_cell_exps'
         self.cc_data_dir = os.path.join(
             self.cc_path,
             'dataset_processing')

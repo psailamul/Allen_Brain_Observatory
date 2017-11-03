@@ -1,5 +1,5 @@
 """Populate the db and optionally initialize it."""
-import db
+import data_db
 import argparse
 import os
 from tqdm import tqdm
@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 from ops import helper_funcs
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
-from config import Allen_Brain_Observatory_Config as Config
+from allen_config import Allen_Brain_Observatory_Config as Config
 from utils import logger
 from utils import py_utils
 
@@ -205,7 +205,7 @@ def process_cell(
             'cell_rf_dict': cell_rf_dict,
             'list_of_cell_stim_dicts': list_of_cell_stim_dicts
         }
-        db.add_cell_data(
+        data_db.add_cell_data(
             cell_rf_dict,
             list_of_cell_stim_dicts)
     return recorded_cells_list
@@ -254,7 +254,7 @@ def main(initialize_database, start_exp=None, end_exp=None):
     log_file = os.path.join(config.log_dir, timestamp)
     log = logger.get(log_file)
     if initialize_database:
-        db.initialize_database()
+        data_db.initialize_database()
         log.info('Initialized DB.')
     populate_db(config, boc, log, timestamp, start_exp, end_exp)
 

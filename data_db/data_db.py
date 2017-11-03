@@ -5,12 +5,12 @@ import psycopg2
 import psycopg2.extras
 import psycopg2.extensions
 import credentials
-from config import Allen_Brain_Observatory_Config
+from allen_config import Allen_Brain_Observatory_Config
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
 main_config = Allen_Brain_Observatory_Config()
 
 
-class db(object):
+class data_db(object):
     def __init__(self, config):
         self.status_message = False
         self.db_schema_file = 'db/db_schema.txt'
@@ -355,7 +355,7 @@ class db(object):
 def initialize_database():
     """Initialize the psql database from the schema file."""
     config = credentials.postgresql_connection()
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         db_conn.recreate_db(run=True)
         db_conn.return_status('CREATE')
 
@@ -364,7 +364,7 @@ def get_cells_by_rf(list_of_dicts):
     """Query cells by their RF centers."""
     config = credentials.postgresql_connection()
     queries = []
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         for d in list_of_dicts:
             queries += [db_conn.select_cells_by_rf_coor(d)]
     return queries
@@ -374,7 +374,7 @@ def get_cells_all_data_by_rf(list_of_dicts):
     """Get all data for cells by their RF centers."""
     config = credentials.postgresql_connection()
     queries = []
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         for d in list_of_dicts:
             queries += [db_conn.gather_data_by_rf_coor(d)]
     return queries
@@ -384,7 +384,7 @@ def get_cells_all_data_by_rf_and_stimuli(rfs, stimuli, sessions=None):
     """Get all data for cells by their RF centers."""
     config = credentials.postgresql_connection()
     queries = []
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         for it_rf in rfs:
             queries += [
                 db_conn.gather_data_by_rf_coor_and_stim(
@@ -432,14 +432,14 @@ def add_cell_data(
     ]
     """
     config = credentials.postgresql_connection()
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         db_conn.populate_db_with_rf([cell_rf_dict])
         db_conn.populate_db_with_cell_stim(list_of_cell_stim_dicts)
 
 
 def get_performance(experiment_name):
     config = credentials.postgresql_connection()
-    with db(config) as db_conn:
+    with data_db(config) as db_conn:
         perf = db_conn.get_performance(experiment_name=experiment_name)
     return perf
 

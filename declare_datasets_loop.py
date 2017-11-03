@@ -1,13 +1,458 @@
 """Declare new allen datasets to be encoded as TFrecords."""
+import re
 import os
 import sys
 import shutil
-import numpy as np
 import encode_datasets
-from config import Allen_Brain_Observatory_Config
-from db import db
+import json
+import sshtunnel
+import argparse
+import psycopg2
+import psycopg2.extras
+import psycopg2.extensions
+import numpy as np
+import itertools as it
+from allen_config import Allen_Brain_Observatory_Config
+from data_db import data_db
 from glob import glob
-from ops import py_utils
+from ops import helper_funcs
+from datetime import datetime
+sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
+
+
+def get_dt_stamp():
+    """Get date-timestamp."""
+    return re.split(
+        '\.', str(datetime.now()))[0].replace(
+        ' ',
+        '_').replace(
+        ':',
+        '_').replace(
+        '-',
+        '_')
+
+
+def hp_optim_parameters(parameter_dict, ms_key='model_struct'):
+    """Experiment parameters in the case of hp_optimization algorithms."""
+    model_structs = parameter_dict[ms_key]
+    parameter_dict = {
+        k: v for k, v in parameter_dict.iteritems() if k is not ms_key}
+    combos = []
+    for ms in model_structs:
+        it_dict = {}
+        for k, v in parameter_dict.iteritems():
+            if '_domain' in k:
+                if isinstance(v, np.ndarray):
+                    v = pd.Series(v).to_json(orient='values')
+                elif isinstance(v, basestring):
+                    pass
+                else:
+                    v = json.dumps(v)
+            it_dict[k] = v  # Handle special-case hp optim flags here.
+        it_dict[ms_key] = ms
+        combos += [it_dict]
+    return combos
+
+
+def prep_exp(experiment_dict, db_config):
+    """Prepare exps for contextual circuit repo."""
+    if 'hp_optim' in experiment_dict.keys() and experiment_dict['hp_optim'] is not None:
+        exp_combos = hp_optim_parameters(experiment_dict)
+    else:
+        exp_combos = package_parameters(experiment_dict)
+    with db(db_config) as db_conn:
+        db_conn.populate_db(exp_combos)
+
+
+def package_parameters(parameter_dict):
+    """Derive combinations of experiment parameters."""
+    parameter_dict = {
+        k: v for k, v in parameter_dict.iteritems() if isinstance(v, list)
+    }
+    keys_sorted = sorted(parameter_dict)
+    values = list(it.product(*(parameter_dict[key] for key in keys_sorted)))
+    combos = tuple({k: v for k, v in zip(keys_sorted, row)} for row in values)
+    return list(combos)    
+
+
+def postgresql_credentials():
+    """Credentials for your psql DB."""
+    return {
+            'username': 'contextual_DCN',
+            'password': 'serrelab',
+            'database': 'contextual_DCN'
+           }
+
+
+def postgresql_connection(port=''):
+    """Package DB credentials into a dictionary."""
+    unpw = postgresql_credentials()
+    params = {
+        'database': unpw['database'],
+        'user': unpw['username'],
+        'password': unpw['password'],
+        'host': 'localhost',
+        'port': port,
+    }
+    return params
+
+
+class db(object):
+    def __init__(self, config):
+        """Init global variables."""
+        self.status_message = False
+        self.db_schema_file = 'db/db_schema.txt'
+        # Pass config -> this class
+        for k, v in config.items():
+            setattr(self, k, v)
+
+    def __enter__(self):
+        self.forward = None
+        self.pgsql_port = ''
+        pgsql_string = postgresql_connection(str(self.pgsql_port))
+        self.pgsql_string = pgsql_string
+        self.conn = psycopg2.connect(**pgsql_string)
+        self.conn.set_isolation_level(
+            psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+        self.cur = self.conn.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Exit method."""
+        if exc_type is not None:
+            print exc_type, exc_value, traceback
+            self.close_db(commit=False)
+        else:
+            self.close_db()
+        return self
+
+    def close_db(self, commit=True):
+        """Commit changes and exit the DB."""
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
+
+
+    def experiment_fields(self):
+        """Dict of fields in exp & hp_combo_history tables. DEPRECIATED."""
+        return {
+            'experiment_name': ['experiments', 'hp_combo_history'],
+            'model_struct': ['experiments', 'hp_combo_history'],
+            'loss_function': ['experiments', 'hp_combo_history'],
+            'regularization_type': ['experiments', 'hp_combo_history'],
+            'regularization_strength': ['experiments', 'hp_combo_history'],
+            'optimizer': ['experiments', 'hp_combo_history'],
+            'lr': ['experiments', 'hp_combo_history'],
+            'dataset': ['experiments', 'hp_combo_history'],
+            'regularization_type_domain': ['experiments', 'hp_combo_history'],
+            'regularization_strength_domain': ['experiments', 'hp_combo_history'],
+            'optimizer_domain': ['experiments', 'hp_combo_history'],
+            'lr_domain': ['experiments', 'hp_combo_history'],
+            'timesteps': ['experiments', 'hp_combo_history'],
+            'timesteps_domain': ['experiments', 'hp_combo_history'],
+            'u_t_domain': ['experiments', 'hp_combo_history'],
+            'q_t_domain': ['experiments', 'hp_combo_history'],
+            't_t_domain': ['experiments', 'hp_combo_history'],
+            'p_t_domain': ['experiments', 'hp_combo_history'],
+            'u_t': ['experiments', 'hp_combo_history'],
+            'q_t': ['experiments', 'hp_combo_history'],
+            't_t': ['experiments', 'hp_combo_history'],
+            'p_t': ['experiments', 'hp_combo_history'],
+            'hp_optim': ['experiments', 'hp_combo_history'],
+            'hp_multiple': ['experiments', 'hp_combo_history'],
+            'hp_current_iteration': ['experiments', 'hp_combo_history'],
+            'experiment_iteration': ['experiments', 'hp_combo_history']
+        }
+
+    def fix_namedict(self, namedict, table):
+        """Insert empty fields in dictionary where keys are absent."""
+        experiment_fields = self.experiment_fields()
+        for idx, entry in enumerate(namedict):
+            for k, v in experiment_fields.iteritems():
+                if k == 'experiment_iteration':
+                    # Initialize iterations at 0
+                    entry[k] = 0
+                elif k not in entry.keys():
+                    entry[k] = None
+            namedict[idx] = entry
+        return namedict
+
+    def recreate_db(self, run=False):
+        """Initialize the DB from the schema file."""
+        if run:
+            db_schema = open(self.db_schema_file).read().splitlines()
+            for s in db_schema:
+                t = s.strip()
+                if len(t):
+                    self.cur.execute(t)
+
+    def return_status(
+            self,
+            label,
+            throw_error=False):
+        """
+        General error handling and status of operations.
+        ::
+        label: a string of the SQL operation (e.g. 'INSERT').
+        throw_error: if you'd like to terminate execution if an error.
+        """
+        if label in self.cur.statusmessage:
+            print 'Successful %s.' % label
+        else:
+            if throw_error:
+                raise RuntimeError('%s' % self.cur.statusmessag)
+            else:
+                'Encountered error during %s: %s.' % (
+                    label, self.cur.statusmessage
+                    )
+
+    def populate_db(self, namedict):
+        """
+        Add a combination of parameter_dict to the db.
+        ::
+        experiment_name: name of experiment to add
+        parent_experiment: linking a child (e.g. clickme) -> parent (ILSVRC12)
+        """
+        namedict = self.fix_namedict(namedict, 'experiments')
+        self.cur.executemany(
+            """
+            INSERT INTO experiments
+            (
+            experiment_name,
+            model_struct,
+            loss_function,
+            regularization_type,
+            regularization_strength,
+            optimizer,
+            lr,
+            dataset,
+            regularization_type_domain,
+            regularization_strength_domain,
+            optimizer_domain,
+            lr_domain,
+            timesteps,
+            timesteps_domain,
+            u_t_domain,
+            q_t_domain,
+            t_t_domain,
+            p_t_domain,
+            u_t,
+            q_t,
+            t_t,
+            p_t,
+            hp_optim,
+            hp_multiple,
+            hp_current_iteration,
+            experiment_iteration
+            )
+            VALUES
+            (
+            %(experiment_name)s,
+            %(model_struct)s,
+            %(loss_function)s,
+            %(regularization_type)s,
+            %(regularization_strength)s,
+            %(optimizer)s,
+            %(lr)s,
+            %(dataset)s,
+            %(regularization_type_domain)s,
+            %(regularization_strength_domain)s,
+            %(optimizer_domain)s,
+            %(lr_domain)s,
+            %(timesteps)s,
+            %(timesteps_domain)s,
+            %(u_t_domain)s,
+            %(q_t_domain)s,
+            %(t_t_domain)s,
+            %(p_t_domain)s,
+            %(u_t)s,
+            %(q_t)s,
+            %(t_t)s,
+            %(p_t)s,
+            %(hp_optim)s,
+            %(hp_multiple)s,
+            %(hp_current_iteration)s,
+            %(experiment_iteration)s
+            )
+            """,
+            namedict)
+        self.cur.execute(
+            """
+            UPDATE experiments
+            SET experiment_link=_id
+            WHERE experiment_name=%(experiment_name)s
+            """,
+            namedict[0])
+        if self.status_message:
+            self.return_status('INSERT')
+
+    def get_parameters(self, experiment_name=None, random=True):
+        """Pull parameters DEPRECIATED."""
+        if experiment_name is not None:
+            exp_string = """experiment_name='%s' and""" % experiment_name
+        else:
+            exp_string = """"""
+        if random:
+            rand_string = """ORDER BY random()"""
+        else:
+            rand_string = """"""
+        self.cur.execute(
+            """
+            SELECT * from experiments h
+            WHERE %s NOT EXISTS (
+                SELECT 1
+                FROM in_process i
+                WHERE h._id = i.experiment_id
+                )
+            %s
+            """ % (
+                exp_string,
+                rand_string
+                )
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchone()
+
+    def get_parameters_and_reserve(self, experiment_name=None, random=True):
+        """Pull parameters and update the in process table."""
+        if experiment_name is not None:
+            exp_string = """experiment_name='%s' and""" % experiment_name
+        else:
+            exp_string = """"""
+        if random:
+            rand_string = """ORDER BY random()"""
+        else:
+            rand_string = """"""
+        self.cur.execute(
+            """
+            INSERT INTO in_process (experiment_id, experiment_name)
+            (SELECT _id, experiment_name FROM experiments h
+            WHERE %s NOT EXISTS (
+                SELECT 1
+                FROM in_process i
+                WHERE h._id = i.experiment_id
+                )
+            %s LIMIT 1)
+            RETURNING experiment_id
+            """ % (
+                exp_string,
+                rand_string,
+                )
+        )
+        self.cur.execute(
+            """
+            SELECT * FROM experiments
+            WHERE _id=%(_id)s
+            """,
+            {
+                '_id': self.cur.fetchone()['experiment_id']
+            }
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchone()
+
+    def list_experiments(self):
+        """List all experiments."""
+        self.cur.execute(
+            """
+            SELECT distinct(experiment_name) from experiments
+            """
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchall()
+
+    def update_in_process(self, experiment_id, experiment_name):
+        """Update the in_process table."""
+        self.cur.execute(
+            """
+             INSERT INTO in_process
+             VALUES
+             (%(experiment_id)s, %(experiment_name)s)
+            """,
+            {
+                'experiment_id': experiment_id,
+                'experiment_name': experiment_name
+            }
+        )
+        if self.status_message:
+            self.return_status('INSERT')
+
+    def get_performance(self, experiment_name):
+        """Get experiment performance."""
+        self.cur.execute(
+            """
+            SELECT * FROM performance AS P
+            INNER JOIN experiments ON experiments._id = P.experiment_id
+            WHERE P.experiment_name=%(experiment_name)s
+            """,
+            {
+                'experiment_name': experiment_name
+            }
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchall()
+
+    def remove_experiment(self, experiment_name):
+        """Delete an experiment from all tables."""
+        self.cur.execute(
+            """
+            DELETE FROM experiments WHERE experiment_name=%(experiment_name)s;
+            DELETE FROM performance WHERE experiment_name=%(experiment_name)s;
+            DELETE FROM in_process WHERE experiment_name=%(experiment_name)s;
+            """,
+            {
+                'experiment_name': experiment_name
+            }
+        )
+        if self.status_message:
+            self.return_status('DELETE')
+
+    def reset_in_process(self):
+        """Reset in process table."""
+        self.cur.execute(
+            """
+            DELETE FROM in_process
+            """
+        )
+        if self.status_message:
+            self.return_status('DELETE')
+
+    def update_performance(self, namedict):
+        """Update performance in database."""
+        self.cur.execute(
+            """
+            INSERT INTO performance
+            (
+            experiment_id,
+            experiment_name,
+            summary_dir,
+            ckpt_file,
+            training_loss,
+            validation_loss,
+            time_elapsed,
+            training_step
+            )
+            VALUES
+            (
+            %(experiment_id)s,
+            %(experiment_name)s,
+            %(summary_dir)s,
+            %(ckpt_file)s,
+            %(training_loss)s,
+            %(validation_loss)s,
+            %(time_elapsed)s,
+            %(training_step)s
+            )
+            RETURNING _id""",
+            namedict
+            )
+        if self.status_message:
+            self.return_status('SELECT')
 
 
 class declare_allen_datasets():
@@ -175,8 +620,8 @@ class declare_allen_datasets():
             ]
         # exp_dict['deconv_method'] = 'c2s'
         exp_dict['cc_repo_vars'] = {
-                'output_size': [103, 1],  # target variable -- neural activity,
-                'model_im_size': [354, 608, 1],  # [152, 304, 1],
+                'output_size': [1, 1],  # target variable -- neural activity,
+                'model_im_size': [152, 304, 1],  # [152, 304, 1],
                 'loss_function': 'pearson',
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
@@ -192,10 +637,11 @@ def build_multiple_datasets(
     main_config = Allen_Brain_Observatory_Config()
 
     # Append the BP-CC repo to this python path
-    sys.path.append(os.path.join(main_config.cc_path))
+    sys.path.append(main_config.cc_path)
     import experiments  # from BP-CC
-    import prepare_experiments  # from BP-CC
-    exps = experiments()
+    from db import credentials
+    exps = experiments.experiments()
+    db_config = credentials.postgresql_connection()
 
     # Query neuron data
     queries = [
@@ -218,7 +664,7 @@ def build_multiple_datasets(
     print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
     all_data_dicts = []
     for q in queries:
-        all_data_dicts += [db.get_cells_all_data_by_rf_and_stimuli(
+        all_data_dicts += [data_db.get_cells_all_data_by_rf_and_stimuli(
             rfs=q,
             stimuli=filter_by_stim)]
 
@@ -236,6 +682,10 @@ def build_multiple_datasets(
     # Loop through each query and build all possible datasets with template
     da = declare_allen_datasets()
     for q in all_data_dicts:
+        meta_dir = os.path.join(
+            main_config.multi_exps,
+            '%s_cells_%s' % (len(q[0]), get_dt_stamp()))
+        helper_funcs.make_dir(meta_dir)
         for idx, d in enumerate(q[0]):
             # 1. Prepare dataset
             dataset_method = da[template_dataset]()
@@ -255,22 +705,24 @@ def build_multiple_datasets(
             rf_query['rf_coordinate_range']['imaging_depth'] = d[
                 'imaging_depth']
             dataset_method['rf_query'][0] = rf_query
+            dataset_name = '%s_%s_%s_%s_%s_%s' % (
+                d['structure'],
+                d['cre_line'],
+                d['imaging_depth'],
+                int(rf_query['rf_coordinate_range']['x_min']*100),
+                int(rf_query['rf_coordinate_range']['y_min']*100),
+                idx)
+            print 'Creating dataset %s.' % dataset_name
+            dataset_method['experiment_name'] = dataset_name
 
             # 2. Encode dataset
             encode_datasets.main(dataset_method)
 
             # 3. Prepare models in CC-BP
-            dataset_name = '%s_%s_%s_%s_%s_%s' % (
-                d['structure'],
-                d['cre_line'],
-                d['imaging_depth'],
-                d['on_center_x'],
-                d['on_center_y'],
-                idx)
             new_model_dir = os.path.join(
                 model_directory,
                 dataset_name)
-            py_utils.make_dir(new_model_dir)
+            helper_funcs.make_dir(new_model_dir)
             for f in model_templates:
                 dest = os.path.join(
                     new_model_dir,
@@ -281,10 +733,8 @@ def build_multiple_datasets(
             it_exp = exps[template_experiment]()
             it_exp['experiment_name'] = dataset_name
             it_exp['dataset'] = dataset_name
-            prepare_experiments.main(
-                reset_process=False,
-                initialize_db=False,
-                experiment_name=dataset_name)
+            np.save(os.path.join(meta_dir, dataset_name), it_exp)
+            prep_exp(it_exp, db_config)
 
 
 if __name__ == '__main__':

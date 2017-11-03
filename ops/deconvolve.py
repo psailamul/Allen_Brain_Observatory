@@ -44,7 +44,6 @@ class deconvolve(object):
 
     def deconvolve(self, neural_data):
         """Wrapper for deconvolution operations."""
-        import ipdb;ipdb.set_trace()
         preproc_op, deconv_op = self.interpret_deconv(self.deconv_method)
         print 'Preprocessing neural data.'
         preproc_data = preproc_op(neural_data)
@@ -67,7 +66,6 @@ class deconvolve(object):
                 d = []
                 for ce in x:
                     d += [{'calcium': ce, 'fps': fps}]
-                import ipdb; ipdb.set_trace()
                 return c2s.preprocess(d, fps=fps)
             method = lambda x: c2s.predict(x)
             return (preprocess, method)

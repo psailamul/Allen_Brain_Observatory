@@ -2,9 +2,9 @@
 
 import cv2
 from matplotlib import pyplot as plt
-from config import Allen_Brain_Observatory_Config
+from allen_config import Allen_Brain_Observatory_Config
 import numpy as np
-from db import db
+from data_db import data_db
 import argparse
 import matplotlib.patches as mpatches
 from tqdm import tqdm
@@ -73,12 +73,12 @@ def main(
         print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
         all_data_dicts = []
         for q in queries:
-            all_data_dicts += [db.get_cells_all_data_by_rf_and_stimuli(
+            all_data_dicts += [data_db.get_cells_all_data_by_rf_and_stimuli(
                 rfs=q,
                 stimuli=filter_by_stim)]
     else:
         print 'Pulling cells by their RFs.'
-        all_data_dicts = db.get_cells_all_data_by_rf(queries)
+        all_data_dicts = data_db.get_cells_all_data_by_rf(queries)
     visual_space_h = np.floor(main_config.LSN_size_in_deg['height'])
     visual_space_w = np.floor(main_config.LSN_size_in_deg['width'])
     if plot_heatmap:

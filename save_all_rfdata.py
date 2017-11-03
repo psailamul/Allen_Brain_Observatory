@@ -4,7 +4,7 @@ import sys
 import glob
 from allensdk.core.brain_observatory_cache import BrainObservatoryCache
 import allensdk.brain_observatory.receptive_field_analysis.receptive_field as rf
-from config import Allen_Brain_Observatory_Config
+from allen_config import Allen_Brain_Observatory_Config
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
