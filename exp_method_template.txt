@@ -5,7 +5,7 @@
         exp = {
             'experiment_name': ['EDIT'],
             'lr': [1e-3],
-            'loss_function': ['l2'],
+            'loss_function': ['pearson'],
             'optimizer': ['adam'],
             'regularization_type': ['l2'],  # [None, 'l1', 'l2'],
             'regularization_strength': [1e-7],
@@ -18,7 +18,7 @@
         }
         exp = self.add_globals(exp)  # Add globals to the experiment'
         exp['data_augmentations'] = ['resize']
-        exp['epochs'] = 100
+        exp['epochs'] = 50
         exp['validation_iters'] = 500
         exp['num_validation_evals'] = 100
         exp['batch_size'] = 16  # Train/val batch size.
