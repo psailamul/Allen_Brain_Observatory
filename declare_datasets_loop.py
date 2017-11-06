@@ -87,10 +87,45 @@ def hp_optim_parameters(parameter_dict, ms_key='model_struct'):
     return combos
 
 
+def hp_opt_dict():
+    return {
+        'regularization_type_domain': 'regularization_type',
+        'regularization_strength_domain': 'regularization_strength',
+        'optimizer_domain': 'optimizer',
+        'lr_domain': 'lr',
+        'timesteps_domain': 'timesteps',
+        'tuning_u_domain': 'tuning_u',
+        'tuning_t_domain': 'tuning_t',
+        'tuning_q_domain': 'tuning_q',
+        'tuning_p_domain': 'tuning_p',
+    }
+
+
+def query_hp_hist(exp_params, eval_on='validation_loss', init_top=1e10, pass_creds=None):
+    """Query an experiment's history of hyperparameters and performance."""
+    if pass_creds is not None:
+        config = pass_creds
+    else:
+        config = credentials.postgresql_connection()
+    domain_param_map = hp_opt_dict()
+    experiment_name = exp_params['experiment_name']
+    model_type, perf = None, None
+    with db(config) as db_conn:
+        q = db_conn.get_performance(experiment_name=experiment_name)
+        if len(q) > 0:
+            # And set hp history to initial values.
+            times = [x['time_elapsed'] for x in q]
+            time_idx = np.argsort(times)
+            perf = [q[idx][eval_on] for idx in time_idx]
+            model_type = q[-1]['model_struct'].split(os.path.sep)[-1]
+    return perf, model_type
+
+
 def prep_exp(experiment_dict, db_config):
     """Prepare exps for contextual circuit repo."""
     if 'hp_optim' in experiment_dict.keys() and experiment_dict['hp_optim'] is not None:
         exp_combos = hp_optim_parameters(experiment_dict)
+        # it_exp = tweak_params(it_exp)
     else:
         exp_combos = package_parameters(experiment_dict)
     with db(db_config) as db_conn:
@@ -501,7 +536,7 @@ class declare_allen_datasets():
     def globals(self):
         """Global variables for all datasets."""
         return {
-            'neural_delay': [3, 5],  # MS delay * 30fps for neural data
+            'neural_delay': [8, 10],  # MS delay * 30fps for neural data
             'tf_types': {  # How to store each in tfrecords
                 'neural_trace_trimmed': 'float',
                 'proc_stimuli': 'string',
@@ -544,7 +579,7 @@ class declare_allen_datasets():
             'deconv_method': None,
             'randomize_selection': False,
             'warp_stimuli': False,
-            'slice_frames': None,  # Sample every N frames
+            'slice_frames': 5,  # None,  # Sample every N frames
             'process_stimuli': {
                     # 'natural_movie_one': {  # 1080, 1920
                     #     'resize': [304, 608],  # [270, 480]
@@ -653,15 +688,15 @@ class declare_allen_datasets():
                 'score_metric': 'pearson',
                 'preprocess': 'resize'
             }
-        # exp_dict['cv_split'] = {
-        #     'cv_split_single_stim': {
-        #         'target': 0,
-        #         'split': 0.9
-        #     }
-        # }
         exp_dict['cv_split'] = {
-                'split_on_stim': 'natural_movie_two'  # Specify train set
+            'cv_split_single_stim': {
+                'target': 0,
+                'split': 0.9
             }
+        }
+        # exp_dict['cv_split'] = {
+        #         'split_on_stim': 'natural_movie_two'  # Specify train set
+        # }
         return exp_dict
 
 
@@ -723,11 +758,14 @@ def build_multiple_datasets(
     experiment_file = os.path.join(main_config.cc_path, 'experiments.py')
 
     # Loop through each query and build all possible datasets with template
+    ts = get_dt_stamp()
     da = declare_allen_datasets()
+    session_name = int(''.join(
+        [random.choice(string.digits) for k in range(N//2)]))
     for q in all_data_dicts:
         meta_dir = os.path.join(
             main_config.multi_exps,
-            '%s_cells_%s' % (len(q[0]), get_dt_stamp()))
+            '%s_cells_%s' % (len(q[0]), ts))
         helper_funcs.make_dir(meta_dir)
         for idx, d in enumerate(q[0]):
             print 'Preparing dataset %s/%s in package %s/%s.' % (
@@ -789,11 +827,13 @@ def build_multiple_datasets(
             it_exp = exps[template_experiment]()
             it_exp['experiment_name'] = [method_name]  # [dataset_name]
             it_exp['dataset'] = [method_name]  # [dataset_name]
+            it_exp['experiment_link'] = [session_name]
             it_exp = tweak_params(it_exp)
             np.savez(
                 os.path.join(meta_dir, dataset_name),
                 it_exp=it_exp,
-                dataset_method=dataset_method)
+                dataset_method=dataset_method,
+                rf_data=d)
             prep_exp(it_exp, db_config)
 
             # 5. Add the experiment method

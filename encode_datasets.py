@@ -805,6 +805,7 @@ def prepare_data_for_tf_records(
         store_means = store_means[0]
     means = {k: [] for k in store_means}
     maxs = {k: [] for k in store_means}
+    stds = {k: [] for k in store_means}
     for k, v in cv_data.iteritems():
         it_name = os.path.join(
             output_directory,
@@ -816,17 +817,28 @@ def prepare_data_for_tf_records(
                     enumerate(v),
                     total=len(v),
                     desc='Encoding %s' % k):
-                for imk, imv in means.iteritems():
-                    if idx == 0:
-                        means[imk] = d[imk]
-                    else:
-                        means[imk] += d[imk]
-                    maxs[imk] = np.max(d[imk])
                 example = create_example(d, feature_types)
                 serialized = example.SerializeToString()
                 tfrecord_writer.write(serialized)
                 example = None
                 idx += 1
+                # Calculate summary stats
+            for imk, imv in means.iteritems():
+                data_vol = []
+                for d in v:
+                    data_vol += [np.expand_dims(d[imk], axis=0)]
+                data_vol = np.concatenate(data_vol, axis=0)
+                if len(data_vol.shape) < 3:
+                    means[imk] = np.mean(data_vol)
+                    stds[imk] = np.std(data_vol)
+                else:
+                    means[imk] = np.mean(data_vol, axis=0)
+                    stds[imk] = 1.
+                maxs[imk] = np.max(data_vol)
+                if len(data_vol.shape) < 3:
+                    stds[imk] = np.std(data_vol)
+                else:
+                    stds[imk] = 1.
         mean_file = os.path.join(
             output_directory,
             '%s_%s_means' % (set_name, k))
@@ -835,7 +847,8 @@ def prepare_data_for_tf_records(
         # WARNING:
         means = {k: {
             'mean': v / num_its,
-            'max': maxs[k]
+            'max': maxs[k],
+            'std': stds[k]
             } for k, v in means.iteritems() if not isinstance(v, list)}
         np.savez(mean_file, means)
         print 'Finished encoding: %s' % it_name
@@ -937,7 +950,6 @@ def inclusive_cell_filter(data_dicts, sessions):
         else:
             cell_info[cell_name] += [cell_session]
     filtered_data_dicts = []
-    import ipdb;ipdb.set_trace()
     for idx, d in enumerate(data_dicts):
         test = [
             k in cell_info[d['cell_specimen_id']]
