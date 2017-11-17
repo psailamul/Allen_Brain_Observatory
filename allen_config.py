@@ -13,7 +13,8 @@ class Allen_Brain_Observatory_Config():
         elif socket.gethostname() == 'x9':
             self.host = 'x9'
             self.repo_PATH = '/home/drew/Documents/Allen_Brain_Observatory'
-            self.cc_path = '/home/drew/Documents/contextual_circuit_bp'
+            # self.cc_path = '/home/drew/Documents/contextual_circuit_bp'
+            self.cc_path = '/media/data_cifs/cluster_projects/contextual_circuit_bp'
         else:
             raise Exception(
                 'Unknown Host : Please add your directory at get_host_path()')
@@ -36,6 +37,11 @@ class Allen_Brain_Observatory_Config():
             'data_cifs',
             'contextual_circuit',
             'tf_records')
+        self.ccbp_exp_evals = os.path.join(
+            '/media',
+            'data_cifs',
+            'contextual_circuit',
+            'experiment_evaluations')
         self.deconv_model_dir = os.path.join(
             self.data_loc,
             'deconv_models')
@@ -66,7 +72,7 @@ class Allen_Brain_Observatory_Config():
         self.reshape_img_size_h = 31
         self.reshape_img_size_w = 31
         self.save_folder = 'DataForTrain/'
-        self.db_ssh_forward = False
+        self.db_ssh_forward = False  # True
 
         # Template for cc_bp repo data loading
         self.multi_exps = 'multi_cell_exps'

@@ -236,6 +236,7 @@ class data_db(object):
         """
         Select cells by rf coordinates.
         """
+        eq = ''
         if 'cre_line' in namedict:
             eq += " and lower(cre_line) LIKE '%%%s%%'"  % namedict['cre_line'].lower()
         if 'structure' in namedict:

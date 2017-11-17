@@ -1025,6 +1025,7 @@ def package_dataset(
     else:
         # Incorporate more queryies and eventually allow inner-joining on them.
         raise RuntimeError('Other instructions are not yet implemented.')
+
     if len(data_dicts) == 0:
         raise RuntimeError('Empty cell query.')
 

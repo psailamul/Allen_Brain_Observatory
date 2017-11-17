@@ -126,9 +126,9 @@ def package_parameters(parameter_dict):
 def postgresql_credentials():
     """Credentials for your psql DB."""
     return {
-            'username': 'contextual_DCN',
+            'username': 'contextual_DCN_p3',
             'password': 'serrelab',
-            'database': 'contextual_DCN'
+            'database': 'contextual_DCN_p3'
            }
 
 
@@ -155,8 +155,18 @@ class db(object):
             setattr(self, k, v)
 
     def __enter__(self):
-        self.forward = None
-        self.pgsql_port = ''
+        if self.forward:
+            forward = sshtunnel.SSHTunnelForwarder(
+                self.machine_credentials['ssh_address'],
+                ssh_username=self.machine_credentials['username'],
+                ssh_password=self.machine_credentials['password'],
+                remote_bind_address=('127.0.0.1', 5432))
+            forward.start()
+            self.forward = forward
+            self.pgsql_port = forward.local_bind_port
+        else:
+            self.forward = None
+            self.pgsql_port = ''
         pgsql_string = postgresql_connection(str(self.pgsql_port))
         self.pgsql_string = pgsql_string
         self.conn = psycopg2.connect(**pgsql_string)
@@ -689,12 +699,15 @@ def build_multiple_datasets(
     """Dictionary with all cell queries to run."""
     main_config = Allen_Brain_Observatory_Config()
 
+
     # Append the BP-CC repo to this python path
     sys.path.append(main_config.cc_path)
     import experiments  # from BP-CC
-    from db import credentials
+    import bu_credentials as credentials
     exps = experiments.experiments()
     db_config = credentials.postgresql_connection()
+    db_config['forward'] = True  # main_config.db_ssh_forward
+    db_config['machine_credentials'] = credentials.machine_credentials()
 
     # Query neuron data
     # Query neuron data
