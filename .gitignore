@@ -4,6 +4,7 @@
 *.pyc
 *.py~
 Recorded_cells_list_for_db_10_03_17_09_37_17.pkl
+credentials.py
 
 # Data #
 ###############
