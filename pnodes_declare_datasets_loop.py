@@ -123,6 +123,25 @@ def package_parameters(parameter_dict):
     return list(combos)
 
 
+def query_hp_hist(experiment_name, db_config):
+    """Get performance from contextual circuit repo."""
+    perfs = None
+    with db(db_config) as db_conn:
+        perfs = db_conn.get_performance(experiment_name)
+    return perfs
+
+
+def sel_exp_query(experiment_name, model, db_config):
+    """Get a select experiment/model combo."""
+    perfs = None
+    proc_model_name = '%%/%s' % model
+    with db(db_config) as db_conn:
+        perfs = db_conn.get_performance_by_model(
+            experiment_name=experiment_name,
+            model=proc_model_name)
+    return perfs
+
+
 def postgresql_credentials():
     """Credentials for your psql DB."""
     return {
@@ -155,18 +174,18 @@ class db(object):
             setattr(self, k, v)
 
     def __enter__(self):
-        if self.forward:
-            forward = sshtunnel.SSHTunnelForwarder(
-                self.machine_credentials['ssh_address'],
-                ssh_username=self.machine_credentials['username'],
-                ssh_password=self.machine_credentials['password'],
-                remote_bind_address=('127.0.0.1', 5432))
-            forward.start()
-            self.forward = forward
-            self.pgsql_port = forward.local_bind_port
-        else:
-            self.forward = None
-            self.pgsql_port = ''
+        # if self.forward:
+        forward = sshtunnel.SSHTunnelForwarder(
+            'serrep3.services.brown.edu',
+            ssh_username='drew',
+            ssh_password='serrelab',
+            remote_bind_address=('127.0.0.1', 5432))
+        forward.start()
+        self.forward = forward
+        self.pgsql_port = forward.local_bind_port
+        # else:
+        #     self.forward = None
+        #     self.pgsql_port = ''
         pgsql_string = postgresql_connection(str(self.pgsql_port))
         self.pgsql_string = pgsql_string
         self.conn = psycopg2.connect(**pgsql_string)
@@ -448,6 +467,24 @@ class db(object):
             """,
             {
                 'experiment_name': experiment_name
+            }
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchall()
+
+    def get_performance_by_model(self, experiment_name, model):
+        """Get experiment performance."""
+        self.cur.execute(
+            """
+            SELECT * FROM performance AS P
+            LEFT JOIN experiments ON experiments._id=P.experiment_id
+            WHERE P.experiment_name=%(experiment_name)s
+            AND model_struct LIKE %(model)s
+            """,
+            {
+                'experiment_name': experiment_name,
+                'model': model
             }
         )
         if self.status_message:

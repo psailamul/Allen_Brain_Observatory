@@ -112,6 +112,25 @@ def prep_exp(experiment_dict, db_config):
         db_conn.populate_db(exp_combos)
 
 
+def query_hp_hist(experiment_name, db_config):
+    """Get performance from contextual circuit repo."""
+    perfs = None
+    with db(db_config) as db_conn:
+        perfs = db_conn.get_performance(experiment_name)
+    return perfs
+
+
+def sel_exp_query(experiment_name, model, db_config):
+    """Get a select experiment/model combo."""
+    perfs = None
+    proc_model_name = '%%/%s' % model
+    with db(db_config) as db_conn:
+        perfs = db_conn.get_performance_by_model(
+            experiment_name=experiment_name,
+            model=proc_model_name)
+    return perfs
+
+
 def package_parameters(parameter_dict):
     """Derive combinations of experiment parameters."""
     parameter_dict = {
@@ -433,11 +452,29 @@ class db(object):
         self.cur.execute(
             """
             SELECT * FROM performance AS P
-            INNER JOIN experiments ON experiments._id = P.experiment_id
+            LEFT JOIN experiments ON experiments._id=P.experiment_id
             WHERE P.experiment_name=%(experiment_name)s
             """,
             {
                 'experiment_name': experiment_name
+            }
+        )
+        if self.status_message:
+            self.return_status('SELECT')
+        return self.cur.fetchall()
+
+    def get_performance_by_model(self, experiment_name, model):
+        """Get experiment performance."""
+        self.cur.execute(
+            """
+            SELECT * FROM performance AS P
+            LEFT JOIN experiments ON experiments._id=P.experiment_id
+            WHERE P.experiment_name=%(experiment_name)s
+            AND model_struct LIKE %(model)s
+            """,
+            {
+                'experiment_name': experiment_name,
+                'model': model
             }
         )
         if self.status_message:
