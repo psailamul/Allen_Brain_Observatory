@@ -32,7 +32,7 @@ def save_mosaic(
         ax1.set_xticklabels([])
         ax1.set_yticklabels([])
         ax1.set_aspect('equal')
-        ax1.imshow(im.squeeze())
+        ax1.imshow(im.squeeze(), interpolation='nearest')
     plt.savefig(output)
     plt.savefig(output.split('.')[0] + '.pdf')
 
@@ -55,13 +55,9 @@ def plot_fits(
         from declare_datasets_loop import query_hp_hist, sel_exp_query
 
     main_config = Allen_Brain_Observatory_Config()
-    sys.path.remove('/usr/local/lib/python2.7/dist-packages/Contextual_DCN-0.1-py2.7.egg')
-    # sys.path.append(main_config.cc_path)
-    sys.path.append(os.path.join(main_config.cc_path, 'ops'))
-    sys.path.append(os.path.join(main_config.cc_path, 'utils'))
-    sys.path.append(os.path.join(main_config.cc_path, 'db'))
-    sys.path.append(os.path.join(main_config.cc_path))
-    import ipdb;ipdb.set_trace()
+    sys.path.append(main_config.cc_path)
+    from db import credentials
+    from ops import data_loader
     db_config = credentials.postgresql_connection()
     files = glob(
         os.path.join(
@@ -182,120 +178,79 @@ def plot_fits(
             model_file,
             model_file.split(os.path.sep)[-1].split('_')[-1])
         model_meta = '%s.meta' % model_ckpt
-
+        import ipdb;ipdb.set_trace()
         # Pull stimuli
         stim_dir = os.path.join(
             main_config.tf_record_output, 
             sel_model['experiment_name'])
-        stim_files = glob(stim_dir + '*')
-        stim_meta_file = [x for x in stim_files if 'meta' in x][0]
-        stim_val_data = [x for x in stim_files if 'val.tfrecords' in x][0]
-        stim_val_mean = [x for x in stim_files if 'train_means' in x][0]
-        assert stim_meta_file is not None
-        assert stim_val_data is not None
-        assert stim_val_mean is not None
+        stim_files = glob(os.path.join(stim_dir, '*'))
+        stim_meta_file = [x for x in stim_files if 'meta' in x]
+        stim_val_data = [x for x in stim_files if 'val.tfrecords' in x]
+        stim_val_mean = [x for x in stim_files if 'val_means' in x]
         stim_meta_data = np.load(stim_meta_file).item()
-        stim_mean_data = np.load(
-            stim_val_mean).items()[0][1].item()['image']['mean']
+
         # Store sparse noise for reference
         sparse_rf_on = {
-            'center_x': stim_meta_data.get('on_center_x', None),
-            'center_y': stim_meta_data.get('on_center_y', None),
-            'width_x': stim_meta_data.get('on_width_x', None),
-            'width_y': stim_meta_data.get('on_width_y', None),
-            'distance': stim_meta_data.get('on_distance', None),
-            'area': stim_meta_data.get('on_area', None),
-            'rotation': stim_meta_data.get('on_rotation', None),
+            'center_x': stim_meta_data['on_center_x'],
+            'center_y': stim_meta_data['on_center_y'],
+            'width_x': stim_meta_data['on_width_x'],
+            'width_y': stim_meta_data['on_width_y'],
+            'distance': stim_meta_data['on_distance'],
+            'area': stim_meta_data['on_area'],
+            'rotation': stim_meta_data['on_rotation'],
         }
         sparse_rf_off = {
-            'center_x': stim_meta_data.get('off_center_x', None),
-            'center_y': stim_meta_data.get('off_center_y', None),
-            'width_x': stim_meta_data.get('off_width_x', None),
-            'width_y': stim_meta_data.get('off_width_y', None),
-            'distance': stim_meta_data.get('off_distance', None),
-            'area': stim_meta_data.get('off_area', None),
-            'rotation': stim_meta_data.get('off_rotation', None),
+            'center_x': stim_meta_data['off_center_x'],
+            'center_y': stim_meta_data['off_center_y'],
+            'width_x': stim_meta_data['off_width_x'],
+            'width_y': stim_meta_data['off_width_y'],
+            'distance': stim_meta_data['off_distance'],
+            'area': stim_meta_data['off_area'],
+            'rotation': stim_meta_data['off_rotation'],
         }   
         sparse_rf = {'on': sparse_rf_on, 'off': sparse_rf_off}
 
         # Pull responses
         val_images, val_labels = data_loader.inputs(
             dataset=stim_val_data,
-            batch_size=1,
-            model_input_image_size=[152, 304, 1],
-            tf_dict=stim_meta_data['tf_dict'],
-            data_augmentations=[None],
-            num_epochs=1,
-            tf_reader_settings=stim_meta_data['tf_reader'],
-            shuffle=False
+            batch_size=config.batch_size,
+            model_input_image_size=dataset_module.model_input_image_size,
+            tf_dict=dataset_module.tf_dict,
+            data_augmentations=config.data_augmentations,
+            num_epochs=config.epochs,
+            tf_reader_settings=dataset_module.tf_reader,
+            shuffle=config.shuffle
         )
         
         # Mean normalize
-        log = logger.get('sta_logs', target_layer) 
-        model = model_utils.model_class(
-            mean=stim_mean_data,
-            training=False,
-            output_size=dataset_module.output_size)
-        val_scores, model_summary = model.build(
-            data=val_images,
-            layer_structure=model_dict.layer_structure,
-            output_structure=output_structure,
-            log=log,
-            tower_name='cnn')
-        print(json.dumps(model_summary, indent=4))
 
-        with tf.Session(
-            config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-            saver = tf.train.import_meta_graph(
-                model_meta,
-                clear_devices=True)
+
+        if target_layer == 'DoG':
+            pass
+        else:
+            with tf.Session() as sess:
+                saver = tf.train.import_meta_graph(
+                    model_meta,
+                    clear_devices=True)
+                saver.restore(sess, model_ckpt)
+                if target_layer == 'conv2d':
+                    fname = [
+                        x for x in tf.global_variables()
+                        if 'conv1_1_filters:0' in x.name]
+                elif target_layer == 'sep_conv2d':
+                    fname = [
+                        x for x in tf.global_variables()
+                        if 'sep_conv1_1_filters:0' in x.name]
+                filts = sess.run(fname)
             import ipdb;ipdb.set_trace()
-            tf.get_default_graph().clear_collection('queue_runners')
-            tf.get_default_graph().clear_collection('train_op')
-            tf.get_default_graph().clear_collection('summaries')
-            tf.get_default_graph().clear_collection('local_variables')
-            sess.run(
-                tf.group(
-                    tf.global_variables_initializer(),
-                    tf.local_variables_initializer(),
-                    tf.initialize_all_variables())
-            )
-            saver.restore(sess, model_ckpt)
-            coord = tf.train.Coordinator()
-            threads = tf.train.start_queue_runners(
-                sess=sess,
-                coord=coord)
-            if target_layer == 'conv2d':
-                fname = [
-                    x for x in tf.global_variables()
-                    if 'conv1_1_filters:0' in x.name]
-                oname = [
-                    x for x in tf.global_variables()
-                    if 'conv1_1_filters:0' in x.name]
-            elif target_layer == 'sep_conv2d':
-                fname = [
-                    x for x in tf.global_variables()
-                    if 'sep_conv1_1_filters:0' in x.name]
-            val_tensors = {
-                'images': val_images,
-                'labels': val_labels,
-                # 'filts': fname
-            }
-            while not coord.should_stop():
-                val_data = sess.run(val_tensors.values())
-                val_data_dict = {k: v for k, v in zip(val_tensors.keys(), val_data)}
-                import ipdb;ipdb.set_trace()
-                a = 2
-            coord.request_stop()
-            coord.join(threads)
-        save_mosaic(
-            maps=filts[0].squeeze().transpose(2, 0, 1),
-            output='%s_filters' % target_layer,
-            rc=8,
-            cc=4,
-            title='%s filters for cell where rho=%s' % (
-                target_layer,
-                np.around(max_score, 2)))
+            save_mosaic(
+                maps=filts[0].squeeze().transpose(2, 0, 1),
+                output='%s_filters' % target_layer,
+                rc=8,
+                cc=4,
+                title='%s filters for cell where rho=%s' % (
+                    target_layer,
+                    np.around(max_score, 2)))
 
 
 if __name__ == '__main__':

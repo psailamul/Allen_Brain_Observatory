@@ -55,19 +55,16 @@ def plot_fits(
         from declare_datasets_loop import query_hp_hist, sel_exp_query
 
     main_config = Allen_Brain_Observatory_Config()
-    sys.path.remove('/usr/local/lib/python2.7/dist-packages/Contextual_DCN-0.1-py2.7.egg')
-    # sys.path.append(main_config.cc_path)
+    sys.path.append(main_config.cc_path)
     sys.path.append(os.path.join(main_config.cc_path, 'ops'))
-    sys.path.append(os.path.join(main_config.cc_path, 'utils'))
-    sys.path.append(os.path.join(main_config.cc_path, 'db'))
-    sys.path.append(os.path.join(main_config.cc_path))
-    import ipdb;ipdb.set_trace()
+    from db import credentials
+    import data_loader
     db_config = credentials.postgresql_connection()
     files = glob(
         os.path.join(
             main_config.multi_exps,
             experiment, '*.npz'))
-    out_data, xs, ys = [], [], []
+    out_data, xs, ys, preds = [], [], [], []
     perfs, model_types, exps, arg_perf = [], [], [], []
     count = 0
     for f in files:
@@ -102,11 +99,18 @@ def plot_fits(
                     main_config.ccbp_exp_evals,
                     exp_name['experiment_name'],
                     '*val_losses.npy'))  # Scores has preds, labels has GT
-            for gd in data_files:
+            pred_files = glob(
+                os.path.join(
+                    main_config.ccbp_exp_evals,
+                    exp_name['experiment_name'],
+                    '*val_preds.npy'))  # Scores has preds, labels has GT
+            for gd, pd in zip(data_files, pred_files):
                 mt = gd.split(
                     os.path.sep)[-1].split(
                         template_exp + '_')[-1].split('_' + 'val')[0]
                 it_data = np.load(gd).item()
+                pd_data = np.load(pd).item()
+                import ipdb;ipdb.set_trace()
                 sinds = np.asarray(it_data.keys())[np.argsort(it_data.keys())]
                 sit_data = [it_data[idx] for idx in sinds]
                 d['perf'] = sit_data
@@ -190,7 +194,7 @@ def plot_fits(
         stim_files = glob(stim_dir + '*')
         stim_meta_file = [x for x in stim_files if 'meta' in x][0]
         stim_val_data = [x for x in stim_files if 'val.tfrecords' in x][0]
-        stim_val_mean = [x for x in stim_files if 'train_means' in x][0]
+        stim_val_mean = [x for x in stim_files if 'val_means' in x][0]
         assert stim_meta_file is not None
         assert stim_val_data is not None
         assert stim_val_mean is not None
@@ -217,77 +221,8 @@ def plot_fits(
             'rotation': stim_meta_data.get('off_rotation', None),
         }   
         sparse_rf = {'on': sparse_rf_on, 'off': sparse_rf_off}
+        import ipdb;ipdb.set_trace()
 
-        # Pull responses
-        val_images, val_labels = data_loader.inputs(
-            dataset=stim_val_data,
-            batch_size=1,
-            model_input_image_size=[152, 304, 1],
-            tf_dict=stim_meta_data['tf_dict'],
-            data_augmentations=[None],
-            num_epochs=1,
-            tf_reader_settings=stim_meta_data['tf_reader'],
-            shuffle=False
-        )
-        
-        # Mean normalize
-        log = logger.get('sta_logs', target_layer) 
-        model = model_utils.model_class(
-            mean=stim_mean_data,
-            training=False,
-            output_size=dataset_module.output_size)
-        val_scores, model_summary = model.build(
-            data=val_images,
-            layer_structure=model_dict.layer_structure,
-            output_structure=output_structure,
-            log=log,
-            tower_name='cnn')
-        print(json.dumps(model_summary, indent=4))
-
-        with tf.Session(
-            config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-            saver = tf.train.import_meta_graph(
-                model_meta,
-                clear_devices=True)
-            import ipdb;ipdb.set_trace()
-            tf.get_default_graph().clear_collection('queue_runners')
-            tf.get_default_graph().clear_collection('train_op')
-            tf.get_default_graph().clear_collection('summaries')
-            tf.get_default_graph().clear_collection('local_variables')
-            sess.run(
-                tf.group(
-                    tf.global_variables_initializer(),
-                    tf.local_variables_initializer(),
-                    tf.initialize_all_variables())
-            )
-            saver.restore(sess, model_ckpt)
-            coord = tf.train.Coordinator()
-            threads = tf.train.start_queue_runners(
-                sess=sess,
-                coord=coord)
-            if target_layer == 'conv2d':
-                fname = [
-                    x for x in tf.global_variables()
-                    if 'conv1_1_filters:0' in x.name]
-                oname = [
-                    x for x in tf.global_variables()
-                    if 'conv1_1_filters:0' in x.name]
-            elif target_layer == 'sep_conv2d':
-                fname = [
-                    x for x in tf.global_variables()
-                    if 'sep_conv1_1_filters:0' in x.name]
-            val_tensors = {
-                'images': val_images,
-                'labels': val_labels,
-                # 'filts': fname
-            }
-            while not coord.should_stop():
-                val_data = sess.run(val_tensors.values())
-                val_data_dict = {k: v for k, v in zip(val_tensors.keys(), val_data)}
-                import ipdb;ipdb.set_trace()
-                a = 2
-            coord.request_stop()
-            coord.join(threads)
         save_mosaic(
             maps=filts[0].squeeze().transpose(2, 0, 1),
             output='%s_filters' % target_layer,

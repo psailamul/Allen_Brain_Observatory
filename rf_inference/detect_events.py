@@ -1,4 +1,4 @@
-from .utilities import smooth
+from utilities import smooth
 import numpy as np
 import scipy.stats as sps
 

@@ -12,10 +12,13 @@ from glob import glob
 from tqdm import tqdm
 from scipy import stats, misc
 from sklearn import linear_model
-from ops import helper_funcs, deconvolve
 from declare_datasets import declare_allen_datasets as dad
 from allen_config import Allen_Brain_Observatory_Config as Config
 from allensdk.brain_observatory import stimulus_info
+try:
+    from ops import helper_funcs, deconvolve
+except:
+    'Print failed loading Allen utils. Are you doing something fancy?'
 # from memory_profiler import profile
 
 

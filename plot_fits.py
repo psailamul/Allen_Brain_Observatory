@@ -6,9 +6,50 @@ from glob import glob
 from allen_config import Allen_Brain_Observatory_Config
 # from declare_datasets_loop import query_hp_hist
 from matplotlib import pyplot as plt
-# import pandas as pd
+import pandas as pd
 # from ggplot import *
 import seaborn as sns
+import joypy as jp
+from tqdm import tqdm
+
+
+def create_joyplot(all_perfs, all_model_types, output_name):
+    """Creates jd hists."""
+
+    df = pd.DataFrame(
+        np.vstack((all_perfs, all_model_types)).transpose(),
+        columns=['x', 'g']) 
+
+    # Initialize the FacetGrid object
+    sns.set(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
+    # pal = sns.cubehelix_palette(10, rot=-.25, light=.7)
+    pal = sns.hls_palette(3, l=0.7, s=0.2)  # , l=.3, s=.8)
+    # pal = sns.hls_palette(3, l=0.3, s=0.8)  # l=0.7, s=0.2)  # , l=.3, s=.8)
+    g = sns.FacetGrid(df, row="g", hue="g", aspect=2, size=2, palette=pal)
+    plt.xlim([-0.2, 1])
+
+    # Draw the densities in a few steps
+    g.map(sns.kdeplot, "x", clip_on=False, shade=True, alpha=1, lw=1.5, bw=.0001)
+    g# .map(sns.kdeplot, "x", clip_on=False, color="w", lw=1.5, bw=.0001,)
+    g.map(plt.axhline, y=0, lw=2, clip_on=False)
+
+    # Define and use a simple function to label the plot in axes coordinates
+    # def label(x, color, label):
+    #     ax = plt.gca()
+    #    ax.text(-0.1, .2, label, fontweight="bold", color=color, 
+    #          ha="left", va="center", transform=ax.transAxes)
+
+    # g.map(label, "x")
+
+    # Set the subplots to overlap
+    g.fig.subplots_adjust(hspace=-.25)
+
+    # Remove axes details that don't play will with overlap
+    g.set_titles("")
+    g.set(yticks=[])
+    g.despine(bottom=True, left=True)
+    plt.savefig(output_name)
+    plt.show()
 
 
 def plot_fits(
@@ -44,7 +85,6 @@ def plot_fits(
         exp_name = {
             'experiment_name': data['dataset_method'].item()[
                 'experiment_name']}
-        import ipdb;ipdb.set_trace()
         if query_db:
             perf, mt = query_hp_hist(exp_name, pass_creds=db_config)
             if perf is None:
@@ -65,11 +105,24 @@ def plot_fits(
                     main_config.ccbp_exp_evals,
                     exp_name['experiment_name'],
                     '*val_losses.npy'))  # Scores has preds, labels has GT
-            for gd in data_files:
+            score_files = glob(
+                os.path.join(
+                    main_config.ccbp_exp_evals,
+                    exp_name['experiment_name'],
+                    '*val_scores.npy'))  # Scores has preds, labels has GT
+            lab_files = glob(
+                os.path.join(
+                    main_config.ccbp_exp_evals,
+                    exp_name['experiment_name'],
+                    '*val_labels.npy'))  # Scores has preds, labels has GT
+            for gd, sd, ld in tqdm(zip(data_files, score_files, lab_files), total=len(data_files)):
                 mt = gd.split(
                     os.path.sep)[-1].split(
                         template_exp + '_')[-1].split('_' + 'val')[0]
                 it_data = np.load(gd).item()
+                lds = np.load(ld).item()
+                sds = np.load(sd).item()
+                # it_data = {k: np.corrcoef(lds[k], sds[k])[0, 1] for k in sds.keys()}
                 sinds = np.asarray(it_data.keys())[np.argsort(it_data.keys())]
                 sit_data = [it_data[idx] for idx in sinds]
                 d['perf'] = sit_data
@@ -85,8 +138,26 @@ def plot_fits(
     # Package as a df
     xs = np.round(np.asarray(xs)).astype(int)
     ys = np.round(np.asarray(ys)).astype(int)
-    perfs = np.asarray(perfs)
-    model_types = np.asarray(model_types)
+    all_perfs = np.asarray(perfs)
+    all_model_types = np.asarray(model_types)
+
+    # Medians per layer
+    print 'Dog med: %s | Dog max:%s' % (
+        np.median(all_perfs[all_model_types == ['DoG']]),
+        np.max(all_perfs[all_model_types == ['DoG']]))
+    print 'Conv med: %s | Conv max:%s' % (
+        np.median(all_perfs[all_model_types == ['conv2d']]),
+        np.max(all_perfs[all_model_types == ['conv2d']]))
+    print 'Sep med: %s | Sep max:%s' % (
+        np.median(all_perfs[all_model_types == ['sep_conv2d']]),
+        np.max(all_perfs[all_model_types == ['sep_conv2d']]))
+
+
+    # Create a joyplot
+    create_joyplot(
+        all_perfs=all_perfs,
+        all_model_types=all_model_types,
+        output_name='joy_%s.pdf' % experiment)
 
     # Filter to only keep top-scoring values at each x/y (dirty trick)
     fxs, fys, fperfs, fmodel_types = [], [], [], []
@@ -96,8 +167,8 @@ def plot_fits(
     uxys= xys[idx]
     for xy in uxys:
         sel_idx = (xys == xy).sum(axis=-1) == 2
-        sperfs = perfs[sel_idx]
-        sel_mts = model_types[sel_idx]
+        sperfs = all_perfs[sel_idx]
+        sel_mts = all_model_types[sel_idx]
         bp = np.argmax(sperfs)
         fxs += [xy[0]]
         fys += [xy[1]]
@@ -149,7 +220,7 @@ def plot_fits(
     plt.title(
         '%s/%s models finished for %s cells.\nEach point is the winning model\'s validation fit at a neuron\'s derived RF.' % (
             count, len(files) * num_models, len(files)))
-    plt.savefig('fit_scatters.png')
+    plt.savefig('%s fit_scatters.pdf' % experiment)
     plt.show()
     plt.close(f)
 
@@ -167,6 +238,7 @@ def plot_fits(
     plt.savefig('fit_hists.png')
     plt.show()
     plt.close(f)
+
 
 
 if __name__ == '__main__':

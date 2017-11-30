@@ -1,6 +1,6 @@
 import numpy as np
 from detect_events import detect_events
-from .utilities import get_A, get_A_blur, get_shuffle_matrix, get_components, dict_generator
+from utilities import get_A, get_A_blur, get_shuffle_matrix, get_components, dict_generator
 from statsmodels.sandbox.stats.multicomp import multipletests
 
 

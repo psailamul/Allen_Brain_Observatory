@@ -17,9 +17,14 @@ import pandas as pd
 from allen_config import Allen_Brain_Observatory_Config
 from data_db import data_db
 from glob import glob
-from ops import helper_funcs
 from datetime import datetime
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
+
+
+def make_dir(d):
+    """Make directory d if it does not exist."""
+    if not os.path.exists(d):
+        os.makedirs(d)
 
 
 def flatten_list(l):
@@ -722,8 +727,9 @@ def build_multiple_datasets(
         template_experiment='ALLEN_selected_cells_1',
         model_structs='ALLEN_selected_cells_1',
         this_dataset_name='MULTIALLEN_lfour_',
+        weight_sharing=True,
         N=16):
-    """Dictionary with all cell queries to run."""
+    """Main function for creating multiple datasets of cells."""
     main_config = Allen_Brain_Observatory_Config()
 
     # Append the BP-CC repo to this python path
@@ -734,8 +740,7 @@ def build_multiple_datasets(
     db_config = credentials.postgresql_connection()
 
     # Query neuron data
-    # Query neuron data
-    queries = [
+    queries = [  # MICHELE: ADD LOOP HERE
         # [{  # Layer 2/3 models
         #     'rf_coordinate_range': {  # Get all cells
         #         'x_min': -10000,
@@ -755,8 +760,23 @@ def build_multiple_datasets(
             },
             'cre_line': 'Scnn1a-Tg3-Cre',  # Nr5a1-Cre
             'structure': 'VISp'}]
-
     ]
+
+    # queries = []  # MICHELE: EXAMPLE LOOP
+    # viz_slices = tesselate(rf_centroids)
+    # for v in viz_slices:
+    #     queries += [
+    #         [{  # Layer 4 models
+    #             'rf_coordinate_range': {  # Get all cells
+    #                 'x_min': -10000,
+    #                 'x_max': 10000,
+    #                 'y_min': -10000,
+    #                 'y_max': 10000,
+    #             },
+    #             'cre_line': 'Scnn1a-Tg3-Cre',  # Nr5a1-Cre
+    #             'structure': 'VISp',
+    #             'weight_sharing': True}]  # MICHELE: ADD FLAG weight_sharing
+    #     ]
 
     filter_by_stim = [
         'natural_movie_one',
@@ -769,10 +789,13 @@ def build_multiple_datasets(
     print 'Pulling cells by their RFs and stimulus: %s.' % filter_by_stim
     all_data_dicts = []
     for q in queries:
-        all_data_dicts += [data_db.get_cells_all_data_by_rf_and_stimuli(
+        it_query = data_db.get_cells_all_data_by_rf_and_stimuli(
             rfs=q,
             stimuli=filter_by_stim,
-            sessions=sessions)]
+            sessions=sessions)
+        import ipdb;ipdb.set_trace()
+
+        all_data_dicts += [it_query]
 
     # Prepare directories
     model_directory = os.path.join(
@@ -795,7 +818,7 @@ def build_multiple_datasets(
         meta_dir = os.path.join(
             main_config.multi_exps,
             '%s_cells_%s' % (len(q[0]), ts))
-        helper_funcs.make_dir(meta_dir)
+        make_dir(meta_dir)
         for idx, d in enumerate(q[0]):
             print 'Preparing dataset %s/%s in package %s/%s.' % (
                 idx,
@@ -845,7 +868,7 @@ def build_multiple_datasets(
             new_model_dir = os.path.join(
                 model_directory,
                 method_name)
-            helper_funcs.make_dir(new_model_dir)
+            make_dir(new_model_dir)
             for f in model_templates:
                 dest = os.path.join(
                     new_model_dir,

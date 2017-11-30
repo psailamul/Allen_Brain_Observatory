@@ -17,9 +17,14 @@ import pandas as pd
 from allen_config import Allen_Brain_Observatory_Config
 from data_db import data_db
 from glob import glob
-from ops import helper_funcs
 from datetime import datetime
 sshtunnel.DAEMON = True  # Prevent hanging process due to forward thread
+
+
+def make_dir(d):
+    """Make directory d if it does not exist."""
+    if not os.path.exists(d):
+        os.makedirs(d)
 
 
 def flatten_list(l):
@@ -808,7 +813,7 @@ def build_multiple_datasets(
         meta_dir = os.path.join(
             main_config.multi_exps,
             '%s_cells_%s' % (len(q[0]), ts))
-        helper_funcs.make_dir(meta_dir)
+        make_dir(meta_dir)
         for idx, d in enumerate(q[0]):
             print 'Preparing dataset %s/%s in package %s/%s.' % (
                 idx,
@@ -858,7 +863,7 @@ def build_multiple_datasets(
             new_model_dir = os.path.join(
                 model_directory,
                 method_name)
-            helper_funcs.make_dir(new_model_dir)
+            make_dir(new_model_dir)
             for f in model_templates:
                 dest = os.path.join(
                     new_model_dir,
